@@ -1,38 +1,36 @@
-import AppSidebar from "@/components/app-sidebar";
-import Navbar from "@/components/navbar3";
-import QueryProvider from "@/components/providers/query-provider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { cookies } from "next/headers";
-import { ToastContainer } from "react-toastify";
+import { cookies } from 'next/headers'
+import { PropsWithChildren } from 'react'
+import { ToastContainer } from 'react-toastify'
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const cookieStore = await cookies();
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+import { Navbar } from '@/components/shared/navbar'
+import { SidebarProvider } from '@/components/ui/sidebar'
+import { AppSidebar } from '@/components/shared/app-sidebar'
+import { QueryProvider } from '@/components/shared/providers/query-provider'
+import { ThemeProvider } from '@/components/shared/providers/theme-provider'
 
-  return (
-    <QueryProvider>
-      <div className="flex">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SidebarProvider defaultOpen={defaultOpen}>
-            <AppSidebar />
-            <main className="w-full">
-              <Navbar />
-              <div className="px-4">{children}</div>
-            </main>
-          </SidebarProvider>
-        </ThemeProvider>
-      </div>
-      <ToastContainer position="bottom-right" />
-    </QueryProvider>
-  );
+async function RootLayout({ children }: PropsWithChildren) {
+	const cookieStore = await cookies()
+	const defaultOpen = cookieStore.get('sidebar_state')?.value === 'true'
+
+	return (
+		<QueryProvider>
+			<div className='flex'>
+				<ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
+					<SidebarProvider defaultOpen={defaultOpen}>
+						<AppSidebar />
+
+						<main className='w-full'>
+							<Navbar />
+
+							<div className='px-4'>{children}</div>
+						</main>
+					</SidebarProvider>
+				</ThemeProvider>
+			</div>
+
+			<ToastContainer position='bottom-right' />
+		</QueryProvider>
+	)
 }
+
+export default RootLayout

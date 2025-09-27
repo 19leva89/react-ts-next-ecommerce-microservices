@@ -1,43 +1,47 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "./globals.css";
-import Navbar from "@/components/navbar4";
-import Footer from "@/components/footer4";
-import { ToastContainer } from "react-toastify";
-import { ClerkProvider } from "@clerk/nextjs";
+import type { Metadata } from 'next'
+import { PropsWithChildren } from 'react'
+import { ClerkProvider } from '@clerk/nextjs'
+import { ToastContainer } from 'react-toastify'
+import { Geist, Geist_Mono } from 'next/font/google'
+
+import { Navbar } from '@/components/shared/navbar'
+import { Footer } from '@/components/shared/footer'
+
+import './globals.css'
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+	variable: '--font-geist-sans',
+	subsets: ['latin'],
+})
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+	variable: '--font-geist-mono',
+	subsets: ['latin'],
+})
 
 export const metadata: Metadata = {
-  title: "Trendlama - Best Clothes",
-  description: "Trendlama is the best place to find the best clothes",
-};
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-          <div className="mx-auto p-4 sm:px-0 sm:max-w-xl md:max-w-2xl lg:max-w-3xl xl:max-w-6xl">
-            <Navbar />
-            {children}
-            <Footer />
-          </div>
-          <ToastContainer position="bottom-right" />
-        </body>
-      </html>
-    </ClerkProvider>
-  );
+	title: 'TrendDima - Best Clothes',
+	description: 'TrendDima is the best place to find the best clothes',
 }
+
+function RootLayout({ children }: PropsWithChildren) {
+	return (
+		<ClerkProvider>
+			<html lang='en'>
+				<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+					<div className='mx-auto p-4 sm:max-w-xl sm:px-0 md:max-w-2xl lg:max-w-3xl xl:max-w-6xl'>
+						<Navbar />
+						
+						{children}
+					
+						<Footer />
+					</div>
+					
+					<ToastContainer position='bottom-right' />
+				</body>
+			</html>
+		</ClerkProvider>
+	)
+}
+
+export default RootLayout
