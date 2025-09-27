@@ -1,8 +1,8 @@
 import { Hono } from "hono";
 import stripe from "../utils/stripe";
-import { shouldBeUser } from "../middleware/authMiddleware";
+import { shouldBeUser } from "../middleware/auth-middleware";
 import { CartItemsType } from "@repo/types";
-import { getStripeProductPrice } from "../utils/stripeProduct";
+import { getStripeProductPrice } from "../utils/stripe-product";
 
 const sessionRoute = new Hono();
 
@@ -32,8 +32,7 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
       client_reference_id: userId,
       mode: "payment",
       ui_mode: "custom",
-      return_url:
-        "http://localhost:3002/return?session_id={CHECKOUT_SESSION_ID}",
+      return_url: "http://localhost:3002/return?session_id={CHECKOUT_SESSION_ID}",
     });
 
     // console.log(session);
@@ -47,12 +46,9 @@ sessionRoute.post("/create-checkout-session", shouldBeUser, async (c) => {
 
 sessionRoute.get("/:session_id", async (c) => {
   const { session_id } = c.req.param();
-  const session = await stripe.checkout.sessions.retrieve(
-    session_id as string,
-    {
-      expand: ["line_items"],
-    }
-  );
+  const session = await stripe.checkout.sessions.retrieve(session_id as string, {
+    expand: ["line_items"],
+  });
 
   // console.log(session);
 

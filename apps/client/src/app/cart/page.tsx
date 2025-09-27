@@ -1,8 +1,8 @@
 "use client";
 
-import ShippingForm from "@/components/ShippingForm";
-import StripePaymentForm from "@/components/StripePaymentForm";
-import useCartStore from "@/stores/cartStore";
+import ShippingForm from "@/components/shipping-form";
+import StripePaymentForm from "@/components/stripe-payment-form";
+import useCartStore from "@/stores/cart-store";
 import { CartItemsType, ShippingFormInputs } from "@repo/types";
 import { ArrowRight, Trash2 } from "lucide-react";
 import Image from "next/image";
@@ -135,11 +135,7 @@ const CartPage = () => {
                   {/* IMAGE */}
                   <div className="relative w-32 h-32 bg-gray-50 rounded-lg overflow-hidden">
                     <Image
-                      src={
-                        (item.images as Record<string, string>)?.[
-                          item.selectedColor
-                        ] || ""
-                      }
+                      src={(item.images as Record<string, string>)?.[item.selectedColor] || ""}
                       alt={item.name}
                       fill
                       className="object-contain"
@@ -149,15 +145,9 @@ const CartPage = () => {
                   <div className="flex flex-col justify-between">
                     <div className="flex flex-col gap-1">
                       <p className="text-sm font-medium">{item.name}</p>
-                      <p className="text-xs text-gray-500">
-                        Quantity: {item.quantity}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Size: {item.selectedSize}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Color: {item.selectedColor}
-                      </p>
+                      <p className="text-xs text-gray-500">Quantity: {item.quantity}</p>
+                      <p className="text-xs text-gray-500">Size: {item.selectedSize}</p>
+                      <p className="text-xs text-gray-500">Color: {item.selectedColor}</p>
                     </div>
                     <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
                   </div>
@@ -176,9 +166,7 @@ const CartPage = () => {
           ) : activeStep === 3 && shippingForm ? (
             <StripePaymentForm shippingForm={shippingForm} />
           ) : (
-            <p className="text-sm text-gray-500">
-              Please fill in the shipping form to continue.
-            </p>
+            <p className="text-sm text-gray-500">Please fill in the shipping form to continue.</p>
           )}
         </div>
         {/* DETAILS */}
@@ -188,10 +176,7 @@ const CartPage = () => {
             <div className="flex justify-between text-sm">
               <p className="text-gray-500">Subtotal</p>
               <p className="font-medium">
-                $
-                {cart
-                  .reduce((acc, item) => acc + item.price * item.quantity, 0)
-                  .toFixed(2)}
+                ${cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
               </p>
             </div>
             <div className="flex justify-between text-sm">
@@ -206,10 +191,7 @@ const CartPage = () => {
             <div className="flex justify-between">
               <p className="text-gray-800 font-semibold">Total</p>
               <p className="font-medium">
-                $
-                {cart
-                  .reduce((acc, item) => acc + item.price * item.quantity, 0)
-                  .toFixed(2)}
+                ${cart.reduce((acc, item) => acc + item.price * item.quantity, 0).toFixed(2)}
               </p>
             </div>
           </div>

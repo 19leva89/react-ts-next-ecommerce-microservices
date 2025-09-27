@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { clerkMiddleware } from "@clerk/express";
-import { shouldBeAdmin } from "./middleware/authMiddleware.js";
+import { shouldBeAdmin } from "./middleware/auth-middleware.js";
 import userRoute from "./routes/user.route";
 import { producer } from "./utils/kafka.js";
 
@@ -27,9 +27,7 @@ app.use("/users", shouldBeAdmin, userRoute);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
-  return res
-    .status(err.status || 500)
-    .json({ message: err.message || "Inter Server Error!" });
+  return res.status(err.status || 500).json({ message: err.message || "Inter Server Error!" });
 });
 
 const start = async () => {

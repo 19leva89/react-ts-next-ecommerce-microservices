@@ -1,4 +1,4 @@
-import CardList from "@/components/CardList";
+import CardList from "@/components/card-list";
 import { Badge } from "@/components/ui/badge";
 import {
   Breadcrumb,
@@ -8,32 +8,25 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Progress } from "@/components/ui/progress";
 import { BadgeCheck, Candy, Citrus, Shield } from "lucide-react";
 import { Sheet, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import EditUser from "@/components/EditUser";
+import EditUser from "@/components/edit-user";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import AppLineChart from "@/components/AppLineChart";
+import AppLineChart from "@/components/app-line-chart";
 import { auth, User } from "@clerk/nextjs/server";
 
 const getData = async (id: string): Promise<User | null> => {
   const { getToken } = await auth();
   const token = await getToken();
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await res.json();
     return data;
   } catch (err) {
@@ -42,11 +35,7 @@ const getData = async (id: string): Promise<User | null> => {
   }
 };
 
-const SingleUserPage = async ({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) => {
+const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
   const data = await getData(id);
 
@@ -105,8 +94,7 @@ const SingleUserPage = async ({
                 <HoverCardContent>
                   <h1 className="font-bold mb-2">Admin</h1>
                   <p className="text-sm text-muted-foreground">
-                    Admin users have access to all features and can manage
-                    users.
+                    Admin users have access to all features and can manage users.
                   </p>
                 </HoverCardContent>
               </HoverCard>
@@ -146,22 +134,17 @@ const SingleUserPage = async ({
               <Avatar className="size-12">
                 <AvatarImage src={data.imageUrl} />
                 <AvatarFallback>
-                  {data?.firstName?.charAt(0) ||
-                    data?.username?.charAt(0) ||
-                    "-"}
+                  {data?.firstName?.charAt(0) || data?.username?.charAt(0) || "-"}
                 </AvatarFallback>
               </Avatar>
               <h1 className="text-xl font-semibold">
-                {data?.firstName + " " + data?.lastName ||
-                  data?.username ||
-                  "-"}
+                {data?.firstName + " " + data?.lastName || data?.username || "-"}
               </h1>
             </div>
             <p className="text-sm text-muted-foreground">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel
-              voluptas distinctio ab ipsa commodi fugiat labore quos veritatis
-              cum corrupti sed repudiandae ipsum, harum recusandae ratione ipsam
-              in, quis quia.
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel voluptas distinctio ab
+              ipsa commodi fugiat labore quos veritatis cum corrupti sed repudiandae ipsum, harum
+              recusandae ratione ipsam in, quis quia.
             </p>
           </div>
           {/* INFORMATION CONTAINER */}
@@ -177,18 +160,12 @@ const SingleUserPage = async ({
             </div>
             <div className="space-y-4 mt-4">
               <div className="flex flex-col gap-2 mb-8">
-                <p className="text-sm text-muted-foreground">
-                  Profile completion
-                </p>
+                <p className="text-sm text-muted-foreground">Profile completion</p>
                 <Progress value={66} />
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-bold">Full name:</span>
-                <span>
-                  {data?.firstName + " " + data?.lastName ||
-                    data?.username ||
-                    "-"}
-                </span>
+                <span>{data?.firstName + " " + data?.lastName || data?.username || "-"}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-bold">Email:</span>

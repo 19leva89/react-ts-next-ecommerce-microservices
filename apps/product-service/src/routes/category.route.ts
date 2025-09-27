@@ -5,7 +5,7 @@ import {
   getCategories,
   updateCategory,
 } from "../controllers/category.controller";
-import { shouldBeAdmin } from "../middleware/authMiddleware";
+import { shouldBeAdmin } from "../middleware/auth-middleware";
 
 const router: Router = Router();
 

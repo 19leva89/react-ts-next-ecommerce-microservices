@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { clerkMiddleware, getAuth } from "@clerk/express";
-import { shouldBeUser } from "./middleware/authMiddleware.js";
+import { shouldBeUser } from "./middleware/auth-middleware.js";
 import productRouter from "./routes/product.route";
 import categoryRouter from "./routes/category.route";
 import { consumer, producer } from "./utils/kafka.js";
@@ -32,9 +32,7 @@ app.use("/categories", categoryRouter);
 
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log(err);
-  return res
-    .status(err.status || 500)
-    .json({ message: err.message || "Inter Server Error!" });
+  return res.status(err.status || 500).json({ message: err.message || "Inter Server Error!" });
 });
 
 const start = async () => {
@@ -49,4 +47,4 @@ const start = async () => {
   }
 };
 
-start()
+start();

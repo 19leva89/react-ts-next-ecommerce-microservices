@@ -1,8 +1,8 @@
 import { ProductsType, ProductType } from "@repo/types";
-import Categories from "./Categories";
-import ProductCard from "./ProductCard";
+import Categories from "./categories4";
+import ProductCard from "./product-card";
 import Link from "next/link";
-import Filter from "./Filter";
+import Filter from "./filter4";
 
 // TEMPORARY
 // const products: ProductsType = [
@@ -95,19 +95,19 @@ import Filter from "./Filter";
 //   },
 //   {
 //     id: 6,
-  //   name: "Nike Air Max 270",
-  //   shortDescription:
-  //     "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-  //   description:
-  //     "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-  //   price: 59.9,
-  //   sizes: ["40", "42", "43", "44"],
-  //   colors: ["gray", "white"],
-  //   images: { gray: "/products/6g.png", white: "/products/6w.png" },
-  //   categorySlug: "test",
-  //   createdAt: new Date(),
-  //   updatedAt: new Date(),
-  // },
+//   name: "Nike Air Max 270",
+//   shortDescription:
+//     "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
+//   description:
+//     "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
+//   price: 59.9,
+//   sizes: ["40", "42", "43", "44"],
+//   colors: ["gray", "white"],
+//   images: { gray: "/products/6g.png", white: "/products/6w.png" },
+//   categorySlug: "test",
+//   createdAt: new Date(),
+//   updatedAt: new Date(),
+// },
 //   {
 //     id: 7,
 //     name: "Nike Ultraboost Pulse ",

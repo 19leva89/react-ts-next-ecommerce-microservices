@@ -1,6 +1,6 @@
 "use client";
 
-import useCartStore from "@/stores/cartStore";
+import useCartStore from "@/stores/cart-store";
 import { ProductType } from "@repo/types";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
@@ -46,7 +46,7 @@ const ProductInteraction = ({
       selectedColor,
       selectedSize,
     });
-    toast.success("Product added to cart")
+    toast.success("Product added to cart");
   };
   return (
     <div className="flex flex-col gap-4 mt-4">
@@ -64,9 +64,7 @@ const ProductInteraction = ({
             >
               <div
                 className={`w-6 h-6 text-center flex items-center justify-center ${
-                  selectedSize === size
-                    ? "bg-black text-white"
-                    : "bg-white text-black"
+                  selectedSize === size ? "bg-black text-white" : "bg-white text-black"
                 }`}
               >
                 {size.toUpperCase()}

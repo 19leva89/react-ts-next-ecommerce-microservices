@@ -1,16 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import SearchBar from "./SearchBar";
+import SearchBar from "./search-bar";
 import { Bell, Home, ShoppingCart } from "lucide-react";
-import ShoppingCartIcon from "./ShoppingCartIcon";
-import {
-  SignedIn,
-  SignedOut,
-  SignInButton,
-  SignUpButton,
-  UserButton,
-} from "@clerk/nextjs";
-import ProfileButton from "./ProfileButton";
+import ShoppingCartIcon from "./shopping-cart-icon";
+import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
+import ProfileButton from "./profile-button";
 
 const Navbar = () => {
   return (
@@ -24,9 +18,7 @@ const Navbar = () => {
           height={36}
           className="w-6 h-6 md:w-9 md:h-9"
         />
-        <p className="hidden md:block text-md font-medium tracking-wider">
-          TRENDLAMA.
-        </p>
+        <p className="hidden md:block text-md font-medium tracking-wider">TRENDLAMA.</p>
       </Link>
       {/* RIGHT */}
       <div className="flex items-center gap-6">

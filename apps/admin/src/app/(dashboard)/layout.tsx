@@ -1,7 +1,7 @@
-import AppSidebar from "@/components/AppSidebar";
-import Navbar from "@/components/Navbar";
-import QueryProvider from "@/components/providers/QueryProvider";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import AppSidebar from "@/components/app-sidebar";
+import Navbar from "@/components/navbar3";
+import QueryProvider from "@/components/providers/query-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { cookies } from "next/headers";
 import { ToastContainer } from "react-toastify";

@@ -1,6 +1,6 @@
 "use client";
 
-import useCartStore from "@/stores/cartStore";
+import useCartStore from "@/stores/cart-store";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
