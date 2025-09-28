@@ -9,7 +9,7 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 	type ChartConfig,
-} from '@/components/ui'
+} from '@repo/ui/components'
 
 const chartConfig = {
 	desktop: {

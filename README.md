@@ -1,6 +1,7 @@
 # This project contains the following technologies
 
 # Project setup commands:
+
 terminal powershell -> `pnpm i` (install dependencies)
 terminal powershell -> `npx npm-check-updates --interactive` (update dependencies)
 terminal powershell -> `pnpm run dev`

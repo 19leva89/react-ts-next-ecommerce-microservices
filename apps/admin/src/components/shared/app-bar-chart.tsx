@@ -11,7 +11,7 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 	type ChartConfig,
-} from '@/components/ui'
+} from '@repo/ui/components'
 
 interface Props {
 	dataPromise: Promise<OrderChartType[]>

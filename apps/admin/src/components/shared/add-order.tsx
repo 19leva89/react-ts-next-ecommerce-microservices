@@ -23,7 +23,7 @@ import {
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from '@/components/ui'
+} from '@repo/ui/components'
 
 const formSchema = z.object({
 	amount: z.number().min(1, { message: 'Amount must be at least 1!' }),
@@ -83,7 +83,7 @@ export const AddOrder = () => {
 							<FormField
 								control={form.control}
 								name='status'
-								render={({ field }) => (
+								render={() => (
 									<FormItem>
 										<FormLabel>Status</FormLabel>
 

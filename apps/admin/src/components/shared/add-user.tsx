@@ -2,7 +2,7 @@
 
 import { z } from 'zod'
 import axios from 'axios'
-import { toast } from 'react-toastify'
+import { toast } from 'sonner'
 import { useAuth } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
 import { UserFormSchema } from '@repo/types'
@@ -23,7 +23,7 @@ import {
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from '@/components/ui'
+} from '@repo/ui/components'
 
 export const AddUser = () => {
 	const form = useForm<z.infer<typeof UserFormSchema>>({

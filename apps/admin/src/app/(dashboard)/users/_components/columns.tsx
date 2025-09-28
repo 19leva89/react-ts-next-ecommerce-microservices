@@ -2,21 +2,20 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import type { User } from '@clerk/nextjs/server'
-import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDownIcon, MoreHorizontalIcon } from 'lucide-react'
-
-import { cn } from '@/lib/utils'
 import {
+	Button,
+	Checkbox,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
+} from '@repo/ui/components'
+import { cn } from '@repo/ui/lib'
+import type { User } from '@clerk/nextjs/server'
+import { ColumnDef } from '@tanstack/react-table'
+import { ArrowUpDownIcon, MoreHorizontalIcon } from 'lucide-react'
 
 // export type User = {
 //   id: string;

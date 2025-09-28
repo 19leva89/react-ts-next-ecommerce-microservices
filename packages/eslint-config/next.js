@@ -1,3 +1,4 @@
+
 import js from '@eslint/js'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
@@ -8,33 +9,37 @@ import eslintConfigPrettier from 'eslint-config-prettier'
 import { config as baseConfig } from './base.js'
 
 /**
- * A custom ESLint configuration for libraries that use Next.js.
+ * Custom ESLint configuration for Next.js packages (ESLint 9+ flat config)
  *
  * @type {import("eslint").Linter.Config[]}
- * */
+ */
 export const nextJsConfig = [
+	// Base config from @repo (ESLint 9+ flat config)
 	...baseConfig,
+
+	// Base presets
 	js.configs.recommended,
 	eslintConfigPrettier,
 	...tseslint.configs.recommended,
-	{
-		...plugin.configs.flat.recommended,
-		languageOptions: {
-			...plugin.configs.flat.recommended.languageOptions,
-			globals: {
-				...globals.serviceworker,
-			},
-		},
-	},
+
+	// Next.js rules
 	{
 		plugins: {
 			'@next/next': pluginNext,
+		},
+		languageOptions: {
+			globals: {
+				...globals.browser,
+				...globals.serviceworker,
+			},
 		},
 		rules: {
 			...pluginNext.configs.recommended.rules,
 			...pluginNext.configs['core-web-vitals'].rules,
 		},
 	},
+
+	// React Hooks and TypeScript
 	{
 		plugins: {
 			'react-hooks': pluginReactHooks,
@@ -42,12 +47,12 @@ export const nextJsConfig = [
 		settings: { react: { version: 'detect' } },
 		rules: {
 			...pluginReactHooks.configs.recommended.rules,
-			// React scope no longer necessary with new JSX transform.
 			'react/react-in-jsx-scope': 'off',
 			'@typescript-eslint/no-explicit-any': 'off',
 			'@typescript-eslint/no-unused-vars': 'warn',
 			'@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
-			'react/react-in-jsx-scope': 'off',
 		},
 	},
 ]
+
+export default nextJsConfig

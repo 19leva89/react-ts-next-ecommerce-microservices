@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { BellIcon, HomeIcon } from 'lucide-react'
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
+import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
 
 import { SearchBar } from './search-bar'
 import { ProfileButton } from './profile-button'
@@ -12,8 +12,9 @@ export const Navbar = () => {
 		<nav className='flex w-full items-center justify-between border-b border-gray-200 pb-4'>
 			{/* LEFT */}
 			<Link href='/' className='flex items-center'>
-				<Image src='/logo.png' alt='TrendLama' width={36} height={36} className='size-6 md:size-9' />
-				<p className='text-md hidden font-medium tracking-wider md:block'>TRENDLAMA.</p>
+				<Image src='/logo.png' alt='TrendDima' width={36} height={36} className='size-6 md:size-9' />
+
+				<p className='text-md hidden font-medium tracking-wider md:block'>TRENDDIMA</p>
 			</Link>
 
 			{/* RIGHT */}

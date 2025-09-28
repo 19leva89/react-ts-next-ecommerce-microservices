@@ -2,7 +2,7 @@
 
 import { z } from 'zod'
 import axios from 'axios'
-import { toast } from 'react-toastify'
+import { toast } from 'sonner'
 import { useAuth } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -31,7 +31,7 @@ import {
 	SheetHeader,
 	SheetTitle,
 	Textarea,
-} from '@/components/ui'
+} from '@repo/ui/components'
 
 // const categories = [
 //   "T-shirts",
@@ -68,7 +68,7 @@ export const AddProduct = () => {
 		},
 	})
 
-	const { isPending, error, data } = useQuery({
+	const { data } = useQuery({
 		queryKey: ['categories'],
 		queryFn: fetchCategories,
 	})

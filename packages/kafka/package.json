@@ -6,11 +6,10 @@
   "scripts": {
     "check-types": "tsc --noEmit"
   },
-  "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
-    "@types/node": "^24.5.2"
-  },
   "dependencies": {
     "kafkajs": "^2.2.4"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*"
   }
 }

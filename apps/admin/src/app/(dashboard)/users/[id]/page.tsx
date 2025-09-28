@@ -19,7 +19,7 @@ import {
 	Progress,
 	Sheet,
 	SheetTrigger,
-} from '@/components/ui'
+} from '@repo/ui/components'
 import { EditUser } from '@/components/shared/edit-user'
 import { AppLineChart } from '@/components/shared/app-line-chart'
 

@@ -11,7 +11,7 @@ import {
 	useReactTable,
 } from '@tanstack/react-table'
 import { useState } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from 'sonner'
 import { useAuth } from '@clerk/nextjs'
 import { Trash2Icon } from 'lucide-react'
 import { User } from '@clerk/nextjs/server'
@@ -19,7 +19,7 @@ import { useRouter } from 'next/navigation'
 import { useMutation } from '@tanstack/react-query'
 
 import { DataTablePagination } from '@/components/shared/table-pagination'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]

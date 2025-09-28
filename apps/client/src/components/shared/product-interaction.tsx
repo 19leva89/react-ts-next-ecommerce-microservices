@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { toast } from 'react-toastify'
+import { toast } from 'sonner'
 import { ProductType } from '@repo/types'
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'

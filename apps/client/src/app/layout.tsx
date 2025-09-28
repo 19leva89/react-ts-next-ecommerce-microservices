@@ -1,11 +1,11 @@
 import type { Metadata } from 'next'
 import { PropsWithChildren } from 'react'
 import { ClerkProvider } from '@clerk/nextjs'
-import { ToastContainer } from 'react-toastify'
 import { Geist, Geist_Mono } from 'next/font/google'
 
 import { Navbar } from '@/components/shared/navbar'
 import { Footer } from '@/components/shared/footer'
+import { ToasterProvider } from '@/components/shared/providers/toaster-provider'
 
 import './globals.css'
 
@@ -31,13 +31,13 @@ function RootLayout({ children }: PropsWithChildren) {
 				<body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
 					<div className='mx-auto p-4 sm:max-w-xl sm:px-0 md:max-w-2xl lg:max-w-3xl xl:max-w-6xl'>
 						<Navbar />
-						
+
 						{children}
-					
+
 						<Footer />
 					</div>
-					
-					<ToastContainer position='bottom-right' />
+
+					<ToasterProvider />
 				</body>
 			</html>
 		</ClerkProvider>

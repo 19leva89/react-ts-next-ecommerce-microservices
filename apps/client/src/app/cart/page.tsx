@@ -2,9 +2,9 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { ShippingFormInputs } from '@repo/types'
 import { ArrowRightIcon, Trash2Icon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { CartItemsType, ShippingFormInputs } from '@repo/types'
 
 import { useCartStore } from '@/stores/cart-store'
 import { ShippingForm } from '@/components/shared/shipping-form'
@@ -83,17 +83,20 @@ const steps = [
 // ];
 
 const CartPage = () => {
-	const searchParams = useSearchParams()
 	const router = useRouter()
+	const searchParams = useSearchParams()
+
 	const [shippingForm, setShippingForm] = useState<ShippingFormInputs>()
+
+	const { cart, removeFromCart } = useCartStore()
 
 	const activeStep = parseInt(searchParams.get('step') || '1')
 
-	const { cart, removeFromCart } = useCartStore()
 	return (
 		<div className='mt-12 flex flex-col items-center justify-center gap-8'>
 			{/* TITLE */}
 			<h1 className='text-2xl font-medium'>Your Shopping Cart</h1>
+
 			{/* STEPS */}
 			<div className='flex flex-col items-center gap-8 lg:flex-row lg:gap-16'>
 				{steps.map((step) => (
@@ -110,6 +113,7 @@ const CartPage = () => {
 						>
 							{step.id}
 						</div>
+
 						<p
 							className={`text-sm font-medium ${step.id === activeStep ? 'text-gray-800' : 'text-gray-400'}`}
 						>

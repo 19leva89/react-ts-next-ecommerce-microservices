@@ -2,21 +2,19 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { ProductType } from '@repo/types'
-import { ColumnDef } from '@tanstack/react-table'
-import { ArrowUpDownIcon, MoreHorizontalIcon } from 'lucide-react'
-
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
 import {
+	Button,
+	Checkbox,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@repo/ui/components'
+import { ProductType } from '@repo/types'
+import { ColumnDef } from '@tanstack/react-table'
+import { ArrowUpDownIcon, MoreHorizontalIcon } from 'lucide-react'
 
 // export type Product = {
 //   id: string | number;

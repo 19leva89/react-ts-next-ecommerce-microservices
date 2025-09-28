@@ -34,7 +34,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarSeparator,
-} from '@/components/ui'
+} from '@repo/ui/components'
 import { AddUser } from '@/components/shared/add-user'
 import { AddOrder } from '@/components/shared/add-order'
 import { AddProduct } from '@/components/shared/add-product'

@@ -16,12 +16,10 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 	SidebarTrigger,
-	useSidebar,
-} from '@/components/ui'
+} from '@repo/ui/components'
 
 export const Navbar = () => {
-	const { theme, setTheme } = useTheme()
-	const { toggleSidebar } = useSidebar()
+	const { setTheme } = useTheme()
 
 	return (
 		<nav className='bg-background sticky top-0 z-10 flex items-center justify-between p-4'>

@@ -13,7 +13,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 	ScrollArea,
-} from '@/components/ui'
+} from '@repo/ui/components'
 
 export const TodoList = () => {
 	const [open, setOpen] = useState<boolean>(false)

@@ -11,9 +11,9 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { Trash2Icon } from 'lucide-react'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
 
 import { DataTablePagination } from '@/components/shared/table-pagination'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]

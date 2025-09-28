@@ -18,7 +18,7 @@ import {
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from '@/components/ui'
+} from '@repo/ui/components'
 
 const formSchema = z.object({
 	fullName: z.string().min(2, { message: 'Full name must be at least 2 characters!' }).max(50),

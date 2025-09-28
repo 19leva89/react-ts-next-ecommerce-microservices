@@ -1,12 +1,12 @@
 import { cookies } from 'next/headers'
 import { PropsWithChildren } from 'react'
-import { ToastContainer } from 'react-toastify'
+import { SidebarProvider } from '@repo/ui/components'
 
 import { Navbar } from '@/components/shared/navbar'
-import { SidebarProvider } from '@/components/ui/sidebar'
 import { AppSidebar } from '@/components/shared/app-sidebar'
 import { QueryProvider } from '@/components/shared/providers/query-provider'
 import { ThemeProvider } from '@/components/shared/providers/theme-provider'
+import { ToasterProvider } from '@/components/shared/providers/toaster-provider'
 
 async function RootLayout({ children }: PropsWithChildren) {
 	const cookieStore = await cookies()
@@ -28,7 +28,7 @@ async function RootLayout({ children }: PropsWithChildren) {
 				</ThemeProvider>
 			</div>
 
-			<ToastContainer position='bottom-right' />
+			<ToasterProvider />
 		</QueryProvider>
 	)
 }

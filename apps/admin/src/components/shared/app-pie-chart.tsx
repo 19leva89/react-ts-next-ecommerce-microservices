@@ -3,7 +3,7 @@
 import { TrendingUpIcon } from 'lucide-react'
 import { Label, Pie, PieChart } from 'recharts'
 
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui'
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@repo/ui/components'
 
 const chartConfig = {
 	visitors: {

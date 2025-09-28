@@ -1,6 +1,6 @@
 import axios from 'axios'
 import Link from 'next/link'
-import { ProductsType, ProductType } from '@repo/types'
+import { ProductType } from '@repo/types'
 
 import { Filter } from './filter'
 import { Categories } from './categories'
