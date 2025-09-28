@@ -17,7 +17,18 @@ const nextConfig: NextConfig = {
 				hostname: 'res.cloudinary.com',
 			},
 		],
+		unoptimized: true,
 	},
+	turbopack: {
+		rules: {
+			'*.svg': {
+				loaders: ['@svgr/webpack'],
+				as: '*.js',
+			},
+		},
+		resolveExtensions: ['.mdx', '.tsx', '.ts', '.jsx', '.js', '.mjs', '.json'],
+	},
+	reactStrictMode: false,
 }
 
 export default nextConfig

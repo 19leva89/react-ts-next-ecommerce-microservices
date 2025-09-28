@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Product {
-  id               Int      @id @default(autoincrement())
+  id               String   @id @default(cuid()) @map("_id")
   name             String
   shortDescription String
   description      String
@@ -17,15 +17,21 @@ model Product {
   sizes            String[]
   colors           String[]
   images           Json
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  //
   categorySlug     String
   category         Category @relation(fields: [categorySlug], references: [slug])
+  //
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  name     String
-  slug     String    @unique
-  products Product[]
+  id        String    @id @default(cuid()) @map("_id")
+  name      String
+  slug      String    @unique
+  //
+  products  Product[]
+  //
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }

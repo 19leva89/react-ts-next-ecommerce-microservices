@@ -10,11 +10,13 @@ export const orderRoute = async (fastify: FastifyInstance) => {
 		const orders = await Order.find({ userId: request.userId })
 		return reply.send(orders)
 	})
+
 	fastify.get('/orders', { preHandler: shouldBeAdmin }, async (request, reply) => {
 		const { limit } = request.query as { limit: number }
 		const orders = await Order.find().limit(limit).sort({ createdAt: -1 })
 		return reply.send(orders)
 	})
+
 	fastify.get('/order-chart', { preHandler: shouldBeAdmin }, async (request, reply) => {
 		const now = new Date()
 		const sixMonthsAgo = startOfMonth(subMonths(now, 5))

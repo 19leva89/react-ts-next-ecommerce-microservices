@@ -22,10 +22,14 @@ import {
 
 const formSchema = z.object({
 	fullName: z.string().min(2, { message: 'Full name must be at least 2 characters!' }).max(50),
-	email: z.email({ message: 'Invalid email address!' }),
-	phone: z.string().min(10).max(15),
-	address: z.string().min(2),
-	city: z.string().min(2),
+	email: z.email({ message: 'Invalid email address!' }).min(2, 'Email is required!'),
+	phone: z
+		.string()
+		.min(7, 'Phone number must be between 7 and 10 digits!')
+		.max(10, 'Phone number must be between 7 and 10 digits!')
+		.regex(/^\d+$/, 'Phone number must contain only numbers!'),
+	address: z.string().min(2, 'Address is required!'),
+	city: z.string().min(2, 'City is required!'),
 })
 
 export const EditUser = () => {

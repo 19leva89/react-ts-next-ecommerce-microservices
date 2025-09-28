@@ -65,16 +65,15 @@ export const getProducts = async (req: Request, res: Response) => {
 		switch (sort) {
 			case 'asc':
 				return { price: Prisma.SortOrder.asc }
-				break
+
 			case 'desc':
 				return { price: Prisma.SortOrder.desc }
-				break
+
 			case 'oldest':
 				return { createdAt: Prisma.SortOrder.asc }
-				break
+
 			default:
 				return { createdAt: Prisma.SortOrder.desc }
-				break
 		}
 	})()
 

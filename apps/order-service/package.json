@@ -5,8 +5,8 @@
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "check-types": "tsc --noEmit",
-    "dev": "tsx --env-file=.env --watch src/index.ts"
+    "dev": "tsx --watch src/index.ts",
+    "check-types": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",

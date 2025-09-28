@@ -14,7 +14,7 @@ export const ShippingForm = ({
 		handleSubmit,
 		formState: { errors },
 	} = useForm<ShippingFormInputs>({
-		resolver: zodResolver(shippingFormSchema as any),
+		resolver: zodResolver(shippingFormSchema),
 	})
 
 	const router = useRouter()
