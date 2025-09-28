@@ -1,6 +1,7 @@
 'use client'
 
 import { z } from 'zod'
+import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
@@ -8,10 +9,21 @@ import { CategoryFormSchema } from '@repo/types'
 import { useMutation } from '@tanstack/react-query'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import {
+	Button,
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	Input,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetTitle,
+} from '@/components/ui'
 
 export const AddCategory = () => {
 	const form = useForm<z.infer<typeof CategoryFormSchema>>({
@@ -27,23 +39,20 @@ export const AddCategory = () => {
 	const mutation = useMutation({
 		mutationFn: async (data: z.infer<typeof CategoryFormSchema>) => {
 			const token = await getToken()
-			const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`, {
-				method: 'POST',
-				body: JSON.stringify(data),
+
+			await axios.post(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`, data, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			if (!res.ok) {
-				throw new Error('Failed to create category!')
-			}
 		},
 		onSuccess: () => {
 			toast.success('Category created successfully')
 		},
-		onError: (error) => {
-			toast.error(error.message)
+		onError: (error: any) => {
+			const message = error.response?.data?.message || error.message || 'Failed to create category!'
+			toast.error(message)
 		},
 	})
 

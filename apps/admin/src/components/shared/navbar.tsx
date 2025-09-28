@@ -5,20 +5,24 @@ import { useTheme } from 'next-themes'
 import { LogOutIcon, MoonIcon, SettingsIcon, SunIcon, UserIcon } from 'lucide-react'
 
 import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
+	Button,
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from '../ui/dropdown-menu'
-import { Button } from '../ui/button'
-import { SidebarTrigger, useSidebar } from '../ui/sidebar'
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
+	SidebarTrigger,
+	useSidebar,
+} from '@/components/ui'
 
 export const Navbar = () => {
 	const { theme, setTheme } = useTheme()
 	const { toggleSidebar } = useSidebar()
+
 	return (
 		<nav className='bg-background sticky top-0 z-10 flex items-center justify-between p-4'>
 			{/* LEFT */}

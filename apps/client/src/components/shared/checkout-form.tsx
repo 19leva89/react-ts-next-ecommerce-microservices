@@ -1,32 +1,44 @@
 'use client'
 
-import { useState } from 'react'
-import { ConfirmError } from '@stripe/stripe-js'
+import { MouseEvent, useState } from 'react'
 import { ShippingFormInputs } from '@repo/types'
-import { PaymentElement, useCheckout } from '@stripe/react-stripe-js'
+import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 
 export const CheckoutForm = ({ shippingForm }: { shippingForm: ShippingFormInputs }) => {
-	const checkout = useCheckout()
+	const stripe = useStripe()
+	const elements = useElements()
 
 	const [loading, setLoading] = useState<boolean>(false)
-	const [error, setError] = useState<ConfirmError | null>(null)
+	const [error, setError] = useState<string | null>(null)
 
-	const handleClick = async () => {
+	const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault()
+
+		if (!stripe || !elements) return
+
 		setLoading(true)
-		await checkout.updateEmail(shippingForm.email)
-		await checkout.updateShippingAddress({
-			name: 'shipping_address',
-			address: {
-				line1: shippingForm.address,
-				city: shippingForm.city,
-				country: 'US',
+		setError(null)
+
+		const { error: stripeError } = await stripe.confirmPayment({
+			elements,
+			confirmParams: {
+				receipt_email: shippingForm.email,
+				shipping: {
+					name: shippingForm.name || 'Customer',
+					address: {
+						line1: shippingForm.address,
+						city: shippingForm.city,
+						country: 'US',
+					},
+				},
 			},
+			redirect: 'if_required',
 		})
 
-		const res = await checkout.confirm()
-		if (res.type === 'error') {
-			setError(res.error)
+		if (stripeError) {
+			setError(stripeError.message ?? 'Payment failed')
 		}
+
 		setLoading(false)
 	}
 
@@ -34,11 +46,11 @@ export const CheckoutForm = ({ shippingForm }: { shippingForm: ShippingFormInput
 		<form>
 			<PaymentElement options={{ layout: 'accordion' }} />
 
-			<button disabled={loading} onClick={handleClick}>
+			<button disabled={loading || !stripe} onClick={handleClick}>
 				{loading ? 'Loading...' : 'Pay'}
 			</button>
 
-			{error && <div className=''>{error.message}</div>}
+			{error && <div>{error}</div>}
 		</form>
 	)
 }

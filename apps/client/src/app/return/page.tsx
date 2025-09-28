@@ -1,3 +1,4 @@
+import axios from 'axios'
 import Link from 'next/link'
 
 const ReturnPage = async ({
@@ -11,17 +12,16 @@ const ReturnPage = async ({
 		return <div>No session id found!</div>
 	}
 
-	const res = await fetch(`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/${session_id}`)
-	const data = await res.json()
+	const { data } = await axios.get(`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/${session_id}`)
 
 	return (
-		<div className=''>
+		<>
 			<h1>Payment {data.status}</h1>
 
 			<p>Payment status: {data.paymentStatus}</p>
 
 			<Link href='/orders'>See your orders</Link>
-		</div>
+		</>
 	)
 }
 

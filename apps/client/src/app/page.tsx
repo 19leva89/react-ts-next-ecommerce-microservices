@@ -6,7 +6,7 @@ const Homepage = async ({ searchParams }: { searchParams: Promise<{ category: st
 	const category = (await searchParams).category
 
 	return (
-		<div className=''>
+		<div>
 			<div className='relative mb-12 aspect-[3/1]'>
 				<Image src='/featured.png' alt='Featured Product' fill />
 			</div>

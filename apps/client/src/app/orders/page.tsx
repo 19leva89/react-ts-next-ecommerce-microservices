@@ -1,30 +1,39 @@
+import axios from 'axios'
 import { OrderType } from '@repo/types'
 import { auth } from '@clerk/nextjs/server'
 
-const fetchOrders = async () => {
+const fetchOrders = async (): Promise<OrderType[]> => {
 	const { getToken } = await auth()
 	const token = await getToken()
 
-	const res = await fetch(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/user-orders`, {
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	})
+	try {
+		const { data } = await axios.get<OrderType[]>(
+			`${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/user-orders`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		)
 
-	const data: OrderType[] = await res.json()
-	return data
+		return data
+	} catch (error: any) {
+		console.error(error)
+
+		return []
+	}
 }
 
 const OrdersPage = async () => {
 	const orders = await fetchOrders()
 
 	if (!orders) {
-		return <div className=''>No orders found!</div>
+		return <div>No orders found!</div>
 	}
 
 	console.log(orders)
 	return (
-		<div className=''>
+		<div>
 			<h1 className='my-4 text-2xl font-medium'>Your Orders</h1>
 
 			<ul>
@@ -50,7 +59,7 @@ const OrdersPage = async () => {
 							<p>{order.createdAt ? new Date(order.createdAt).toLocaleDateString('en-US') : '-'}</p>
 						</div>
 
-						<div className=''>
+						<div>
 							<span className='text-sm font-medium text-gray-500'>Products</span>
 							<p>{order.products?.map((product) => product.name).join(', ') || '-'}</p>
 						</div>

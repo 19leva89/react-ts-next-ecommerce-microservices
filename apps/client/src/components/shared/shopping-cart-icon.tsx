@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { ShoppingCartIcon as CartIcon } from 'lucide-react'
 
-import useCartStore from '@/stores/cart-store'
+import { useCartStore } from '@/stores/cart-store'
 
 export const ShoppingCartIcon = () => {
 	const { cart, hasHydrated } = useCartStore()

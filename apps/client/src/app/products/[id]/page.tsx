@@ -1,3 +1,4 @@
+import axios from 'axios'
 import Image from 'next/image'
 import { ProductType } from '@repo/types'
 
@@ -24,19 +25,28 @@ import { ProductInteraction } from '@/components/shared/product-interaction'
 //   updatedAt: new Date(),
 // };
 
-const fetchProduct = async (id: string) => {
-	const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products/${id}`)
-	const data: ProductType = await res.json()
-	return data
+const fetchProduct = async (id: string): Promise<ProductType | null> => {
+	try {
+		const { data } = await axios.get<ProductType>(
+			`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products/${id}`,
+		)
+
+		return data
+	} catch (error: any) {
+		console.error(error)
+
+		return null
+	}
 }
 
 export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { id } = await params
 
 	const product = await fetchProduct(id)
+
 	return {
-		title: product.name,
-		describe: product.description,
+		title: product?.name,
+		describe: product?.description,
 	}
 }
 
@@ -52,8 +62,13 @@ const ProductPage = async ({
 
 	const product = await fetchProduct(id)
 
-	const selectedSize = size || (product.sizes[0] as string)
-	const selectedColor = color || (product.colors[0] as string)
+	const selectedSize = size || (product?.sizes[0] as string)
+	const selectedColor = color || (product?.colors[0] as string)
+
+	if (!product) {
+		return <div>No product found</div>
+	}
+
 	return (
 		<div className='mt-12 flex flex-col gap-4 md:gap-12 lg:flex-row'>
 			{/* IMAGE */}

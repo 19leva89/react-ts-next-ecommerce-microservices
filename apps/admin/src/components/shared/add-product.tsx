@@ -1,6 +1,7 @@
 'use client'
 
 import { z } from 'zod'
+import axios from 'axios'
 import { toast } from 'react-toastify'
 import { useAuth } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
@@ -8,14 +9,29 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { CategoryType, colors, ProductFormSchema, sizes } from '@repo/types'
 
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import { Textarea } from '../ui/textarea'
-import { Checkbox } from '../ui/checkbox'
-import { ScrollArea } from '../ui/scroll-area'
-import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import {
+	Button,
+	Checkbox,
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	Input,
+	ScrollArea,
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetTitle,
+	Textarea,
+} from '@/components/ui'
 
 // const categories = [
 //   "T-shirts",
@@ -28,13 +44,13 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 // ] as const;
 
 const fetchCategories = async () => {
-	const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`)
+	try {
+		const { data } = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`)
 
-	if (!res.ok) {
-		throw new Error('Failed to fetch categories!')
+		return data
+	} catch (error: any) {
+		throw new Error(error.response?.data?.message || 'Failed to fetch categories!')
 	}
-
-	return await res.json()
 }
 
 export const AddProduct = () => {
@@ -62,23 +78,20 @@ export const AddProduct = () => {
 	const mutation = useMutation({
 		mutationFn: async (data: z.infer<typeof ProductFormSchema>) => {
 			const token = await getToken()
-			const res = await fetch(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products`, {
-				method: 'POST',
-				body: JSON.stringify(data),
+
+			await axios.post(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products`, data, {
 				headers: {
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${token}`,
 				},
 			})
-			if (!res.ok) {
-				throw new Error('Failed to create product!')
-			}
 		},
 		onSuccess: () => {
 			toast.success('Product created successfully')
 		},
-		onError: (error) => {
-			toast.error(error.message)
+		onError: (error: any) => {
+			const message = error.response?.data?.message || error.message || 'Failed to create product!'
+			toast.error(message)
 		},
 	})
 
@@ -288,7 +301,7 @@ export const AddProduct = () => {
 											<FormLabel>Images</FormLabel>
 
 											<FormControl>
-												<div className=''>
+												<div>
 													{form.watch('colors')?.map((color) => (
 														<div className='mb-4 flex items-center gap-4' key={color}>
 															<div className='flex items-center gap-2'>

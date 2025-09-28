@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { CartStoreActionsType, CartStoreStateType } from '@repo/types'
 
-const useCartStore = create<CartStoreStateType & CartStoreActionsType>()(
+export const useCartStore = create<CartStoreStateType & CartStoreActionsType>()(
 	persist(
 		(set) => ({
 			cart: [],
@@ -58,5 +58,3 @@ const useCartStore = create<CartStoreStateType & CartStoreActionsType>()(
 		},
 	),
 )
-
-export default useCartStore

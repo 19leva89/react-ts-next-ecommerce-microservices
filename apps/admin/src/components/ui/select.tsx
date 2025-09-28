@@ -1,23 +1,53 @@
 'use client'
 
+import { ComponentProps } from 'react'
 import * as SelectPrimitive from '@radix-ui/react-select'
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-import { ComponentProps } from 'react'
+import { cn } from '@/lib'
 
+/**
+ * Main select component wrapper for dropdown select functionality
+ * Handles select state management and accessibility features
+ * @param props - Select component props
+ * @param props....props - All other props forwarded to SelectPrimitive.Root
+ * @returns JSX element with select root container
+ */
 function Select({ ...props }: ComponentProps<typeof SelectPrimitive.Root>) {
 	return <SelectPrimitive.Root data-slot='select' {...props} />
 }
 
+/**
+ * Select group component for organizing related select options
+ * Handles grouped select items with proper semantic structure
+ * @param props - Select group component props
+ * @param props....props - All other props forwarded to SelectPrimitive.Group
+ * @returns JSX element with grouped select options container
+ */
 function SelectGroup({ ...props }: ComponentProps<typeof SelectPrimitive.Group>) {
 	return <SelectPrimitive.Group data-slot='select-group' {...props} />
 }
 
+/**
+ * Select value component that displays the currently selected option
+ * Handles selected value presentation with placeholder support
+ * @param props - Select value component props
+ * @param props....props - All other props forwarded to SelectPrimitive.Value
+ * @returns JSX element with current select value display
+ */
 function SelectValue({ ...props }: ComponentProps<typeof SelectPrimitive.Value>) {
 	return <SelectPrimitive.Value data-slot='select-value' {...props} />
 }
 
+/**
+ * Select trigger component that opens the dropdown when clicked
+ * Handles trigger button with chevron icon animation and focus states
+ * @param props - Select trigger component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props.children - Content to render inside trigger button
+ * @param props....props - All other props forwarded to SelectPrimitive.Trigger
+ * @returns JSX element with select trigger button and animated chevron
+ */
 function SelectTrigger({
 	className,
 	size = 'default',
@@ -37,6 +67,7 @@ function SelectTrigger({
 			{...props}
 		>
 			{children}
+
 			<SelectPrimitive.Icon asChild>
 				<ChevronDownIcon className='size-4 opacity-50' />
 			</SelectPrimitive.Icon>
@@ -44,6 +75,16 @@ function SelectTrigger({
 	)
 }
 
+/**
+ * Select content component that contains the dropdown options
+ * Handles positioned dropdown content with animations and scroll buttons
+ * @param props - Select content component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props.children - Select options and groups to render in dropdown
+ * @param props.position - Positioning strategy ('popper' or 'item-aligned')
+ * @param props....props - All other props forwarded to SelectPrimitive.Content
+ * @returns JSX element with styled dropdown content container and scroll controls
+ */
 function SelectContent({
 	className,
 	children,
@@ -79,6 +120,14 @@ function SelectContent({
 	)
 }
 
+/**
+ * Select label component for section headings within dropdown
+ * Handles non-interactive labels for organizing select options into sections
+ * @param props - Select label component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to SelectPrimitive.Label
+ * @returns JSX element with select section label
+ */
 function SelectLabel({ className, ...props }: ComponentProps<typeof SelectPrimitive.Label>) {
 	return (
 		<SelectPrimitive.Label
@@ -89,6 +138,15 @@ function SelectLabel({ className, ...props }: ComponentProps<typeof SelectPrimit
 	)
 }
 
+/**
+ * Select item component for individual selectable options
+ * Handles interactive option selection with check indicator and disabled states
+ * @param props - Select item component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props.children - Content to display as option text
+ * @param props....props - All other props forwarded to SelectPrimitive.Item
+ * @returns JSX element with selectable option and selection indicator
+ */
 function SelectItem({ className, children, ...props }: ComponentProps<typeof SelectPrimitive.Item>) {
 	return (
 		<SelectPrimitive.Item
@@ -109,6 +167,14 @@ function SelectItem({ className, children, ...props }: ComponentProps<typeof Sel
 	)
 }
 
+/**
+ * Select separator component for visual division between option groups
+ * Handles horizontal line separation with consistent border styling
+ * @param props - Select separator component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to SelectPrimitive.Separator
+ * @returns JSX element with horizontal separator line
+ */
 function SelectSeparator({ className, ...props }: ComponentProps<typeof SelectPrimitive.Separator>) {
 	return (
 		<SelectPrimitive.Separator
@@ -119,6 +185,14 @@ function SelectSeparator({ className, ...props }: ComponentProps<typeof SelectPr
 	)
 }
 
+/**
+ * Select scroll up button component for navigating long option lists
+ * Handles upward scrolling control with chevron icon for dropdown navigation
+ * @param props - Select scroll up button component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to SelectPrimitive.ScrollUpButton
+ * @returns JSX element with scroll up button and chevron icon
+ */
 function SelectScrollUpButton({
 	className,
 	...props
@@ -134,6 +208,14 @@ function SelectScrollUpButton({
 	)
 }
 
+/**
+ * Select scroll down button component for navigating long option lists
+ * Handles downward scrolling control with chevron icon for dropdown navigation
+ * @param props - Select scroll down button component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to SelectPrimitive.ScrollDownButton
+ * @returns JSX element with scroll down button and chevron icon
+ */
 function SelectScrollDownButton({
 	className,
 	...props
@@ -151,13 +233,13 @@ function SelectScrollDownButton({
 
 export {
 	Select,
-	SelectContent,
 	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectScrollDownButton,
-	SelectScrollUpButton,
-	SelectSeparator,
-	SelectTrigger,
 	SelectValue,
+	SelectTrigger,
+	SelectContent,
+	SelectLabel,
+	SelectItem,
+	SelectSeparator,
+	SelectScrollUpButton,
+	SelectScrollDownButton,
 }

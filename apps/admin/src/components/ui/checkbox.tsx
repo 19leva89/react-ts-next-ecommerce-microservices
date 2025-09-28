@@ -1,11 +1,19 @@
 'use client'
 
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import { CheckIcon } from 'lucide-react'
-
-import { cn } from '@/lib/utils'
 import { ComponentProps } from 'react'
+import { CheckIcon } from 'lucide-react'
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 
+import { cn } from '@/lib'
+
+/**
+ * Checkbox component with styled appearance and accessibility features
+ * Handles checked/unchecked states with focus management and validation styling
+ * @param props - Checkbox component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to CheckboxPrimitive.Root
+ * @returns JSX element with checkbox input and check indicator
+ */
 function Checkbox({ className, ...props }: ComponentProps<typeof CheckboxPrimitive.Root>) {
 	return (
 		<CheckboxPrimitive.Root

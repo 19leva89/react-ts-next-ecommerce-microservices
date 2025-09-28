@@ -1,8 +1,8 @@
+import { ComponentProps } from 'react'
 import { Slot } from '@radix-ui/react-slot'
 import { ChevronRightIcon, MoreHorizontalIcon } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
-import { ComponentProps } from 'react'
+import { cn } from '@/lib'
 
 function Breadcrumb({ ...props }: ComponentProps<'nav'>) {
 	return <nav aria-label='breadcrumb' data-slot='breadcrumb' {...props} />

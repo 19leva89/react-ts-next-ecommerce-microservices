@@ -2,7 +2,7 @@
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
 
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart'
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui'
 
 const chartData = [
 	{ month: 'January', desktop: 186, mobile: 80 },
@@ -46,7 +46,17 @@ export const AppLineChart = () => {
 
 				<YAxis tickLine={false} axisLine={false} tickMargin={8} />
 
-				<ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+				<ChartTooltip
+					cursor={false}
+					content={
+						<ChartTooltipContent
+							active={false}
+							payload={[]}
+							coordinate={{ x: 0, y: 0 }}
+							accessibilityLayer={false}
+						/>
+					}
+				/>
 
 				<Line dataKey='desktop' type='monotone' stroke='var(--color-desktop)' strokeWidth={2} dot={false} />
 

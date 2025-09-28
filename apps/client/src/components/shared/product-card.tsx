@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import { ProductType } from '@repo/types'
 import { ShoppingCartIcon } from 'lucide-react'
 
-import useCartStore from '@/stores/cart-store'
+import { useCartStore } from '@/stores/cart-store'
 
 export const ProductCard = ({ product }: { product: ProductType }) => {
 	const [productTypes, setProductTypes] = useState<{ size: string; color: string }>({

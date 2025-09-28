@@ -6,7 +6,7 @@ import { ArrowRightIcon, Trash2Icon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { CartItemsType, ShippingFormInputs } from '@repo/types'
 
-import useCartStore from '@/stores/cart-store'
+import { useCartStore } from '@/stores/cart-store'
 import { ShippingForm } from '@/components/shared/shipping-form'
 import { StripePaymentForm } from '@/components/shared/stripe-payment-form'
 

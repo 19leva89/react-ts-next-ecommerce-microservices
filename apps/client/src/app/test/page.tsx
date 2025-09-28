@@ -1,3 +1,4 @@
+import axios from 'axios'
 import { auth } from '@clerk/nextjs/server'
 
 const TestPage = async () => {
@@ -6,28 +7,25 @@ const TestPage = async () => {
 
 	console.log(token)
 
-	// const resProduct = await fetch("http://localhost:8000/test", {
-	//   headers: {
-	//     Authorization: `Bearer ${token}`,
-	//   },
-	// });
-	// const dataProduct = await resProduct.json();
+	// 	const { data: dataProduct } = await axios.get('http://localhost:8000/test', {
+	// 		headers: {
+	// 			Authorization: `Bearer ${token}`,
+	// 		},
+	// 	})
 
-	// const resOrder = await fetch("http://localhost:8001/test", {
-	//   headers: {
-	//     Authorization: `Bearer ${token}`,
-	//   },
-	// });
-	// const dataOrder = await resOrder.json();
+	// 	const { data: dataOrder } = await axios.get('http://localhost:8001/test', {
+	// 		headers: {
+	// 			Authorization: `Bearer ${token}`,
+	// 		},
+	// 	})
 
-	// const resPayment = await fetch("http://localhost:8002/test", {
-	//   headers: {
-	//     Authorization: `Bearer ${token}`,
-	//   },
-	// });
-	// const dataPayment = await resPayment.json();
+	// const { data: dataPayment } = await axios.get('http://localhost:8002/test', {
+	// 	headers: {
+	// 		Authorization: `Bearer ${token}`,
+	// 	},
+	// })
 
-	return <div className=''>TestPage</div>
+	return <div>TestPage</div>
 }
 
 export default TestPage

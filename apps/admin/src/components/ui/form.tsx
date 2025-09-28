@@ -1,7 +1,5 @@
 'use client'
 
-import * as LabelPrimitive from '@radix-ui/react-label'
-import { Slot } from '@radix-ui/react-slot'
 import {
 	Controller,
 	FormProvider,
@@ -11,10 +9,12 @@ import {
 	type FieldPath,
 	type FieldValues,
 } from 'react-hook-form'
-
-import { cn } from '@/lib/utils'
-import { Label } from '@/components/ui/label'
+import { Slot } from '@radix-ui/react-slot'
+import * as LabelPrimitive from '@radix-ui/react-label'
 import { ComponentProps, createContext, useContext, useId } from 'react'
+
+import { cn } from '@/lib'
+import { Label } from '@/components/ui'
 
 const Form = FormProvider
 
@@ -69,6 +69,14 @@ type FormItemContextValue = {
 
 const FormItemContext = createContext<FormItemContextValue>({} as FormItemContextValue)
 
+/**
+ * Form item wrapper component that provides context for form field elements
+ * Handles unique ID generation and context sharing for accessibility connections
+ * @param props - Form item component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to div element
+ * @returns JSX element with form item context provider and grid layout
+ */
 function FormItem({ className, ...props }: ComponentProps<'div'>) {
 	const id = useId()
 
@@ -79,6 +87,14 @@ function FormItem({ className, ...props }: ComponentProps<'div'>) {
 	)
 }
 
+/**
+ * Form label component with error state styling and accessibility attributes
+ * Handles label presentation with automatic error styling and form field association
+ * @param props - Form label component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to LabelPrimitive.Root
+ * @returns JSX element with accessible form label and error state styling
+ */
 function FormLabel({ className, ...props }: ComponentProps<typeof LabelPrimitive.Root>) {
 	const { error, formItemId } = useFormField()
 
@@ -93,6 +109,13 @@ function FormLabel({ className, ...props }: ComponentProps<typeof LabelPrimitive
 	)
 }
 
+/**
+ * Form control component that wraps form inputs with accessibility attributes
+ * Handles ARIA attributes for form validation and description associations
+ * @param props - Form control component props
+ * @param props....props - All other props forwarded to Slot component
+ * @returns JSX element with form control wrapper and accessibility attributes
+ */
 function FormControl({ ...props }: ComponentProps<typeof Slot>) {
 	const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
@@ -107,6 +130,14 @@ function FormControl({ ...props }: ComponentProps<typeof Slot>) {
 	)
 }
 
+/**
+ * Form description component for providing helpful text about form fields
+ * Handles descriptive text with proper ID association for screen readers
+ * @param props - Form description component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to p element
+ * @returns JSX element with form field description text
+ */
 function FormDescription({ className, ...props }: ComponentProps<'p'>) {
 	const { formDescriptionId } = useFormField()
 
@@ -120,6 +151,14 @@ function FormDescription({ className, ...props }: ComponentProps<'p'>) {
 	)
 }
 
+/**
+ * Form message component for displaying validation errors and feedback
+ * Handles error message display with automatic error text extraction and styling
+ * @param props - Form message component props
+ * @param props.className - Additional CSS classes for styling customization
+ * @param props....props - All other props forwarded to p element
+ * @returns JSX element with form validation message or null if no message
+ */
 function FormMessage({ className, ...props }: ComponentProps<'p'>) {
 	const { error, formMessageId } = useFormField()
 	const body = error ? String(error?.message ?? '') : props.children

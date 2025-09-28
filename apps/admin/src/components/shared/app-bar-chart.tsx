@@ -11,7 +11,11 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 	type ChartConfig,
-} from '@/components/ui/chart'
+} from '@/components/ui'
+
+interface Props {
+	dataPromise: Promise<OrderChartType[]>
+}
 
 const chartConfig = {
 	total: {
@@ -33,10 +37,11 @@ const chartConfig = {
 //   { month: "June", total: 214, successful: 140 },
 // ];
 
-export const AppBarChart = ({ dataPromise }: { dataPromise: Promise<OrderChartType[]> }) => {
+export const AppBarChart = ({ dataPromise }: Props) => {
 	const chartData = use(dataPromise)
+
 	return (
-		<div className=''>
+		<div>
 			<h1 className='mb-6 text-lg font-medium'>Total Revenue</h1>
 
 			<ChartContainer config={chartConfig} className='min-h-50 w-full'>
@@ -53,7 +58,16 @@ export const AppBarChart = ({ dataPromise }: { dataPromise: Promise<OrderChartTy
 
 					<YAxis tickLine={false} tickMargin={10} axisLine={false} />
 
-					<ChartTooltip content={<ChartTooltipContent />} />
+					<ChartTooltip
+						content={
+							<ChartTooltipContent
+								active={false}
+								payload={[]}
+								coordinate={{ x: 0, y: 0 }}
+								accessibilityLayer={false}
+							/>
+						}
+					/>
 
 					<ChartLegend content={<ChartLegendContent />} />
 

@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios'
 import {
 	ColumnDef,
 	flexRender,
@@ -18,7 +19,7 @@ import { useRouter } from 'next/navigation'
 import { useMutation } from '@tanstack/react-query'
 
 import { DataTablePagination } from '@/components/shared/table-pagination'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui'
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
@@ -26,6 +27,10 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+	const router = useRouter()
+
+	const { getToken } = useAuth()
+
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({})
 
@@ -43,19 +48,16 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 		},
 	})
 
-	const { getToken } = useAuth()
-	const router = useRouter()
-
 	const mutation = useMutation({
 		mutationFn: async () => {
 			const token = await getToken()
 			const selectedRows = table.getSelectedRowModel().rows
 
-			Promise.all(
+			await Promise.all(
 				selectedRows.map(async (row) => {
 					const userId = (row.original as User).id
-					const res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${userId}`, {
-						method: 'DELETE',
+
+					await axios.delete(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${userId}`, {
 						headers: {
 							Authorization: `Bearer ${token}`,
 						},
@@ -67,8 +69,9 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 			toast.success('User(s) deleted successfully')
 			router.refresh()
 		},
-		onError: (error) => {
-			toast.error(error.message)
+		onError: (error: any) => {
+			const message = error.response?.data?.message || error.message || 'Failed to delete user(s)!'
+			toast.error(message)
 		},
 	})
 

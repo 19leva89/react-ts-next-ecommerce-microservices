@@ -3,13 +3,14 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export const Filter = () => {
-	const searchParams = useSearchParams()
 	const router = useRouter()
 	const pathname = usePathname()
+	const searchParams = useSearchParams()
 
 	const handleFilter = (value: string) => {
 		const params = new URLSearchParams(searchParams)
 		params.set('sort', value)
+
 		router.push(`${pathname}?${params.toString()}`, { scroll: false })
 	}
 

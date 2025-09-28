@@ -15,6 +15,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+	Sheet,
+	SheetTrigger,
 	Sidebar,
 	SidebarContent,
 	SidebarFooter,
@@ -28,13 +34,11 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarSeparator,
-} from '../ui/sidebar'
-import { Sheet, SheetTrigger } from '../ui/sheet'
+} from '@/components/ui'
 import { AddUser } from '@/components/shared/add-user'
 import { AddOrder } from '@/components/shared/add-order'
 import { AddProduct } from '@/components/shared/add-product'
 import { AddCategory } from '@/components/shared/add-category'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../ui/dropdown-menu'
 
 const items = [
 	{

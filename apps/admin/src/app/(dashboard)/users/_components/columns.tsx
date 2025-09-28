@@ -61,7 +61,7 @@ export const columns: ColumnDef<User>[] = [
 		header: 'User',
 		cell: ({ row }) => {
 			const user = row.original
-			return <div className=''>{user.firstName || user.username || '-'}</div>
+			return <div>{user.firstName || user.username || '-'}</div>
 		},
 	},
 	{
@@ -76,7 +76,7 @@ export const columns: ColumnDef<User>[] = [
 		},
 		cell: ({ row }) => {
 			const user = row.original
-			return <div className=''>{user.emailAddresses[0]?.emailAddress}</div>
+			return <div>{user.emailAddresses[0]?.emailAddress}</div>
 		},
 	},
 	{

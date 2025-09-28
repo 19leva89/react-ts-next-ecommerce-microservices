@@ -1,49 +1,65 @@
 'use client'
 
+import axios from 'axios'
 import { useAuth } from '@clerk/nextjs'
 import { useEffect, useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import { CheckoutProvider } from '@stripe/react-stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 import { CartItemsType, ShippingFormInputs } from '@repo/types'
 
 import { CheckoutForm } from './checkout-form'
-import useCartStore from '@/stores/cart-store'
+import { useCartStore } from '@/stores/cart-store'
 
-const stripe = loadStripe(
-	'pk_test_51MdCLkDhkeDdZct5FkM9qMlMvAzsJpObS6eUy44jYLuVMhUFjYjzr4VLodA0GiUj0WBaOSzm38QJ8ju3SAYhdNkF00myyAyh6M',
-)
-
-export const fetchClientSecret = async (cart: CartItemsType, token: string) => {
-	return fetch(`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/create-checkout-session`, {
-		method: 'POST',
-		body: JSON.stringify({
-			cart,
-		}),
-		headers: {
-			'Content-Type': 'application/json',
-			Authorization: `Bearer ${token}`,
-		},
-	})
-		.then((response) => response.json())
-		.then((json) => json.checkoutSessionClientSecret)
+interface Props {
+	shippingForm: ShippingFormInputs
 }
 
-const StripePaymentForm = ({ shippingForm }: { shippingForm: ShippingFormInputs }) => {
-	const { cart } = useCartStore()
-	const [token, setToken] = useState<string | null>(null)
-	const { getToken } = useAuth()
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
+export const fetchClientSecret = async (cart: CartItemsType, token: string): Promise<string> => {
+	try {
+		const { data } = await axios.post(
+			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/create-checkout-session`,
+			{ cart },
+			{
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		)
+
+		return data.checkoutSessionClientSecret
+	} catch (error: any) {
+		console.error(error)
+		throw new Error('Failed to fetch client secret')
+	}
+}
+
+export const StripePaymentForm = ({ shippingForm }: Props) => {
+	const { getToken } = useAuth()
+	const { cart } = useCartStore()
+
+	const [token, setToken] = useState<string | null>(null)
+	const [clientSecret, setClientSecret] = useState<string | null>(null)
+
+	// Get token
 	useEffect(() => {
 		getToken().then((token) => setToken(token))
-	}, [])
+	}, [getToken])
 
-	if (!token) {
-		return <div className=''>Loading...</div>
-	}
+	// Get client secret on cart change
+	useEffect(() => {
+		if (token && cart.length > 0) {
+			fetchClientSecret(cart, token).then(setClientSecret)
+		}
+	}, [token, cart])
+
+	if (!token || !clientSecret) return <div>Loading...</div>
 
 	return (
-		<CheckoutProvider stripe={stripe} options={{ fetchClientSecret: () => fetchClientSecret(cart, token) }}>
+		<Elements stripe={stripePromise} options={{ clientSecret }}>
 			<CheckoutForm shippingForm={shippingForm} />
-		</CheckoutProvider>
+		</Elements>
 	)
 }

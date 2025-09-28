@@ -1,4 +1,6 @@
+import axios from 'axios'
 import { auth } from '@clerk/nextjs/server'
+import { OrderChartType } from '@repo/types'
 
 import { CardList } from '@/components/shared/card-list'
 import { TodoList } from '@/components/shared/todo-list'
@@ -8,13 +10,16 @@ import { AppAreaChart } from '@/components/shared/app-area-chart'
 
 const Homepage = async () => {
 	const { getToken } = await auth()
+
 	const token = await getToken()
 
-	const orderChartData = fetch(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/order-chart`, {
-		headers: {
-			Authorization: `Bearer ${token}`,
-		},
-	})
+	const orderChartData = axios
+		.get<OrderChartType[]>(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/order-chart`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		})
+		.then((response) => response.data)
 
 	return (
 		<div className='grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-4'>

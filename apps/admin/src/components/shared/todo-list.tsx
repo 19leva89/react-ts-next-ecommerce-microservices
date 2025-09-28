@@ -4,19 +4,23 @@ import { useState } from 'react'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 
-import { Card } from '../ui/card'
-import { Button } from '../ui/button'
-import { Checkbox } from '../ui/checkbox'
-import { Calendar } from '../ui/calendar'
-import { ScrollArea } from '../ui/scroll-area'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
+import {
+	Button,
+	Calendar,
+	Card,
+	Checkbox,
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+	ScrollArea,
+} from '@/components/ui'
 
 export const TodoList = () => {
 	const [open, setOpen] = useState<boolean>(false)
 	const [date, setDate] = useState<Date | undefined>(new Date())
 
 	return (
-		<div className=''>
+		<div>
 			<h1 className='mb-6 text-lg font-medium'>Todo List</h1>
 
 			<Popover open={open} onOpenChange={setOpen}>

@@ -7,12 +7,12 @@ export const Footer = () => {
 			<div className='flex flex-col items-center gap-4 md:items-start'>
 				<Link href='/' className='flex items-center'>
 					<Image src='/logo.png' alt='TrendLama' width={36} height={36} />
-					<p className='text-md hidden font-medium tracking-wider text-white md:block'>TRENDLAMA.</p>
+					<p className='text-md hidden font-medium tracking-wider text-white md:block'>TRENDDIMA</p>
 				</Link>
 
-				<p className='text-sm text-gray-400'>© 2025 Trendlama.</p>
+				<p className='text-sm text-gray-400'>© 2025 TrendDima</p>
 
-				<p className='text-sm text-gray-400'>All rights reserved.</p>
+				<p className='text-sm text-gray-400'>All rights reserved</p>
 			</div>
 
 			<div className='flex flex-col items-center gap-4 text-sm text-gray-400 md:items-start'>

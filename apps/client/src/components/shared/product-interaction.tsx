@@ -6,7 +6,7 @@ import { ProductType } from '@repo/types'
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-import useCartStore from '@/stores/cart-store'
+import { useCartStore } from '@/stores/cart-store'
 
 export const ProductInteraction = ({
 	product,

@@ -1,8 +1,5 @@
 'use client'
 
-import * as RechartsPrimitive from 'recharts'
-
-import { cn } from '@/lib/utils'
 import {
 	ComponentProps,
 	ComponentType,
@@ -13,6 +10,14 @@ import {
 	useId,
 	useMemo,
 } from 'react'
+import DOMPurify from 'isomorphic-dompurify'
+import * as RechartsPrimitive from 'recharts'
+import { TooltipContentProps } from 'recharts/types/component/Tooltip'
+import type { Props as LegendProps } from 'recharts/types/component/Legend'
+import type { LegendPayload } from 'recharts/types/component/DefaultLegendContent'
+import { NameType, Payload, ValueType } from 'recharts/types/component/DefaultTooltipContent'
+
+import { cn } from '@/lib'
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: '', dark: '.dark' } as const
@@ -30,6 +35,12 @@ type ChartContextProps = {
 
 const ChartContext = createContext<ChartContextProps | null>(null)
 
+/**
+ * Hook for accessing chart context data within chart components
+ * Must be used within a ChartContainer component to access chart configuration
+ * @throws Error if used outside of ChartContainer
+ * @returns Chart context containing configuration and other chart-related data
+ */
 function useChart() {
 	const context = useContext(ChartContext)
 
@@ -40,6 +51,16 @@ function useChart() {
 	return context
 }
 
+/**
+ * Chart container component that wraps Recharts ResponsiveContainer with custom styling and configuration
+ * Provides chart context and applies consistent styling for chart elements
+ * @param props - Component props including div props and chart-specific options
+ * @param props.id - Optional chart identifier for unique styling
+ * @param props.className - Additional CSS classes to merge with chart container styling
+ * @param props.children - Recharts components to render within the responsive container
+ * @param props.config - Chart configuration object containing styling and data mapping
+ * @returns JSX element with chart context provider and responsive container
+ */
 function ChartContainer({
 	id,
 	className,
@@ -81,20 +102,22 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 	return (
 		<style
 			dangerouslySetInnerHTML={{
-				__html: Object.entries(THEMES)
-					.map(
-						([theme, prefix]) => `
-${prefix} [data-chart=${id}] {
-${colorConfig
-	.map(([key, itemConfig]) => {
-		const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color
-		return color ? `  --color-${key}: ${color};` : null
-	})
-	.join('\n')}
-}
-`,
-					)
-					.join('\n'),
+				__html: DOMPurify.sanitize(
+					Object.entries(THEMES)
+						.map(
+							([theme, prefix]) => `
+            ${prefix} [data-chart=${id}] {
+            ${colorConfig
+							.map(([key, itemConfig]) => {
+								const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color
+								return color ? `  --color-${key}: ${color};` : null
+							})
+							.join('\n')}
+            }
+            `,
+						)
+						.join('\n'),
+				),
 			}}
 		/>
 	)
@@ -102,6 +125,47 @@ ${colorConfig
 
 const ChartTooltip = RechartsPrimitive.Tooltip
 
+type CustomTooltipProps = TooltipContentProps<ValueType, NameType> & {
+	className?: string
+	hideLabel?: boolean
+	hideIndicator?: boolean
+	indicator?: 'line' | 'dot' | 'dashed'
+	nameKey?: string
+	labelKey?: string
+	labelFormatter?: (
+		label: TooltipContentProps<number, string>['label'],
+		payload: TooltipContentProps<number, string>['payload'],
+	) => ReactNode
+	formatter?: (
+		value: number | string,
+		name: string,
+		item: Payload<number | string, string>,
+		index: number,
+		payload: ReadonlyArray<Payload<number | string, string>>,
+	) => ReactNode
+	labelClassName?: string
+	color?: string
+}
+
+/**
+ * Chart tooltip content component that renders customizable tooltip with indicators and formatting
+ * Handles payload data display with configurable indicators, labels, and custom formatting options
+ * @param props - Chart tooltip content props
+ * @param props.active - Whether the tooltip is currently active/visible
+ * @param props.payload - Array of data objects for the tooltip
+ * @param props.label - The label for the tooltip
+ * @param props.className - Additional CSS classes to apply to the tooltip container
+ * @param props.indicator - Type of indicator to show for each data item ('dot', 'line', 'dashed')
+ * @param props.hideLabel - Whether to hide the tooltip label
+ * @param props.hideIndicator - Whether to hide the data indicators
+ * @param props.labelFormatter - Custom formatter function for the label
+ * @param props.formatter - Custom formatter function for individual data items
+ * @param props.labelClassName - Additional CSS classes for the label element
+ * @param props.color - Override color for indicators
+ * @param props.nameKey - Key to use for extracting item names from payload
+ * @param props.labelKey - Key to use for extracting label from payload
+ * @returns JSX element with formatted tooltip content or null if inactive
+ */
 function ChartTooltipContent({
 	active,
 	payload,
@@ -116,14 +180,7 @@ function ChartTooltipContent({
 	color,
 	nameKey,
 	labelKey,
-}: ComponentProps<typeof RechartsPrimitive.Tooltip> &
-	ComponentProps<'div'> & {
-		hideLabel?: boolean
-		hideIndicator?: boolean
-		indicator?: 'line' | 'dot' | 'dashed'
-		nameKey?: string
-		labelKey?: string
-	}) {
+}: CustomTooltipProps) {
 	const { config } = useChart()
 
 	const tooltipLabel = useMemo(() => {
@@ -165,7 +222,7 @@ function ChartTooltipContent({
 		>
 			{!nestLabel ? tooltipLabel : null}
 			<div className='grid gap-1.5'>
-				{payload.map((item, index) => {
+				{payload.map((item, i) => {
 					const key = `${nameKey || item.name || item.dataKey || 'value'}`
 					const itemConfig = getPayloadConfigFromPayload(config, item, key)
 					const indicatorColor = color || item.payload.fill || item.color
@@ -179,7 +236,7 @@ function ChartTooltipContent({
 							)}
 						>
 							{formatter && item?.value !== undefined && item.name ? (
-								formatter(item.value, item.name, item, index, item.payload)
+								formatter(item.value, item.name, item, i, item.payload)
 							) : (
 								<>
 									{itemConfig?.icon ? (
@@ -188,7 +245,7 @@ function ChartTooltipContent({
 										!hideIndicator && (
 											<div
 												className={cn('border-(--color-border) bg-(--color-bg) shrink-0 rounded-[2px]', {
-													'h-2.5 w-2.5': indicator === 'dot',
+													'size-2.5': indicator === 'dot',
 													'w-1': indicator === 'line',
 													'w-0 border-[1.5px] border-dashed bg-transparent': indicator === 'dashed',
 													'my-0.5': nestLabel && indicator === 'dashed',
@@ -230,17 +287,32 @@ function ChartTooltipContent({
 
 const ChartLegend = RechartsPrimitive.Legend
 
+type ChartLegendContentProps = {
+	className?: string
+	hideIcon?: boolean
+	verticalAlign?: LegendProps['verticalAlign']
+	payload?: LegendPayload[]
+	nameKey?: string
+}
+
+/**
+ * Chart legend content component that displays legend items with icons and labels
+ * Handles legend item rendering with configurable icons, colors, and vertical alignment
+ * @param props - Chart legend content props
+ * @param props.className - Additional CSS classes for styling the legend container
+ * @param props.hideIcon - Whether to hide icons for legend items
+ * @param props.payload - Array of legend data objects to display
+ * @param props.verticalAlign - Vertical alignment position ('top' or 'bottom')
+ * @param props.nameKey - Key to use for extracting item names from payload
+ * @returns JSX element with rendered legend items or null if no payload
+ */
 function ChartLegendContent({
 	className,
 	hideIcon = false,
 	payload,
 	verticalAlign = 'bottom',
 	nameKey,
-}: ComponentProps<'div'> &
-	Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & {
-		hideIcon?: boolean
-		nameKey?: string
-	}) {
+}: ChartLegendContentProps) {
 	const { config } = useChart()
 
 	if (!payload?.length) {
@@ -282,7 +354,14 @@ function ChartLegendContent({
 	)
 }
 
-// Helper to extract item config from a payload.
+/**
+ * Extracts chart configuration for a payload item based on a given key
+ * Handles nested payload structures and fallback key resolution for chart config lookup
+ * @param config - Chart configuration object containing item definitions
+ * @param payload - Payload data object (potentially nested with payload property)
+ * @param key - Key string to use for configuration lookup
+ * @returns Chart config item for the payload or undefined if not found
+ */
 function getPayloadConfigFromPayload(config: ChartConfig, payload: unknown, key: string) {
 	if (typeof payload !== 'object' || payload === null) {
 		return undefined

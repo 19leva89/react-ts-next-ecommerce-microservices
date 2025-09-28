@@ -9,7 +9,7 @@ import {
 	ChartTooltip,
 	ChartTooltipContent,
 	type ChartConfig,
-} from '@/components/ui/chart'
+} from '@/components/ui'
 
 const chartConfig = {
 	desktop: {
@@ -33,7 +33,7 @@ const chartData = [
 
 export const AppAreaChart = () => {
 	return (
-		<div className=''>
+		<div>
 			<h1 className='mb-6 text-lg font-medium'>Total Visitors</h1>
 
 			<ChartContainer config={chartConfig} className='min-h-50 w-full'>
@@ -49,7 +49,16 @@ export const AppAreaChart = () => {
 
 					<YAxis tickLine={false} tickMargin={10} axisLine={false} />
 
-					<ChartTooltip content={<ChartTooltipContent />} />
+					<ChartTooltip
+						content={
+							<ChartTooltipContent
+								active={false}
+								payload={[]}
+								coordinate={{ x: 0, y: 0 }}
+								accessibilityLayer={false}
+							/>
+						}
+					/>
 
 					<ChartLegend content={<ChartLegendContent />} />
 

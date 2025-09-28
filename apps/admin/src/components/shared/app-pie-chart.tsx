@@ -3,7 +3,7 @@
 import { TrendingUpIcon } from 'lucide-react'
 import { Label, Pie, PieChart } from 'recharts'
 
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../ui/chart'
+import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui'
 
 const chartConfig = {
 	visitors: {
@@ -44,12 +44,23 @@ export const AppPieChart = () => {
 	const totalVisitors = chartData.reduce((acc, curr) => acc + curr.visitors, 0)
 
 	return (
-		<div className=''>
+		<div>
 			<h1 className='mb-6 text-lg font-medium'>Browser Usage</h1>
 
 			<ChartContainer config={chartConfig} className='mx-auto aspect-square max-h-[250px]'>
 				<PieChart>
-					<ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
+					<ChartTooltip
+						cursor={false}
+						content={
+							<ChartTooltipContent
+								hideLabel
+								active={false}
+								payload={[]}
+								coordinate={{ x: 0, y: 0 }}
+								accessibilityLayer={false}
+							/>
+						}
+					/>
 
 					<Pie data={chartData} dataKey='visitors' nameKey='browser' innerRadius={60} strokeWidth={5}>
 						<Label

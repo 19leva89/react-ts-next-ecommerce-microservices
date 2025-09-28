@@ -4,15 +4,25 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import { SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../ui/form'
+import {
+	Button,
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+	Input,
+	SheetContent,
+	SheetDescription,
+	SheetHeader,
+	SheetTitle,
+} from '@/components/ui'
 
 const formSchema = z.object({
 	fullName: z.string().min(2, { message: 'Full name must be at least 2 characters!' }).max(50),
-	email: z.string().email({ message: 'Invalid email address!' }),
+	email: z.email({ message: 'Invalid email address!' }),
 	phone: z.string().min(10).max(15),
 	address: z.string().min(2),
 	city: z.string().min(2),

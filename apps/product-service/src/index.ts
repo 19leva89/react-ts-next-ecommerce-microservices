@@ -1,5 +1,5 @@
 import cors from 'cors'
-import { clerkMiddleware, getAuth } from '@clerk/express'
+import { clerkMiddleware } from '@clerk/express'
 import express, { NextFunction, Request, Response } from 'express'
 
 import productRouter from './routes/product.route'

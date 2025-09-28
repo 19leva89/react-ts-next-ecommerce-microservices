@@ -1,9 +1,10 @@
+import axios from 'axios'
 import Link from 'next/link'
 import { ProductsType, ProductType } from '@repo/types'
 
-import Filter from './filter'
-import Categories from './categories'
-import ProductCard from './product-card'
+import { Filter } from './filter'
+import { Categories } from './categories'
+import { ProductCard } from './product-card'
 
 // TEMPORARY
 // const products: ProductsType = [
@@ -141,35 +142,31 @@ import ProductCard from './product-card'
 //   },
 // ];
 
-const fetchData = async ({
-	category,
-	sort,
-	search,
-	params,
-}: {
-	category?: string
-	sort?: string
-	search?: string
-	params: 'homepage' | 'products'
-}) => {
-	const res = await fetch(
-		`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products?${category ? `category=${category}` : ''}${search ? `&search=${search}` : ''}&sort=${sort || 'newest'}${params === 'homepage' ? '&limit=8' : ''}`,
-	)
-	const data: ProductType[] = await res.json()
-	return data
-}
-
-export const ProductList = async ({
-	category,
-	sort,
-	search,
-	params,
-}: {
+interface Props {
 	category: string
 	sort?: string
 	search?: string
 	params: 'homepage' | 'products'
-}) => {
+}
+
+const fetchData = async ({ category, sort, search, params }: Props): Promise<ProductType[]> => {
+	const queryParams: Record<string, string | number> = {}
+
+	if (category) queryParams.category = category
+	if (search) queryParams.search = search
+
+	queryParams.sort = sort || 'newest'
+
+	if (params === 'homepage') queryParams.limit = 8
+
+	const { data } = await axios.get<ProductType[]>(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products`, {
+		params: queryParams,
+	})
+
+	return data
+}
+
+export const ProductList = async ({ category, sort, search, params }: Props) => {
 	const products = await fetchData({ category, sort, search, params })
 
 	return (

@@ -1,37 +1,43 @@
+import axios from 'axios'
 import { auth, User } from '@clerk/nextjs/server'
 import { BadgeCheckIcon, CandyIcon, CitrusIcon, ShieldIcon } from 'lucide-react'
 
 import {
+	Avatar,
+	AvatarFallback,
+	AvatarImage,
 	Breadcrumb,
 	BreadcrumbItem,
 	BreadcrumbLink,
 	BreadcrumbList,
 	BreadcrumbPage,
 	BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
+	Button,
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+	Progress,
+	Sheet,
+	SheetTrigger,
+} from '@/components/ui'
 import { EditUser } from '@/components/shared/edit-user'
-import { CardList } from '@/components/shared/card-list'
-import { Sheet, SheetTrigger } from '@/components/ui/sheet'
 import { AppLineChart } from '@/components/shared/app-line-chart'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card'
 
 const getData = async (id: string): Promise<User | null> => {
 	const { getToken } = await auth()
 	const token = await getToken()
+
 	try {
-		const res = await fetch(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${id}`, {
+		const { data } = await axios.get<User>(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${id}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
 		})
-		const data = await res.json()
+
 		return data
-	} catch (err) {
-		console.log(err)
+	} catch (error: any) {
+		console.error(error)
+
 		return null
 	}
 }
@@ -41,11 +47,11 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 	const data = await getData(id)
 
 	if (!data) {
-		return <div className=''>User not found!</div>
+		return <div>User not found!</div>
 	}
 
 	return (
-		<div className=''>
+		<div>
 			<Breadcrumb>
 				<BreadcrumbList>
 					<BreadcrumbItem>

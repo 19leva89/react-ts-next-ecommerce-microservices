@@ -1,9 +1,9 @@
+import axios from 'axios'
 import Image from 'next/image'
 import { auth } from '@clerk/nextjs/server'
 import { OrderType, ProductsType } from '@repo/types'
 
-import { Badge } from '../ui/badge'
-import { Card, CardContent, CardFooter, CardTitle } from '../ui/card'
+import { Badge, Card, CardContent, CardFooter, CardTitle } from '@/components/ui'
 
 // const popularProducts = [
 //   {
@@ -124,26 +124,31 @@ import { Card, CardContent, CardFooter, CardTitle } from '../ui/card'
 // ];
 
 export const CardList = async ({ title }: { title: string }) => {
-	let products: ProductsType = []
 	let orders: OrderType[] = []
+	let products: ProductsType = []
 
 	const { getToken } = await auth()
 	const token = await getToken()
 
 	if (title === 'Popular Products') {
-		products = await fetch(
-			`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products?limit=5&popular=true`,
-		).then((res) => res.json())
+		products = (
+			await axios.get(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products`, {
+				params: { limit: 5, popular: true },
+			})
+		).data
 	} else {
-		orders = await fetch(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/orders?limit=5`, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		}).then((res) => res.json())
+		orders = (
+			await axios.get(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/orders`, {
+				params: { limit: 5 },
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+		).data
 	}
 
 	return (
-		<div className=''>
+		<div>
 			<h1 className='mb-6 text-lg font-medium'>{title}</h1>
 
 			<div className='flex flex-col gap-2'>
