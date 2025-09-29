@@ -19,6 +19,7 @@ export const shouldBeUser = createMiddleware<{
 
 	await next()
 })
+
 export const shouldBeAdmin = createMiddleware<{
 	Variables: {
 		userId: string

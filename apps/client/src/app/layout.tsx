@@ -3,11 +3,11 @@ import { PropsWithChildren } from 'react'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Geist, Geist_Mono } from 'next/font/google'
 
+import '@repo/ui/globals.css'
+
 import { Navbar } from '@/components/shared/navbar'
 import { Footer } from '@/components/shared/footer'
 import { ToasterProvider } from '@/components/shared/providers/toaster-provider'
-
-import './globals.css'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',

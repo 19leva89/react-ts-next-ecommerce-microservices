@@ -20,6 +20,7 @@ const OrderSchema = new Schema(
 			],
 			required: true,
 		},
+		// shippingAddress: { type: Object, required: true },
 	},
 	{ timestamps: true },
 )

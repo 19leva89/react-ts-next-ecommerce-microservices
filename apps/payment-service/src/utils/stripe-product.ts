@@ -12,31 +12,37 @@ export const createStripeProduct = async (item: StripeProductType) => {
 				unit_amount: item.price * 100,
 			},
 		})
+
 		return res
 	} catch (error) {
 		console.log(error)
+
 		return error
 	}
 }
 
-export const getStripeProductPrice = async (productId: number) => {
+export const getStripeProductPrice = async (productId: string) => {
 	try {
 		const res = await stripe.prices.list({
-			product: productId.toString(),
+			product: productId,
 		})
+
 		return res.data[0]?.unit_amount
 	} catch (error) {
 		console.log(error)
+
 		return error
 	}
 }
 
-export const deleteStripeProduct = async (productId: number) => {
+export const deleteStripeProduct = async (productId: string) => {
 	try {
-		const res = await stripe.products.del(productId.toString())
+		const res = await stripe.products.del(productId)
+
 		return res
 	} catch (error) {
 		console.log(error)
+
 		return error
 	}
 }

@@ -18,7 +18,7 @@ app.use(
 app.use(express.json())
 app.use(clerkMiddleware())
 
-app.get('/health', (req: Request, res: Response) => {
+app.get('/health', (_req: Request, res: Response) => {
 	return res.status(200).json({
 		status: 'ok',
 		uptime: process.uptime(),
@@ -33,19 +33,22 @@ app.get('/test', shouldBeUser, (req, res) => {
 app.use('/products', productRouter)
 app.use('/categories', categoryRouter)
 
-app.use((err: any, _req: Request, res: Response, next: NextFunction) => {
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
 	console.log(err)
+
 	return res.status(err.status || 500).json({ message: err.message || 'Inter Server Error!' })
 })
 
 const start = async () => {
 	try {
 		Promise.all([await producer.connect(), await consumer.connect()])
+
 		app.listen(8000, () => {
 			console.log('Product service is running on 8000')
 		})
 	} catch (error) {
 		console.log(error)
+
 		process.exit(1)
 	}
 }

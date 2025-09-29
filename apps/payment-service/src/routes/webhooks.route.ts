@@ -53,6 +53,7 @@ webhookRoute.post('/stripe', async (c) => {
 		default:
 			break
 	}
+
 	return c.json({ received: true })
 })
 

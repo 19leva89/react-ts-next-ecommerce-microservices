@@ -8,17 +8,17 @@ declare module 'fastify' {
 	}
 }
 
-export const shouldBeUser = async (request: FastifyRequest, reply: FastifyReply) => {
-	const { userId } = Clerk.getAuth(request)
+export const shouldBeUser = async (req: FastifyRequest, reply: FastifyReply) => {
+	const { userId } = Clerk.getAuth(req)
 	if (!userId) {
 		return reply.status(401).send({ message: 'You are not logged in!' })
 	}
 
-	request.userId = userId
+	req.userId = userId
 }
 
-export const shouldBeAdmin = async (request: FastifyRequest, reply: FastifyReply) => {
-	const auth = Clerk.getAuth(request)
+export const shouldBeAdmin = async (req: FastifyRequest, reply: FastifyReply) => {
+	const auth = Clerk.getAuth(req)
 	if (!auth.userId) {
 		return reply.status(401).send({ message: 'You are not logged in!' })
 	}
@@ -29,5 +29,5 @@ export const shouldBeAdmin = async (request: FastifyRequest, reply: FastifyReply
 		return reply.status(403).send({ message: 'Unauthorized!' })
 	}
 
-	request.userId = auth.userId
+	req.userId = auth.userId
 }

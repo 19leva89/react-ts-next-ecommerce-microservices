@@ -39,7 +39,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 	const data: Prisma.ProductUpdateInput = req.body
 
 	const updatedProduct = await prisma.product.update({
-		where: { id: Number(id) },
+		where: { id },
 		data,
 	})
 
@@ -50,7 +50,7 @@ export const deleteProduct = async (req: Request, res: Response) => {
 	const { id } = req.params
 
 	const deletedProduct = await prisma.product.delete({
-		where: { id: Number(id) },
+		where: { id },
 	})
 
 	producer.send('product.deleted', { value: Number(id) })
@@ -98,7 +98,7 @@ export const getProduct = async (req: Request, res: Response) => {
 	const { id } = req.params
 
 	const product = await prisma.product.findUnique({
-		where: { id: Number(id) },
+		where: { id },
 	})
 
 	return res.status(200).json(product)

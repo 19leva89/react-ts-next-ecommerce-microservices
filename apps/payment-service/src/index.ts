@@ -9,6 +9,7 @@ import { consumer, producer } from './utils/kafka.js'
 import { runKafkaSubscriptions } from './utils/subscriptions.js'
 
 const app = new Hono()
+
 app.use('*', clerkMiddleware())
 app.use('*', cors({ origin: ['http://localhost:3002'] }))
 
@@ -47,7 +48,9 @@ app.route('/webhooks', webhookRoute)
 const start = async () => {
 	try {
 		Promise.all([await producer.connect(), await consumer.connect()])
+
 		await runKafkaSubscriptions()
+
 		serve(
 			{
 				fetch: app.fetch,
@@ -59,6 +62,7 @@ const start = async () => {
 		)
 	} catch (error) {
 		console.log(error)
+
 		process.exit(1)
 	}
 }

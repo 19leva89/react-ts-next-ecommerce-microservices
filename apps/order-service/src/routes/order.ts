@@ -6,18 +6,20 @@ import { startOfMonth, subMonths } from 'date-fns'
 import { shouldBeAdmin, shouldBeUser } from '../middleware/auth-middleware'
 
 export const orderRoute = async (fastify: FastifyInstance) => {
-	fastify.get('/user-orders', { preHandler: shouldBeUser }, async (request, reply) => {
-		const orders = await Order.find({ userId: request.userId })
+	fastify.get('/user-orders', { preHandler: shouldBeUser }, async (req, reply) => {
+		const orders = await Order.find({ userId: req.userId })
+
 		return reply.send(orders)
 	})
 
-	fastify.get('/orders', { preHandler: shouldBeAdmin }, async (request, reply) => {
-		const { limit } = request.query as { limit: number }
+	fastify.get('/orders', { preHandler: shouldBeAdmin }, async (req, reply) => {
+		const { limit } = req.query as { limit: number }
 		const orders = await Order.find().limit(limit).sort({ createdAt: -1 })
+
 		return reply.send(orders)
 	})
 
-	fastify.get('/order-chart', { preHandler: shouldBeAdmin }, async (request, reply) => {
+	fastify.get('/order-chart', { preHandler: shouldBeAdmin }, async (_req, reply) => {
 		const now = new Date()
 		const sixMonthsAgo = startOfMonth(subMonths(now, 5))
 

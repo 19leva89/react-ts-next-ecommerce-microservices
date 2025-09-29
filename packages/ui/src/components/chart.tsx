@@ -10,7 +10,6 @@ import {
 	useId,
 	useMemo,
 } from 'react'
-import DOMPurify from 'isomorphic-dompurify'
 import * as RechartsPrimitive from 'recharts'
 import { TooltipContentProps } from 'recharts/types/component/Tooltip'
 import type { Props as LegendProps } from 'recharts/types/component/Legend'
@@ -102,10 +101,9 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 	return (
 		<style
 			dangerouslySetInnerHTML={{
-				__html: DOMPurify.sanitize(
-					Object.entries(THEMES)
-						.map(
-							([theme, prefix]) => `
+				__html: Object.entries(THEMES)
+					.map(
+						([theme, prefix]) => `
             ${prefix} [data-chart=${id}] {
             ${colorConfig
 							.map(([key, itemConfig]) => {
@@ -115,9 +113,8 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 							.join('\n')}
             }
             `,
-						)
-						.join('\n'),
-				),
+					)
+					.join('\n'),
 			}}
 		/>
 	)

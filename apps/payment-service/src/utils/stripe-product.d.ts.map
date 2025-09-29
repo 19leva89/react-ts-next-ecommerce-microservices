@@ -1,1 +1,0 @@
-{"version":3,"file":"stripe-product.d.ts","sourceRoot":"","sources":["stripe-product.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,iBAAiB,EAAE,MAAM,aAAa,CAAA;AAI/C,eAAO,MAAM,mBAAmB,GAAU,MAAM,iBAAiB,qBAehE,CAAA;AAED,eAAO,MAAM,qBAAqB,GAAU,WAAW,MAAM,qBAU5D,CAAA;AAED,eAAO,MAAM,mBAAmB,GAAU,WAAW,MAAM,qBAQ1D,CAAA"}

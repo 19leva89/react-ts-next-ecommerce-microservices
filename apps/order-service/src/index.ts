@@ -11,7 +11,7 @@ const fastify = Fastify()
 
 fastify.register(Clerk.clerkPlugin)
 
-fastify.get('/health', (request, reply) => {
+fastify.get('/health', (_req, reply) => {
 	return reply.status(200).send({
 		status: 'ok',
 		uptime: process.uptime(),
@@ -19,10 +19,10 @@ fastify.get('/health', (request, reply) => {
 	})
 })
 
-fastify.get('/test', { preHandler: shouldBeUser }, (request, reply) => {
+fastify.get('/test', { preHandler: shouldBeUser }, (req, reply) => {
 	return reply.send({
 		message: 'Order service is authenticated!',
-		userId: request.userId,
+		userId: req.userId,
 	})
 })
 

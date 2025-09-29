@@ -19,7 +19,7 @@ export const UserFormSchema = z.object({
 		.string({ message: 'Username is required!' })
 		.min(2, { message: 'Username must be at least 2 characters!' })
 		.max(50),
-	emailAddress: z.array(z.string({ message: 'Email address is required!' })),
+	emailAddress: z.array(z.email({ message: 'Email address is required!' })),
 	password: z
 		.string({ message: 'Password is required!' })
 		.min(8, { message: 'Password must be at least 8 characters!' })

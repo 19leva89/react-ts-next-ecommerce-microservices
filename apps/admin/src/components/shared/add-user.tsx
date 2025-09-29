@@ -1,8 +1,8 @@
 'use client'
 
-import { z } from 'zod'
 import axios from 'axios'
 import { toast } from 'sonner'
+import { z } from '@repo/types'
 import { useAuth } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
 import { UserFormSchema } from '@repo/types'

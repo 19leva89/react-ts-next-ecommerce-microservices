@@ -3,11 +3,6 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "exports": {
-    "./base": "./base.js",
-    "./next-js": "./next.js",
-    "./react-internal": "./react-internal.js"
-  },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
     "@next/eslint-plugin-next": "^15.5.4",
@@ -19,5 +14,10 @@
     "eslint-plugin-turbo": "^2.5.8",
     "globals": "^16.4.0",
     "typescript-eslint": "^8.44.1"
+  },
+  "exports": {
+    "./base": "./base.js",
+    "./next-js": "./next.js",
+    "./react-internal": "./react-internal.js"
   }
 }
