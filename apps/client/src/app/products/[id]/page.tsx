@@ -2,7 +2,7 @@ import axios from 'axios'
 import Image from 'next/image'
 import { ProductType } from '@repo/types'
 
-import { ProductInteraction } from '@/components/shared/product-interaction'
+import { ProductInteraction } from '@/components/shared'
 
 // TEMPORARY
 // const product: ProductType = {

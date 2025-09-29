@@ -1,9 +1,5 @@
 'use client'
 
-import { z } from '@repo/types'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-
 import {
 	Button,
 	Form,
@@ -19,6 +15,9 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from '@repo/ui/components'
+import { z } from '@repo/types'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const formSchema = z.object({
 	fullName: z.string().min(2, { message: 'Full name must be at least 2 characters!' }).max(50),

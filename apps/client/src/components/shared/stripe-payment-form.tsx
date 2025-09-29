@@ -7,7 +7,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { CartItemsType, ShippingFormInputs } from '@repo/types'
 
-import { CheckoutForm } from './checkout-form'
+import { CheckoutForm } from '@/components/shared'
 import { useCartStore } from '@/stores/cart-store'
 
 interface Props {

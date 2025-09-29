@@ -1,3 +1,5 @@
+'use client'
+
 import {
 	HomeIcon,
 	InboxIcon,
@@ -11,9 +13,6 @@ import {
 	UserIcon,
 	ShoppingBasketIcon,
 } from 'lucide-react'
-import Link from 'next/link'
-import Image from 'next/image'
-
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -35,10 +34,10 @@ import {
 	SidebarMenuItem,
 	SidebarSeparator,
 } from '@repo/ui/components'
-import { AddUser } from '@/components/shared/add-user'
-import { AddOrder } from '@/components/shared/add-order'
-import { AddProduct } from '@/components/shared/add-product'
-import { AddCategory } from '@/components/shared/add-category'
+import Link from 'next/link'
+import Image from 'next/image'
+
+import { AddCategory, AddOrder, AddProduct, AddUser } from '@/components/shared'
 
 const items = [
 	{
@@ -138,6 +137,7 @@ export const AppSidebar = () => {
 												</Link>
 											</SidebarMenuButton>
 										</SheetTrigger>
+
 										<AddProduct />
 									</Sheet>
 								</SidebarMenuButton>
@@ -154,6 +154,7 @@ export const AppSidebar = () => {
 												</Link>
 											</SidebarMenuButton>
 										</SheetTrigger>
+
 										<AddCategory />
 									</Sheet>
 								</SidebarMenuButton>

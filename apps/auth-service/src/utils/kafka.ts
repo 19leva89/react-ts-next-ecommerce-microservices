@@ -1,4 +1,7 @@
-import { createKafkaClient, createProducer } from '@repo/kafka'
+import { createKafkaClient, createKafkaTopic, createProducer } from '@repo/kafka'
 
-const kafka = createKafkaClient('email-service')
-export const producer = createProducer(kafka)
+const kafkaClient = createKafkaClient('email-service')
+
+await createKafkaTopic(kafkaClient, 'user.created')
+
+export const producer = createProducer(kafkaClient)

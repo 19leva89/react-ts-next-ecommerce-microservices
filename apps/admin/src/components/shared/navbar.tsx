@@ -1,9 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import { useTheme } from 'next-themes'
-import { LogOutIcon, MoonIcon, SettingsIcon, SunIcon, UserIcon } from 'lucide-react'
-
 import {
 	Avatar,
 	AvatarFallback,
@@ -17,6 +14,8 @@ import {
 	DropdownMenuTrigger,
 	SidebarTrigger,
 } from '@repo/ui/components'
+import { useTheme } from 'next-themes'
+import { LogOutIcon, MoonIcon, SettingsIcon, SunIcon, UserIcon } from 'lucide-react'
 
 export const Navbar = () => {
 	const { setTheme } = useTheme()

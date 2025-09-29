@@ -2,15 +2,18 @@
   "name": "payment-service",
   "type": "module",
   "scripts": {
-    "dev": "tsx --env-file=.env --watch src/index.ts",
+    "dev": "tsx scripts/ngrok.ts --env-file=.env --watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "ngrok": "tsx scripts/ngrok.ts"
   },
   "dependencies": {
-    "@repo/kafka": "workspace:*",
     "@hono/clerk-auth": "^3.0.3",
     "@hono/node-server": "^1.19.4",
+    "@ngrok/ngrok": "^1.5.2",
+    "@repo/kafka": "workspace:*",
+    "dotenv": "^17.2.2",
     "hono": "^4.9.9",
     "stripe": "^18.5.0"
   },

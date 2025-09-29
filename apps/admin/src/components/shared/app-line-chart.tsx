@@ -1,7 +1,6 @@
 'use client'
 
 import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts'
-
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@repo/ui/components'
 
 const chartData = [

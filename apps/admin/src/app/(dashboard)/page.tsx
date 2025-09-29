@@ -3,10 +3,7 @@ import { auth } from '@clerk/nextjs/server'
 import { OrderChartType } from '@repo/types'
 
 import { CardList } from '@/components/shared/card-list'
-import { TodoList } from '@/components/shared/todo-list'
-import { AppBarChart } from '@/components/shared/app-bar-chart'
-import { AppPieChart } from '@/components/shared/app-pie-chart'
-import { AppAreaChart } from '@/components/shared/app-area-chart'
+import { AppAreaChart, AppBarChart, AppPieChart, TodoList } from '@/components/shared'
 
 const Homepage = async () => {
 	const { getToken } = await auth()

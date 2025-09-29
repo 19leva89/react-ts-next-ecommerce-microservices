@@ -16,7 +16,11 @@ app.use(
 	}),
 )
 app.use(express.json())
-app.use(clerkMiddleware())
+app.use(
+	clerkMiddleware({
+		secretKey: process.env.CLERK_SECRET_KEY,
+	}),
+)
 
 app.get('/health', (_req: Request, res: Response) => {
 	return res.status(200).json({

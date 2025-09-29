@@ -3,9 +3,7 @@ import Image from 'next/image'
 import { BellIcon, HomeIcon } from 'lucide-react'
 import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
 
-import { SearchBar } from './search-bar'
-import { ProfileButton } from './profile-button'
-import { ShoppingCartIcon } from './shopping-cart-icon'
+import { ProfileButton, SearchBar, ShoppingCartIcon } from '@/components/shared'
 
 export const Navbar = () => {
 	return (

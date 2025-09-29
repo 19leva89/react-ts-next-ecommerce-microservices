@@ -2,7 +2,6 @@ import axios from 'axios'
 import Image from 'next/image'
 import { auth } from '@clerk/nextjs/server'
 import { OrderType, ProductsType } from '@repo/types'
-
 import { Badge, Card, CardContent, CardFooter, CardTitle } from '@repo/ui/components'
 
 // const popularProducts = [

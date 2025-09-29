@@ -13,7 +13,7 @@ import { useState } from 'react'
 import { Trash2Icon } from 'lucide-react'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
 
-import { DataTablePagination } from '@/components/shared/table-pagination'
+import { DataTablePagination } from '@/components/shared'
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]

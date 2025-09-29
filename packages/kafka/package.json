@@ -4,6 +4,8 @@
   "main": "./src/index.ts",
   "type": "module",
   "scripts": {
+    "produce": "tsx src/producer.ts",
+    "consume": "tsx src/consumer.ts",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {

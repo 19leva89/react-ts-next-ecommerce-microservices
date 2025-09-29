@@ -41,12 +41,14 @@ sessionRoute.post('/create-checkout-session', shouldBeUser, async (c) => {
 		return c.json({ checkoutSessionClientSecret: session.client_secret })
 	} catch (error) {
 		console.log(error)
+
 		return c.json({ error })
 	}
 })
 
 sessionRoute.get('/:session_id', async (c) => {
 	const { session_id } = c.req.param()
+
 	const session = await stripe.checkout.sessions.retrieve(session_id as string, {
 		expand: ['line_items'],
 	})

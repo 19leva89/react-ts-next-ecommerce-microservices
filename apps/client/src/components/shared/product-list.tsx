@@ -2,9 +2,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import { ProductType } from '@repo/types'
 
-import { Filter } from './filter'
-import { Categories } from './categories'
-import { ProductCard } from './product-card'
+import { Categories, Filter, ProductCard } from '@/components/shared'
 
 // TEMPORARY
 // const products: ProductsType = [

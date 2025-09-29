@@ -1,9 +1,5 @@
 'use client'
 
-import { useState } from 'react'
-import { format } from 'date-fns'
-import { CalendarIcon } from 'lucide-react'
-
 import {
 	Button,
 	Calendar,
@@ -14,6 +10,9 @@ import {
 	PopoverTrigger,
 	ScrollArea,
 } from '@repo/ui/components'
+import { useState } from 'react'
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
 
 export const TodoList = () => {
 	const [open, setOpen] = useState<boolean>(false)

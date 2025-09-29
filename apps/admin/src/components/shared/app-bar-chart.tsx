@@ -1,9 +1,6 @@
 'use client'
 
 import { use } from 'react'
-import { OrderChartType } from '@repo/types'
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-
 import {
 	ChartContainer,
 	ChartLegend,
@@ -12,6 +9,8 @@ import {
 	ChartTooltipContent,
 	type ChartConfig,
 } from '@repo/ui/components'
+import { OrderChartType } from '@repo/types'
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
 
 interface Props {
 	dataPromise: Promise<OrderChartType[]>

@@ -25,6 +25,7 @@ webhookRoute.post('/stripe', async (c) => {
 		event = stripe.webhooks.constructEvent(body, sig!, webhookSecret)
 	} catch (error) {
 		console.log('Webhook verification failed!')
+
 		return c.json({ error: 'Webhook verification failed!' }, 400)
 	}
 
@@ -33,7 +34,7 @@ webhookRoute.post('/stripe', async (c) => {
 			const session = event.data.object as Stripe.Checkout.Session
 
 			const lineItems = await stripe.checkout.sessions.listLineItems(session.id)
-			// TODO: CREATE ORDER
+
 			producer.send('payment.successful', {
 				value: {
 					userId: session.client_reference_id,

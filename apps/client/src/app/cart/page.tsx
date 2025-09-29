@@ -7,8 +7,7 @@ import { ArrowRightIcon, Trash2Icon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 import { useCartStore } from '@/stores/cart-store'
-import { ShippingForm } from '@/components/shared/shipping-form'
-import { StripePaymentForm } from '@/components/shared/stripe-payment-form'
+import { ShippingForm, StripePaymentForm } from '@/components/shared'
 
 const steps = [
 	{

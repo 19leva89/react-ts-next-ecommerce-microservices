@@ -8,6 +8,7 @@ export const createOrder = async (order: OrderType) => {
 
 	try {
 		const order = await newOrder.save()
+
 		producer.send('order.created', {
 			value: {
 				email: order.email,
@@ -17,6 +18,7 @@ export const createOrder = async (order: OrderType) => {
 		})
 	} catch (error) {
 		console.log(error)
+
 		throw error
 	}
 }

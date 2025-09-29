@@ -2,7 +2,6 @@
 
 import { TrendingUpIcon } from 'lucide-react'
 import { Label, Pie, PieChart } from 'recharts'
-
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@repo/ui/components'
 
 const chartConfig = {

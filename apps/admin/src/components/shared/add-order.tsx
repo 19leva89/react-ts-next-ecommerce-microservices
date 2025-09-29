@@ -1,9 +1,5 @@
 'use client'
 
-import { z } from '@repo/types'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-
 import {
 	Button,
 	Form,
@@ -24,6 +20,9 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from '@repo/ui/components'
+import { z } from '@repo/types'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 const formSchema = z.object({
 	amount: z.number().min(1, { message: 'Amount must be at least 1!' }),

@@ -2,11 +2,8 @@ import { cookies } from 'next/headers'
 import { PropsWithChildren } from 'react'
 import { SidebarProvider } from '@repo/ui/components'
 
-import { Navbar } from '@/components/shared/navbar'
-import { AppSidebar } from '@/components/shared/app-sidebar'
-import { QueryProvider } from '@/components/shared/providers/query-provider'
-import { ThemeProvider } from '@/components/shared/providers/theme-provider'
-import { ToasterProvider } from '@/components/shared/providers/toaster-provider'
+import { AppSidebar, Navbar } from '@/components/shared'
+import { QueryProvider, ThemeProvider, ToasterProvider } from '@/components/shared/providers'
 
 async function RootLayout({ children }: PropsWithChildren) {
 	const cookieStore = await cookies()

@@ -1,14 +1,6 @@
 'use client'
 
 import axios from 'axios'
-import { toast } from 'sonner'
-import { z } from '@repo/types'
-import { useAuth } from '@clerk/nextjs'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { CategoryType, colors, ProductFormSchema, sizes } from '@repo/types'
-
 import {
 	Button,
 	Checkbox,
@@ -32,6 +24,13 @@ import {
 	SheetTitle,
 	Textarea,
 } from '@repo/ui/components'
+import { toast } from 'sonner'
+import { z } from '@repo/types'
+import { useAuth } from '@clerk/nextjs'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { CategoryType, colors, ProductFormSchema, sizes } from '@repo/types'
 
 // const categories = [
 //   "T-shirts",

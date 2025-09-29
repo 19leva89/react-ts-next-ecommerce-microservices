@@ -5,7 +5,7 @@ export const createConsumer = (kafka: Kafka, groupId: string) => {
 
 	const connect = async () => {
 		await consumer.connect()
-		console.log('Kafka consumer connected:' + groupId)
+		console.log('✅ Kafka consumer connected: ' + groupId)
 	}
 
 	const subscribe = async (
@@ -14,24 +14,22 @@ export const createConsumer = (kafka: Kafka, groupId: string) => {
 			topicHandler: (message: any) => Promise<void>
 		}[],
 	) => {
-		await consumer.subscribe({
-			topics: topics.map((topic) => topic.topicName),
-			fromBeginning: true,
-		})
+		for (const { topicName } of topics) {
+			await consumer.subscribe({ topic: topicName, fromBeginning: true })
+			console.log(`📥 Subscribed to topic "${topicName}"`)
+		}
 
 		await consumer.run({
-			eachMessage: async ({ topic, partition, message }) => {
+			eachMessage: async ({ topic, message }) => {
 				try {
+					const value = message.value?.toString()
+					if (!value) return
 					const topicConfig = topics.find((t) => t.topicName === topic)
 					if (topicConfig) {
-						const value = message.value?.toString()
-
-						if (value) {
-							await topicConfig.topicHandler(JSON.parse(value))
-						}
+						await topicConfig.topicHandler(JSON.parse(value))
 					}
 				} catch (error) {
-					console.log('Error processing message', error)
+					console.error('⚠️ Error processing message', error)
 				}
 			},
 		})
@@ -39,6 +37,7 @@ export const createConsumer = (kafka: Kafka, groupId: string) => {
 
 	const disconnect = async () => {
 		await consumer.disconnect()
+		console.log('🛑 Kafka consumer disconnected')
 	}
 
 	return { connect, subscribe, disconnect }

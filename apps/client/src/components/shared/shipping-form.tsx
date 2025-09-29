@@ -1,3 +1,5 @@
+'use client'
+
 import { useRouter } from 'next/navigation'
 import { ArrowRightIcon } from 'lucide-react'
 import { zodResolver } from '@hookform/resolvers/zod'

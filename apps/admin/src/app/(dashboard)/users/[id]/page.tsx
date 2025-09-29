@@ -1,7 +1,4 @@
 import axios from 'axios'
-import { auth, User } from '@clerk/nextjs/server'
-import { BadgeCheckIcon, CandyIcon, CitrusIcon, ShieldIcon } from 'lucide-react'
-
 import {
 	Avatar,
 	AvatarFallback,
@@ -20,8 +17,10 @@ import {
 	Sheet,
 	SheetTrigger,
 } from '@repo/ui/components'
-import { EditUser } from '@/components/shared/edit-user'
-import { AppLineChart } from '@/components/shared/app-line-chart'
+import { auth, User } from '@clerk/nextjs/server'
+import { BadgeCheckIcon, CandyIcon, CitrusIcon, ShieldIcon } from 'lucide-react'
+
+import { AppLineChart, EditUser } from '@/components/shared'
 
 const getData = async (id: string): Promise<User | null> => {
 	const { getToken } = await auth()

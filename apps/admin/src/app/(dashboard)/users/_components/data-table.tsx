@@ -17,9 +17,9 @@ import { Trash2Icon } from 'lucide-react'
 import { User } from '@clerk/nextjs/server'
 import { useRouter } from 'next/navigation'
 import { useMutation } from '@tanstack/react-query'
-
-import { DataTablePagination } from '@/components/shared/table-pagination'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
+
+import { DataTablePagination } from '@/components/shared'
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]

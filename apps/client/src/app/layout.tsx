@@ -5,9 +5,8 @@ import { Geist, Geist_Mono } from 'next/font/google'
 
 import '@repo/ui/globals.css'
 
-import { Navbar } from '@/components/shared/navbar'
-import { Footer } from '@/components/shared/footer'
-import { ToasterProvider } from '@/components/shared/providers/toaster-provider'
+import { Footer, Navbar } from '@/components/shared'
+import { ToasterProvider } from '@/components/shared/providers'
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
