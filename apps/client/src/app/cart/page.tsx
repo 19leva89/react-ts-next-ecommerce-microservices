@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useState } from 'react'
+import { cn } from '@repo/ui/lib'
 import { ShippingFormInputs } from '@repo/types'
 import { ArrowRightIcon, Trash2Icon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -100,21 +101,26 @@ const CartPage = () => {
 			<div className='flex flex-col items-center gap-8 lg:flex-row lg:gap-16'>
 				{steps.map((step) => (
 					<div
-						className={`flex items-center gap-2 border-b-2 pb-4 ${
-							step.id === activeStep ? 'border-gray-800' : 'border-gray-200'
-						}`}
 						key={step.id}
+						className={cn(
+							'flex items-center gap-2 border-b-2 pb-4',
+							step.id === activeStep ? 'border-gray-800' : 'border-gray-200',
+						)}
 					>
 						<div
-							className={`flex size-6 items-center justify-center rounded-full p-4 text-white ${
-								step.id === activeStep ? 'bg-gray-800' : 'bg-gray-400'
-							}`}
+							className={cn(
+								'flex size-6 items-center justify-center rounded-full p-4 text-white',
+								step.id === activeStep ? 'bg-gray-800' : 'bg-gray-400',
+							)}
 						>
 							{step.id}
 						</div>
 
 						<p
-							className={`text-sm font-medium ${step.id === activeStep ? 'text-gray-800' : 'text-gray-400'}`}
+							className={cn(
+								'text-sm font-medium',
+								step.id === activeStep ? 'text-gray-800' : 'text-gray-400',
+							)}
 						>
 							{step.title}
 						</p>

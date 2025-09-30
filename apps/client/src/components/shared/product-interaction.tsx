@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import { toast } from 'sonner'
+import { useState } from 'react'
+import { cn } from '@repo/ui/lib'
 import { ProductType } from '@repo/types'
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
@@ -59,16 +60,18 @@ export const ProductInteraction = ({
 				<div className='flex items-center gap-2'>
 					{product.sizes.map((size) => (
 						<div
-							className={`border-1 cursor-pointer p-[2px] ${
-								selectedSize === size ? 'border-gray-600' : 'border-gray-300'
-							}`}
 							key={size}
 							onClick={() => handleTypeChange('size', size)}
+							className={cn(
+								'border-1 cursor-pointer p-0.5',
+								selectedSize === size ? 'border-gray-600' : 'border-gray-300',
+							)}
 						>
 							<div
-								className={`flex size-6 items-center justify-center text-center ${
-									selectedSize === size ? 'bg-black text-white' : 'bg-white text-black'
-								}`}
+								className={cn(
+									'flex size-6 items-center justify-center text-center',
+									selectedSize === size ? 'bg-black text-white' : 'bg-white text-black',
+								)}
 							>
 								{size.toUpperCase()}
 							</div>
@@ -84,13 +87,14 @@ export const ProductInteraction = ({
 				<div className='flex items-center gap-2'>
 					{product.colors.map((color) => (
 						<div
-							className={`border-1 cursor-pointer p-[2px] ${
-								selectedColor === color ? 'border-gray-300' : 'border-white'
-							}`}
 							key={color}
 							onClick={() => handleTypeChange('color', color)}
+							className={cn(
+								'border-1 cursor-pointer p-0.5',
+								selectedColor === color ? 'border-gray-300' : 'border-white',
+							)}
 						>
-							<div className={`size-6`} style={{ backgroundColor: color }} />
+							<div className='border-1 size-6 border-gray-300' style={{ backgroundColor: color }} />
 						</div>
 					))}
 				</div>

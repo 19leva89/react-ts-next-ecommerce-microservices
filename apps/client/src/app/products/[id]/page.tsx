@@ -1,29 +1,9 @@
 import axios from 'axios'
+import Link from 'next/link'
 import Image from 'next/image'
 import { ProductType } from '@repo/types'
 
 import { ProductInteraction } from '@/components/shared'
-
-// TEMPORARY
-// const product: ProductType = {
-//   id: 1,
-//   name: "Adidas CoreFit T-Shirt",
-//   shortDescription:
-//     "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-//   description:
-//     "Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.",
-//   price: 59.9,
-//   sizes: ["xs", "s", "m", "l", "xl"],
-//   colors: ["gray", "purple", "green"],
-//   images: {
-//     gray: "/products/1g.png",
-//     purple: "/products/1p.png",
-//     green: "/products/1gr.png",
-//   },
-//   categorySlug: "test",
-//   createdAt: new Date(),
-//   updatedAt: new Date(),
-// };
 
 const fetchProduct = async (id: string): Promise<ProductType | null> => {
 	try {
@@ -100,10 +80,19 @@ const ProductPage = async ({
 
 				<p className='text-xs text-gray-500'>
 					By clicking Pay Now, you agree to our{' '}
-					<span className='underline hover:text-black'>Terms & Conditions</span> and{' '}
-					<span className='underline hover:text-black'>Privacy Policy</span>. You authorize us to charge your
-					selected payment method for the total amount shown. All sales are subject to our return and{' '}
-					<span className='underline hover:text-black'>Refund Policies</span>.
+					<Link href='/terms' className='underline hover:text-black'>
+						Terms & Conditions
+					</Link>{' '}
+					and{' '}
+					<Link href='/privacy' className='underline hover:text-black'>
+						Privacy Policy
+					</Link>
+					. You authorize us to charge your selected payment method for the total amount shown. All sales are
+					subject to our return and{' '}
+					<Link href='/refund-policy' className='underline hover:text-black'>
+						Refund Policies
+					</Link>
+					.
 				</p>
 			</div>
 		</div>

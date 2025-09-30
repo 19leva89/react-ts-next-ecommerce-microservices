@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
 import { toast } from 'sonner'
+import { useState } from 'react'
+import { cn } from '@repo/ui/lib'
 import { ProductType } from '@repo/types'
 import { ShoppingCartIcon } from 'lucide-react'
 
@@ -31,6 +32,7 @@ export const ProductCard = ({ product }: { product: ProductType }) => {
 			selectedSize: productTypes.size,
 			selectedColor: productTypes.color,
 		})
+
 		toast.success('Product added to cart')
 	}
 
@@ -61,10 +63,10 @@ export const ProductCard = ({ product }: { product: ProductType }) => {
 						<span className='text-gray-500'>Size</span>
 
 						<select
-							name='size'
 							id='size'
-							className='rounded-md px-2 py-1 ring ring-gray-300'
+							name='size'
 							onChange={(e) => handleProductType({ type: 'size', value: e.target.value })}
+							className='rounded-md px-2 py-1 ring ring-gray-300'
 						>
 							{product.sizes.map((size) => (
 								<option key={size} value={size}>
@@ -81,11 +83,12 @@ export const ProductCard = ({ product }: { product: ProductType }) => {
 						<div className='flex items-center gap-2'>
 							{product.colors.map((color) => (
 								<div
-									className={`border-1 cursor-pointer ${
-										productTypes.color === color ? 'border-gray-400' : 'border-gray-200'
-									} rounded-full p-[1.2px]`}
 									key={color}
 									onClick={() => handleProductType({ type: 'color', value: color })}
+									className={cn(
+										'border-1 cursor-pointer rounded-full p-[1.2px]',
+										productTypes.color === color ? 'border-gray-400' : 'border-gray-200',
+									)}
 								>
 									<div className='size-3.5 rounded-full' style={{ backgroundColor: color }} />
 								</div>

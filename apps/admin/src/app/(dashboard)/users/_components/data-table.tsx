@@ -10,8 +10,8 @@ import {
 	SortingState,
 	useReactTable,
 } from '@tanstack/react-table'
-import { useState } from 'react'
 import { toast } from 'sonner'
+import { useState } from 'react'
 import { useAuth } from '@clerk/nextjs'
 import { Trash2Icon } from 'lucide-react'
 import { User } from '@clerk/nextjs/server'

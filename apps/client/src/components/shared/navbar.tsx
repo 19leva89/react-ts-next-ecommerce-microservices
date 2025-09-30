@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { Separator } from '@repo/ui/components'
 import { BellIcon, HomeIcon } from 'lucide-react'
 import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
 
@@ -7,34 +8,40 @@ import { ProfileButton, SearchBar, ShoppingCartIcon } from '@/components/shared'
 
 export const Navbar = () => {
 	return (
-		<nav className='flex w-full items-center justify-between border-b border-gray-200 pb-4'>
-			{/* LEFT */}
-			<Link href='/' className='flex items-center'>
-				<Image src='/logo.png' alt='TrendDima' width={36} height={36} className='size-6 md:size-9' />
+		<div className='flex flex-col gap-4'>
+			<nav className='flex w-full items-center justify-between gap-6'>
+				{/* LEFT */}
+				<Link href='/' className='flex items-center gap-2'>
+					<Image src='/logo.png' alt='DimaTrend' width={36} height={36} className='size-6 md:size-9' />
 
-				<p className='text-md hidden font-medium tracking-wider md:block'>TRENDDIMA</p>
-			</Link>
-
-			{/* RIGHT */}
-			<div className='flex items-center gap-6'>
-				<SearchBar />
-
-				<Link href='/'>
-					<HomeIcon className='size-4 text-gray-600' />
+					<p className='text-md hidden font-medium uppercase tracking-wider md:block'>DimaTrend</p>
 				</Link>
 
-				<BellIcon className='size-4 text-gray-600' />
+				{/* RIGHT */}
+				<div className='flex items-center gap-6'>
+					<SearchBar />
 
-				<ShoppingCartIcon />
+					<Link href='/'>
+						<HomeIcon className='size-4 text-gray-600' />
+					</Link>
 
-				<SignedOut>
-					<SignInButton />
-				</SignedOut>
+					<BellIcon className='size-4 text-gray-600' />
 
-				<SignedIn>
-					<ProfileButton />
-				</SignedIn>
-			</div>
-		</nav>
+					<ShoppingCartIcon />
+
+					<SignedOut>
+						<SignInButton>
+							<button className='cursor-pointer'>Sign in</button>
+						</SignInButton>
+					</SignedOut>
+
+					<SignedIn>
+						<ProfileButton />
+					</SignedIn>
+				</div>
+			</nav>
+
+			<Separator className='mb-4' />
+		</div>
 	)
 }

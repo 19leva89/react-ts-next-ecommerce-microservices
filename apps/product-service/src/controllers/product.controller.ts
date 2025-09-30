@@ -59,39 +59,52 @@ export const deleteProduct = async (req: Request, res: Response) => {
 }
 
 export const getProducts = async (req: Request, res: Response) => {
-	const { sort, category, search, limit } = req.query
+	try {
+		const { sort, category, search, limit } = req.query
 
-	const orderBy = (() => {
-		switch (sort) {
-			case 'asc':
-				return { price: Prisma.SortOrder.asc }
+		// Build where clause conditionally
+		const where: any = {}
 
-			case 'desc':
-				return { price: Prisma.SortOrder.desc }
-
-			case 'oldest':
-				return { createdAt: Prisma.SortOrder.asc }
-
-			default:
-				return { createdAt: Prisma.SortOrder.desc }
+		if (category && typeof category === 'string') {
+			where.category = {
+				slug: category,
+			}
 		}
-	})()
 
-	const products = await prisma.product.findMany({
-		where: {
-			category: {
-				slug: category as string,
-			},
-			name: {
-				contains: search as string,
+		if (search && typeof search === 'string' && search.trim() !== '') {
+			where.name = {
+				contains: search.trim(),
 				mode: 'insensitive',
-			},
-		},
-		orderBy,
-		take: limit ? Number(limit) : undefined,
-	})
+			}
+		}
 
-	res.status(200).json(products)
+		// Sorting logic
+		const orderBy: any = (() => {
+			switch (sort) {
+				case 'asc':
+					return { price: Prisma.SortOrder.asc }
+				case 'desc':
+					return { price: Prisma.SortOrder.desc }
+				case 'oldest':
+					return { createdAt: Prisma.SortOrder.asc }
+				default:
+					return { createdAt: Prisma.SortOrder.desc }
+			}
+		})()
+
+		// Query
+		const products = await prisma.product.findMany({
+			where,
+			orderBy,
+			take: limit ? Math.min(Number(limit), 100) : undefined, // Cap limit to prevent abuse
+		})
+
+		res.status(200).json(products)
+	} catch (error) {
+		console.error('Error in getProducts:', error)
+
+		res.status(500).json({ error: 'Internal server error' })
+	}
 }
 
 export const getProduct = async (req: Request, res: Response) => {
