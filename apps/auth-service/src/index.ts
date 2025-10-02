@@ -27,8 +27,13 @@ app.get('/health', (_req: Request, res: Response) => {
 
 app.use('/users', shouldBeAdmin, userRoute)
 
-app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+interface AppError extends Error {
+  status?: number;
+}
+
+app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
 	console.log(err)
+
 	return res.status(err.status || 500).json({ message: err.message || 'Inter Server Error!' })
 })
 

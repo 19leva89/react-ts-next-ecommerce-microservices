@@ -5,7 +5,9 @@ import { OrderChartType } from '@repo/types'
 import { CardList } from '@/components/shared/card-list'
 import { AppAreaChart, AppBarChart, AppPieChart, TodoList } from '@/components/shared'
 
-const Homepage = async () => {
+export const dynamic = 'force-dynamic'
+
+const HomePage = async () => {
 	const { getToken } = await auth()
 
 	const token = await getToken()
@@ -47,4 +49,4 @@ const Homepage = async () => {
 	)
 }
 
-export default Homepage
+export default HomePage

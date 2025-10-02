@@ -1,7 +1,8 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { Suspense } from 'react'
 import { Separator } from '@repo/ui/components'
-import { BellIcon, HomeIcon } from 'lucide-react'
+import { BellIcon, HomeIcon, LoaderIcon } from 'lucide-react'
 import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
 
 import { ProfileButton, SearchBar, ShoppingCartIcon } from '@/components/shared'
@@ -19,7 +20,9 @@ export const Navbar = () => {
 
 				{/* RIGHT */}
 				<div className='flex items-center gap-6'>
-					<SearchBar />
+					<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
+						<SearchBar />
+					</Suspense>
 
 					<Link href='/'>
 						<HomeIcon className='size-4 text-gray-600' />

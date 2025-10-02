@@ -49,8 +49,9 @@ export const AddCategory = () => {
 		onSuccess: () => {
 			toast.success('Category created successfully')
 		},
-		onError: (error: any) => {
-			const message = error.response?.data?.message || error.message || 'Failed to create category!'
+		onError: (error) => {
+			const message = error.message || 'Failed to create category!'
+
 			toast.error(message)
 		},
 	})

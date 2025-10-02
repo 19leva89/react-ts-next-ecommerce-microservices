@@ -2,7 +2,9 @@
 
 import axios from 'axios'
 import { useAuth } from '@clerk/nextjs'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { Button } from '@repo/ui/components'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
 import { CartItemsType, ShippingFormInputs } from '@repo/types'
@@ -19,7 +21,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 export const fetchClientSecret = async (cart: CartItemsType, token: string): Promise<string> => {
 	try {
 		const { data } = await axios.post(
-			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/create-checkout-session`,
+			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/payments/create-intent`,
 			{ cart },
 			{
 				headers: {
@@ -29,14 +31,17 @@ export const fetchClientSecret = async (cart: CartItemsType, token: string): Pro
 			},
 		)
 
-		return data.checkoutSessionClientSecret
-	} catch (error: any) {
+		return data.clientSecret
+	} catch (error) {
 		console.error(error)
+
 		throw new Error('Failed to fetch client secret')
 	}
 }
 
 export const StripePaymentForm = ({ shippingForm }: Props) => {
+	const router = useRouter()
+
 	const { getToken } = useAuth()
 	const { cart } = useCartStore()
 
@@ -55,7 +60,14 @@ export const StripePaymentForm = ({ shippingForm }: Props) => {
 		}
 	}, [token, cart])
 
-	if (!token || !clientSecret) return <div>Loading...</div>
+	if (!token)
+		return (
+			<Button variant='default' onClick={() => router.push('/sign-in')} className='rounded-lg'>
+				Please sign in
+			</Button>
+		)
+
+	if (!clientSecret) return <div>Loading...</div>
 
 	return (
 		<Elements stripe={stripePromise} options={{ clientSecret }}>

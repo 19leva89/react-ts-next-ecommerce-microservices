@@ -52,8 +52,8 @@ export const AddUser = () => {
 		onSuccess: () => {
 			toast.success('User created successfully')
 		},
-		onError: (error: any) => {
-			const message = error.response?.data?.message || error.message || 'Failed to create user!'
+		onError: (error) => {
+			const message = error.message || 'Failed to create user!'
 
 			toast.error(message)
 		},

@@ -38,7 +38,11 @@ app.get('/test', shouldBeUser, (req, res) => {
 app.use('/products', productRouter)
 app.use('/categories', categoryRouter)
 
-app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+interface AppError extends Error {
+	status?: number
+}
+
+app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
 	console.log(err)
 
 	return res.status(err.status || 500).json({ message: err.message || 'Inter Server Error!' })

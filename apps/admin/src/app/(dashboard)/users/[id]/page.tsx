@@ -22,6 +22,8 @@ import { BadgeCheckIcon, CandyIcon, CitrusIcon, ShieldIcon } from 'lucide-react'
 
 import { AppLineChart, EditUser } from '@/components/shared'
 
+export const dynamic = 'force-dynamic'
+
 const getData = async (id: string): Promise<User | null> => {
 	const { getToken } = await auth()
 	const token = await getToken()
@@ -34,7 +36,7 @@ const getData = async (id: string): Promise<User | null> => {
 		})
 
 		return data
-	} catch (error: any) {
+	} catch (error) {
 		console.error(error)
 
 		return null

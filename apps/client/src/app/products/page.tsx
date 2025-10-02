@@ -1,19 +1,15 @@
 import { ProductList } from '@/components/shared/product-list'
 
-const ProductsPage = async ({
-	searchParams,
-}: {
+interface Props {
 	searchParams: Promise<{ category: string; sort: string; search: string }>
-}) => {
-	const category = (await searchParams).category
+}
+
+const ProductsPage = async ({ searchParams }: Props) => {
 	const sort = (await searchParams).sort
 	const search = (await searchParams).search
+	const category = (await searchParams).category
 
-	return (
-		<div>
-			<ProductList category={category} sort={sort} search={search} params='products' />
-		</div>
-	)
+	return <ProductList category={category} sort={sort} search={search} params='products' />
 }
 
 export default ProductsPage

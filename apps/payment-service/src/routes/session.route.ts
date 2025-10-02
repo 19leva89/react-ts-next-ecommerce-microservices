@@ -1,9 +1,8 @@
 import { Hono } from 'hono'
 import { CartItemsType } from '@repo/types'
 
-import stripe from '../utils/stripe'
+import { stripe } from '../utils/stripe'
 import { shouldBeUser } from '../middleware/auth-middleware'
-import { getStripeProductPrice } from '../utils/stripe-product'
 
 const sessionRoute = new Hono()
 
@@ -11,21 +10,16 @@ sessionRoute.post('/create-checkout-session', shouldBeUser, async (c) => {
 	const { cart }: { cart: CartItemsType } = await c.req.json()
 	const userId = c.get('userId')
 
-	const lineItems = await Promise.all(
-		cart.map(async (item) => {
-			const unitAmount = await getStripeProductPrice(item.id)
-			return {
-				price_data: {
-					currency: 'usd',
-					product_data: {
-						name: item.name,
-					},
-					unit_amount: unitAmount as number,
-				},
-				quantity: item.quantity,
-			}
-		}),
-	)
+	const lineItems = cart.map((item) => ({
+		price_data: {
+			currency: 'usd',
+			product_data: { name: item.name },
+			unit_amount: Math.round(item.price * 100),
+		},
+		quantity: item.quantity,
+	}))
+
+	console.log('lineItems:', lineItems)
 
 	try {
 		const session = await stripe.checkout.sessions.create({
@@ -42,7 +36,7 @@ sessionRoute.post('/create-checkout-session', shouldBeUser, async (c) => {
 	} catch (error) {
 		console.log(error)
 
-		return c.json({ error })
+		return c.json({ error: (error as Error).message })
 	}
 })
 

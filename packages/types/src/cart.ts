@@ -14,9 +14,10 @@ export const shippingFormSchema = z.object({
 	email: z.email({ message: 'Invalid email address!' }).min(2, 'Email is required!'),
 	phone: z
 		.string()
-		.min(7, 'Phone number must be between 7 and 10 digits!')
-		.max(10, 'Phone number must be between 7 and 10 digits!')
-		.regex(/^\d+$/, 'Phone number must contain only numbers!'),
+		.regex(
+			/^(?:\+\d{7,15}|\d{7,10})$/,
+			'Phone number must be 7–10 digits or start with + and contain up to 15 digits',
+		),
 	address: z.string().min(2, 'Address is required!'),
 	city: z.string().min(2, 'City is required!'),
 })

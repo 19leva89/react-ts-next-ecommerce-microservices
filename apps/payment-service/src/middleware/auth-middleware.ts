@@ -11,7 +11,7 @@ export const shouldBeUser = createMiddleware<{
 
 	if (!auth?.userId) {
 		return c.json({
-			message: 'You are not logged in.',
+			message: 'You are not logged in',
 		})
 	}
 
@@ -29,7 +29,7 @@ export const shouldBeAdmin = createMiddleware<{
 
 	if (!auth?.userId) {
 		return c.json({
-			message: 'You are not logged in.',
+			message: 'You are not logged in',
 		})
 	}
 

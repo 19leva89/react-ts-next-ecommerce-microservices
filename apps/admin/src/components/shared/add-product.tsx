@@ -47,8 +47,8 @@ const fetchCategories = async () => {
 		const { data } = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`)
 
 		return data
-	} catch (error: any) {
-		throw new Error(error.response?.data?.message || 'Failed to fetch categories!')
+	} catch (error) {
+		console.error(error || 'Failed to fetch categories!')
 	}
 }
 
@@ -88,9 +88,8 @@ export const AddProduct = () => {
 		onSuccess: () => {
 			toast.success('Product created successfully')
 		},
-		onError: (error: any) => {
-			const message = error.response?.data?.message || error.message || 'Failed to create product!'
-			toast.error(message)
+		onError: (error) => {
+			console.error(error || 'Failed to create product!')
 		},
 	})
 

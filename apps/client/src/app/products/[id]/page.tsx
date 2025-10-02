@@ -1,6 +1,8 @@
 import axios from 'axios'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Suspense } from 'react'
+import { LoaderIcon } from 'lucide-react'
 import { ProductType } from '@repo/types'
 
 import { ProductInteraction } from '@/components/shared'
@@ -12,7 +14,7 @@ const fetchProduct = async (id: string): Promise<ProductType | null> => {
 		)
 
 		return data
-	} catch (error: any) {
+	} catch (error) {
 		console.error(error)
 
 		return null
@@ -69,7 +71,9 @@ const ProductPage = async ({
 
 				<h2 className='text-2xl font-semibold'>${product.price.toFixed(2)}</h2>
 
-				<ProductInteraction product={product} selectedSize={selectedSize} selectedColor={selectedColor} />
+				<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
+					<ProductInteraction product={product} selectedSize={selectedSize} selectedColor={selectedColor} />
+				</Suspense>
 
 				{/* CARD INFO */}
 				<div className='mt-4 flex items-center gap-2'>

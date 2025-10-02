@@ -67,10 +67,12 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 		},
 		onSuccess: () => {
 			toast.success('User(s) deleted successfully')
+
 			router.refresh()
 		},
-		onError: (error: any) => {
-			const message = error.response?.data?.message || error.message || 'Failed to delete user(s)!'
+		onError: (error) => {
+			const message = error.message || 'Failed to delete user(s)!'
+
 			toast.error(message)
 		},
 	})

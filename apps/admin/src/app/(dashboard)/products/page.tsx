@@ -4,12 +4,14 @@ import { ProductsType } from '@repo/types'
 import { columns } from './_components/columns'
 import { DataTable } from './_components/data-table'
 
+export const dynamic = 'force-dynamic'
+
 const getData = async (): Promise<ProductsType> => {
 	try {
 		const { data } = await axios.get<ProductsType>(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products`)
 
 		return data
-	} catch (error: any) {
+	} catch (error) {
 		console.error(error)
 
 		return []

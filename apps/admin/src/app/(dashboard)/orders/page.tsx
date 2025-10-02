@@ -5,6 +5,8 @@ import { auth } from '@clerk/nextjs/server'
 import { columns } from './_components/columns'
 import { DataTable } from './_components/data-table'
 
+export const dynamic = 'force-dynamic'
+
 const getData = async (): Promise<OrderType[]> => {
 	try {
 		const { getToken } = await auth()
@@ -18,7 +20,7 @@ const getData = async (): Promise<OrderType[]> => {
 
 		return data
 	} catch (err) {
-		console.log(err)
+		console.log('Failed to fetch orders:', err)
 
 		return []
 	}
@@ -26,6 +28,7 @@ const getData = async (): Promise<OrderType[]> => {
 
 const OrdersPage = async () => {
 	const data = await getData()
+
 	return (
 		<div>
 			<div className='bg-secondary mb-8 rounded-md px-4 py-2'>

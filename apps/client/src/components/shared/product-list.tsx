@@ -1,5 +1,7 @@
 import axios from 'axios'
 import Link from 'next/link'
+import { Suspense } from 'react'
+import { LoaderIcon } from 'lucide-react'
 import { ProductType } from '@repo/types'
 
 import { Categories, Filter, ProductCard } from '@/components/shared'
@@ -42,9 +44,15 @@ export const ProductList = async ({ category, sort, search, params }: Props) => 
 
 	return (
 		<div className='w-full'>
-			<Categories />
+			<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
+				<Categories />
+			</Suspense>
 
-			{params === 'products' && <Filter />}
+			{params === 'products' && (
+				<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
+					<Filter />
+				</Suspense>
+			)}
 
 			<div className='grid grid-cols-1 gap-12 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
 				{products.map((product) => (

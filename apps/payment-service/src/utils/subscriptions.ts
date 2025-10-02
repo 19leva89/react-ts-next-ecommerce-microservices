@@ -1,26 +1,20 @@
 import { consumer } from './kafka'
+import type { StripeProductType } from '@repo/types'
 import { createStripeProduct, deleteStripeProduct } from './stripe-product'
 
 export const runKafkaSubscriptions = async () => {
-	// consumer.subscribe("product.created", async (message) => {
-	//   const product = message.value;
-	//   console.log("Received message: product.created", product);
-
-	//   await createStripeProduct(product);
-	// });
-	// consumer.subscribe("product.deleted", async (message) => {
-	//   const productId = message.value;
-	//   console.log("Received message: product.deleted", productId);
-
-	//   await deleteStripeProduct(productId);
-	// });
-
-	consumer.subscribe([
+	await consumer.subscribe([
 		{
 			topicName: 'product.created',
 			topicHandler: async (message) => {
-				const product = message.value
-				console.log('Received message: product.created', product)
+				const product = message.value as StripeProductType
+				console.log('📦 Received message: product.created', product)
+
+				if (!product?.id || !product?.name || !product?.price) {
+					console.error('❌ Invalid product data:', product)
+
+					return
+				}
 
 				await createStripeProduct(product)
 			},
@@ -28,8 +22,14 @@ export const runKafkaSubscriptions = async () => {
 		{
 			topicName: 'product.deleted',
 			topicHandler: async (message) => {
-				const productId = message.value
-				console.log('Received message: product.deleted', productId)
+				const productId = message.value as string
+				console.log('🗑️ Received message: product.deleted', productId)
+
+				if (!productId) {
+					console.error('❌ Invalid product ID:', productId)
+
+					return
+				}
 
 				await deleteStripeProduct(productId)
 			},

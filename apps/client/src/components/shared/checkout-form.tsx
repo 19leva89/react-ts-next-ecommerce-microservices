@@ -1,6 +1,8 @@
 'use client'
 
-import { MouseEvent, useState } from 'react'
+import { toast } from 'sonner'
+import { useState } from 'react'
+import { Button } from '@repo/ui/components'
 import { ShippingFormInputs } from '@repo/types'
 import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
 
@@ -9,20 +11,22 @@ export const CheckoutForm = ({ shippingForm }: { shippingForm: ShippingFormInput
 	const elements = useElements()
 
 	const [loading, setLoading] = useState<boolean>(false)
-	const [error, setError] = useState<string | null>(null)
 
-	const handleClick = async (e: MouseEvent<HTMLButtonElement>) => {
-		e.preventDefault()
+	const handleClick = async () => {
+		if (!stripe || !elements) {
+			toast.error('Stripe not initialized')
+			setLoading(false)
 
-		if (!stripe || !elements) return
+			return
+		}
 
 		setLoading(true)
-		setError(null)
 
 		const { error: stripeError } = await stripe.confirmPayment({
 			elements,
 			confirmParams: {
 				receipt_email: shippingForm.email,
+				return_url: `${window.location.origin}/return`,
 				shipping: {
 					name: shippingForm.name || 'Customer',
 					address: {
@@ -32,25 +36,30 @@ export const CheckoutForm = ({ shippingForm }: { shippingForm: ShippingFormInput
 					},
 				},
 			},
-			redirect: 'if_required',
+			redirect: 'always',
 		})
 
 		if (stripeError) {
-			setError(stripeError.message ?? 'Payment failed')
+			toast.error(stripeError.message ?? 'Payment failed')
 		}
 
+		toast.success('Payment successful')
 		setLoading(false)
 	}
 
 	return (
-		<form>
+		<form className='flex flex-col gap-2'>
 			<PaymentElement options={{ layout: 'accordion' }} />
 
-			<button disabled={loading || !stripe} onClick={handleClick}>
+			<Button
+				variant='default'
+				size='lg'
+				onClick={handleClick}
+				disabled={loading || !stripe}
+				className='rounded-lg'
+			>
 				{loading ? 'Loading...' : 'Pay'}
-			</button>
-
-			{error && <div>{error}</div>}
+			</Button>
 		</form>
 	)
 }

@@ -17,7 +17,7 @@ const fetchOrders = async (): Promise<OrderType[]> => {
 		)
 
 		return data
-	} catch (error: any) {
+	} catch (error) {
 		console.error(error)
 
 		return []
@@ -31,7 +31,8 @@ const OrdersPage = async () => {
 		return <div>No orders found!</div>
 	}
 
-	console.log(orders)
+	// console.log(orders)
+
 	return (
 		<div>
 			<h1 className='my-4 text-2xl font-medium'>Your Orders</h1>

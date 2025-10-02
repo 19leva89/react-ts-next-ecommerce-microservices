@@ -63,7 +63,7 @@ export const getProducts = async (req: Request, res: Response) => {
 		const { sort, category, search, limit } = req.query
 
 		// Build where clause conditionally
-		const where: any = {}
+		const where: Prisma.ProductWhereInput = {}
 
 		if (category && typeof category === 'string') {
 			where.category = {
@@ -79,7 +79,7 @@ export const getProducts = async (req: Request, res: Response) => {
 		}
 
 		// Sorting logic
-		const orderBy: any = (() => {
+		const orderBy: Prisma.ProductOrderByWithRelationInput = (() => {
 			switch (sort) {
 				case 'asc':
 					return { price: Prisma.SortOrder.asc }

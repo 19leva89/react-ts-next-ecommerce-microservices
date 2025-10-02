@@ -1,28 +1,27 @@
 import axios from 'axios'
-import Link from 'next/link'
 
-const ReturnPage = async ({
-	searchParams,
-}: {
-	searchParams: Promise<{ session_id: string }> | undefined
-}) => {
-	const session_id = (await searchParams)?.session_id
+import { ReturnPageView } from './_components/return-page-view'
 
-	if (!session_id) {
-		return <div>No session id found!</div>
+interface Props {
+	searchParams: Promise<{ payment_intent: string }>
+}
+
+const ReturnPage = async ({ searchParams }: Props) => {
+	const resolvedSearchParams = await searchParams
+
+	if (!resolvedSearchParams.payment_intent) {
+		return <div>No payment found!</div>
 	}
 
-	const { data } = await axios.get(`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/${session_id}`)
+	try {
+		const { data } = await axios.get(
+			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/payments/${resolvedSearchParams.payment_intent}`,
+		)
 
-	return (
-		<>
-			<h1>Payment {data.status}</h1>
-
-			<p>Payment status: {data.paymentStatus}</p>
-
-			<Link href='/orders'>See your orders</Link>
-		</>
-	)
+		return <ReturnPageView data={data} />
+	} catch (error) {
+		console.error(error)
+	}
 }
 
 export default ReturnPage
