@@ -50,7 +50,7 @@ app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
 
 const start = async () => {
 	try {
-		Promise.all([await producer.connect(), await consumer.connect()])
+		await Promise.all([producer.connect(), consumer.connect()])
 
 		app.listen(8000, () => {
 			console.log('Product service is running on 8000')

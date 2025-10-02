@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
-import { Separator } from '@repo/ui/components'
+import { Button, Separator } from '@repo/ui/components'
 import { BellIcon, HomeIcon, LoaderIcon } from 'lucide-react'
 import { SignedIn, SignedOut, SignInButton } from '@clerk/nextjs'
 
@@ -34,7 +34,9 @@ export const Navbar = () => {
 
 					<SignedOut>
 						<SignInButton>
-							<button className='cursor-pointer'>Sign in</button>
+							<Button variant='ghost' size='default' className='rounded-lg'>
+								Sign in
+							</Button>
 						</SignInButton>
 					</SignedOut>
 

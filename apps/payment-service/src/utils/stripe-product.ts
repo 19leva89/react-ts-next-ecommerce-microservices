@@ -25,15 +25,21 @@ export const createStripeProduct = async (item: StripeProductType) => {
 	}
 }
 
-export const getStripeProductPrice = async (productId: string) => {
+export const getStripeProduct = async (localProductId: string) => {
 	try {
-		const res = await stripe.prices.list({
-			product: productId,
-		})
+		const list = await stripe.products.list({ limit: 100 })
 
-		return res.data[0]?.unit_amount
+		const stripeProduct = list.data.find((p) => p.metadata?.local_id === localProductId)
+
+		if (!stripeProduct) {
+			console.warn(`⚠️ No Stripe product found for local ID ${localProductId}`)
+
+			return
+		}
+
+		return stripeProduct
 	} catch (error) {
-		console.log(error)
+		console.error('❌ Failed to get Stripe product:', error)
 
 		return error
 	}

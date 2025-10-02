@@ -4,6 +4,7 @@ import { toast } from 'sonner'
 import { useState } from 'react'
 import { cn } from '@repo/ui/lib'
 import { ProductType } from '@repo/types'
+import { Button } from '@repo/ui/components'
 import { MinusIcon, PlusIcon, ShoppingCartIcon } from 'lucide-react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
@@ -105,37 +106,38 @@ export const ProductInteraction = ({
 				<span className='text-gray-500'>Quantity</span>
 
 				<div className='flex items-center gap-2'>
-					<button
-						className='border-1 cursor-pointer border-gray-300 p-1'
+					<Button
+						variant='ghost'
+						size='icon'
 						onClick={() => handleQuantityChange('decrement')}
+						className='size-7 rounded-none border border-gray-300'
 					>
 						<MinusIcon className='size-4' />
-					</button>
+					</Button>
 
 					<span>{quantity}</span>
 
-					<button
-						className='border-1 cursor-pointer border-gray-300 p-1'
+					<Button
+						variant='ghost'
+						size='icon'
 						onClick={() => handleQuantityChange('increment')}
+						className='size-7 rounded-none border border-gray-300'
 					>
 						<PlusIcon className='size-4' />
-					</button>
+					</Button>
 				</div>
 			</div>
 
 			{/* BUTTONS */}
-			<button
-				onClick={handleAddToCart}
-				className='flex cursor-pointer items-center justify-center gap-2 rounded-md bg-gray-800 px-4 py-2 text-sm font-medium text-white shadow-lg'
-			>
+			<Button variant='default' size='lg' onClick={handleAddToCart} className='rounded-md shadow-md'>
 				<PlusIcon className='size-4' />
 				Add to Cart
-			</button>
+			</Button>
 
-			<button className='flex cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-2 text-sm font-medium text-gray-800 shadow-lg ring-1 ring-gray-400'>
+			<Button variant='outline' size='lg' className='rounded-md shadow-md'>
 				<ShoppingCartIcon className='size-4' />
 				Buy this Item
-			</button>
+			</Button>
 		</div>
 	)
 }

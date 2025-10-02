@@ -6,14 +6,8 @@ import { Button } from '@repo/ui/components'
 interface Props {
 	data: {
 		status: string
-		amount_received: number
+		amount_total: number
 		currency: string
-		shipping: {
-			address: {
-				city: string
-				line1: string
-			}
-		}
 	}
 }
 
@@ -26,15 +20,11 @@ export const ReturnPageView = ({ data }: Props) => {
 				<h1>Payment {data.status}</h1>
 
 				<p>
-					Payment amount: {data.amount_received / 100} <span className='uppercase'>{data.currency}</span>
-				</p>
-
-				<p>
-					Shipping address: {data.shipping.address.city}, {data.shipping.address.line1}
+					Payment amount: {data.amount_total / 100} <span className='uppercase'>{data.currency}</span>
 				</p>
 			</div>
 
-			<Button variant='default' onClick={() => router.push('/orders')} className='rounded-lg'>
+			<Button variant='default' size='lg' onClick={() => router.push('/orders')} className='rounded-lg'>
 				See your orders
 			</Button>
 		</div>

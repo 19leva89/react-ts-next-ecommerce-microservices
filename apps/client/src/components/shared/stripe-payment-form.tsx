@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Button } from '@repo/ui/components'
 import { loadStripe } from '@stripe/stripe-js'
-import { Elements } from '@stripe/react-stripe-js'
 import { CartItemsType, ShippingFormInputs } from '@repo/types'
+import { CheckoutProvider } from '@stripe/react-stripe-js/checkout'
 
 import { CheckoutForm } from '@/components/shared'
 import { useCartStore } from '@/stores/cart-store'
@@ -21,7 +21,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 export const fetchClientSecret = async (cart: CartItemsType, token: string): Promise<string> => {
 	try {
 		const { data } = await axios.post(
-			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/payments/create-intent`,
+			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/create-checkout-session`,
 			{ cart },
 			{
 				headers: {
@@ -31,9 +31,13 @@ export const fetchClientSecret = async (cart: CartItemsType, token: string): Pro
 			},
 		)
 
-		return data.clientSecret
+		if (!data.client_secret) {
+			throw new Error('No client_secret in response')
+		}
+
+		return data.client_secret
 	} catch (error) {
-		console.error(error)
+		console.error('fetchClientSecret error:', error)
 
 		throw new Error('Failed to fetch client secret')
 	}
@@ -46,32 +50,36 @@ export const StripePaymentForm = ({ shippingForm }: Props) => {
 	const { cart } = useCartStore()
 
 	const [token, setToken] = useState<string | null>(null)
-	const [clientSecret, setClientSecret] = useState<string | null>(null)
 
 	// Get token
 	useEffect(() => {
 		getToken().then((token) => setToken(token))
 	}, [getToken])
 
-	// Get client secret on cart change
-	useEffect(() => {
-		if (token && cart.length > 0) {
-			fetchClientSecret(cart, token).then(setClientSecret)
-		}
-	}, [token, cart])
-
 	if (!token)
 		return (
-			<Button variant='default' onClick={() => router.push('/sign-in')} className='rounded-lg'>
+			<Button variant='default' size='lg' onClick={() => router.push('/sign-in')} className='rounded-lg'>
 				Please sign in
 			</Button>
 		)
 
-	if (!clientSecret) return <div>Loading...</div>
+	if (cart.length === 0) {
+		return (
+			<div>
+				Your cart is empty.{' '}
+				<Button variant='outline' onClick={() => router.push('/cart')}>
+					View Cart
+				</Button>
+			</div>
+		)
+	}
 
 	return (
-		<Elements stripe={stripePromise} options={{ clientSecret }}>
+		<CheckoutProvider
+			stripe={stripePromise}
+			options={{ fetchClientSecret: () => fetchClientSecret(cart, token!) }}
+		>
 			<CheckoutForm shippingForm={shippingForm} />
-		</Elements>
+		</CheckoutProvider>
 	)
 }

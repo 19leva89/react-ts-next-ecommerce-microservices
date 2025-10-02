@@ -4,47 +4,58 @@ import { toast } from 'sonner'
 import { useState } from 'react'
 import { Button } from '@repo/ui/components'
 import { ShippingFormInputs } from '@repo/types'
-import { PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import { useCheckout } from '@stripe/react-stripe-js/checkout'
+import { PaymentElement } from '@stripe/react-stripe-js/checkout'
 
-export const CheckoutForm = ({ shippingForm }: { shippingForm: ShippingFormInputs }) => {
-	const stripe = useStripe()
-	const elements = useElements()
+interface Props {
+	shippingForm: ShippingFormInputs
+}
+
+export const CheckoutForm = ({ shippingForm }: Props) => {
+	const checkoutState = useCheckout()
 
 	const [loading, setLoading] = useState<boolean>(false)
 
 	const handleClick = async () => {
-		if (!stripe || !elements) {
-			toast.error('Stripe not initialized')
-			setLoading(false)
+		// Early return if not ready
+		if (checkoutState.type === 'loading') {
+			toast.error('Checkout is still loading')
+			return
+		}
 
+		if (checkoutState.type === 'error') {
+			toast.error(checkoutState.error.message)
 			return
 		}
 
 		setLoading(true)
 
-		const { error: stripeError } = await stripe.confirmPayment({
-			elements,
-			confirmParams: {
-				receipt_email: shippingForm.email,
-				return_url: `${window.location.origin}/return`,
-				shipping: {
-					name: shippingForm.name || 'Customer',
-					address: {
-						line1: shippingForm.address,
-						city: shippingForm.city,
-						country: 'US',
-					},
+		const { checkout } = checkoutState
+
+		try {
+			await checkout.updateEmail(shippingForm.email)
+
+			await checkout.updateShippingAddress({
+				name: 'shipping_address',
+				address: {
+					line1: shippingForm.address,
+					city: shippingForm.city,
+					country: 'US',
 				},
-			},
-			redirect: 'always',
-		})
+			})
 
-		if (stripeError) {
-			toast.error(stripeError.message ?? 'Payment failed')
+			const res = await checkout.confirm()
+
+			if (res.type === 'error') {
+				toast.error(res.error?.message ?? 'Payment failed')
+			} else if (res.type === 'success') {
+				toast.success('Payment succeeded!')
+			}
+		} catch (error) {
+			toast.error('An unexpected error occurred')
+		} finally {
+			setLoading(false)
 		}
-
-		toast.success('Payment successful')
-		setLoading(false)
 	}
 
 	return (
@@ -55,7 +66,7 @@ export const CheckoutForm = ({ shippingForm }: { shippingForm: ShippingFormInput
 				variant='default'
 				size='lg'
 				onClick={handleClick}
-				disabled={loading || !stripe}
+				disabled={loading || checkoutState.type !== 'success'}
 				className='rounded-lg'
 			>
 				{loading ? 'Loading...' : 'Pay'}

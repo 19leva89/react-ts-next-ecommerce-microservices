@@ -1,27 +1,55 @@
 import axios from 'axios'
-
+import { auth } from '@clerk/nextjs/server'
 import { ReturnPageView } from './_components/return-page-view'
 
 interface Props {
-	searchParams: Promise<{ payment_intent: string }>
+	searchParams: Promise<{ session_id: string }>
+}
+
+interface SessionData {
+	id: string
+	status: string
+	amount_total: number
+	currency: string
+}
+
+async function fetchSessionData(session_id: string): Promise<SessionData | null> {
+	try {
+		const { getToken } = await auth()
+		const token = await getToken()
+
+		const response = await axios.get<SessionData>(
+			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/${session_id}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			},
+		)
+
+		return response.data
+	} catch (error) {
+		console.error('Failed to fetch session data:', error)
+
+		return null
+	}
 }
 
 const ReturnPage = async ({ searchParams }: Props) => {
-	const resolvedSearchParams = await searchParams
+	const params = await searchParams
+	const session_id = params.session_id
 
-	if (!resolvedSearchParams.payment_intent) {
-		return <div>No payment found!</div>
+	if (!session_id) {
+		return <div>No session id found!</div>
 	}
 
-	try {
-		const { data } = await axios.get(
-			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/payments/${resolvedSearchParams.payment_intent}`,
-		)
+	const data = await fetchSessionData(session_id)
 
-		return <ReturnPageView data={data} />
-	} catch (error) {
-		console.error(error)
+	if (!data) {
+		return <div>Failed to fetch session data</div>
 	}
+
+	return <ReturnPageView data={data} />
 }
 
 export default ReturnPage

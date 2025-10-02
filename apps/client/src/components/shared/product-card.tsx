@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { useState } from 'react'
 import { cn } from '@repo/ui/lib'
 import { ProductType } from '@repo/types'
+import { Button } from '@repo/ui/components'
 import { ShoppingCartIcon } from 'lucide-react'
 
 import { useCartStore } from '@/stores/cart-store'
@@ -101,13 +102,15 @@ export const ProductCard = ({ product }: { product: ProductType }) => {
 				<div className='flex items-center justify-between'>
 					<p className='font-medium'>${product.price.toFixed(2)}</p>
 
-					<button
+					<Button
+						variant='ghost'
+						size='default'
 						onClick={handleAddToCart}
-						className='flex cursor-pointer items-center gap-2 rounded-md px-2 py-1 text-sm shadow-lg ring-1 ring-gray-200 transition-all duration-300 hover:bg-black hover:text-white'
+						className='rounded-md shadow-lg ring-1 ring-gray-200 hover:bg-black hover:text-white'
 					>
 						<ShoppingCartIcon className='size-4' />
 						Add to Cart
-					</button>
+					</Button>
 				</div>
 			</div>
 		</div>

@@ -19,7 +19,7 @@ sessionRoute.post('/create-checkout-session', shouldBeUser, async (c) => {
 		quantity: item.quantity,
 	}))
 
-	console.log('lineItems:', lineItems)
+	// console.log('lineItems:', lineItems)
 
 	try {
 		const session = await stripe.checkout.sessions.create({
@@ -30,9 +30,9 @@ sessionRoute.post('/create-checkout-session', shouldBeUser, async (c) => {
 			return_url: 'http://localhost:3002/return?session_id={CHECKOUT_SESSION_ID}',
 		})
 
-		// console.log(session);
+		// console.log('session:', session)
 
-		return c.json({ checkoutSessionClientSecret: session.client_secret })
+		return c.json({ client_secret: session.client_secret })
 	} catch (error) {
 		console.log(error)
 
@@ -40,19 +40,32 @@ sessionRoute.post('/create-checkout-session', shouldBeUser, async (c) => {
 	}
 })
 
-sessionRoute.get('/:session_id', async (c) => {
+sessionRoute.get('/:session_id', shouldBeUser, async (c) => {
 	const { session_id } = c.req.param()
 
-	const session = await stripe.checkout.sessions.retrieve(session_id as string, {
-		expand: ['line_items'],
-	})
+	try {
+		const session = await stripe.checkout.sessions.retrieve(session_id, {
+			expand: ['line_items'],
+		})
 
-	// console.log(session);
+		return c.json({
+			status: session.status,
+			amount_total: session.amount_total,
+			currency: session.currency,
+		})
+	} catch (error) {
+		console.error('Backend session retrieve error:', error)
 
-	return c.json({
-		status: session.status,
-		paymentStatus: session.payment_status,
-	})
+		// Type guard for unknown error
+		if (error && typeof error === 'object' && 'type' in error && error.type === 'StripeInvalidRequestError') {
+			c.status(404)
+
+			return c.json({ error: 'Session not found' })
+		}
+
+		c.status(500)
+		return c.json({ error: error instanceof Error ? error.message : 'Unknown error' })
+	}
 })
 
 export default sessionRoute

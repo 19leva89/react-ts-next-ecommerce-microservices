@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { cn } from '@repo/ui/lib'
+import { Button } from '@repo/ui/components'
 import { ShippingFormInputs } from '@repo/types'
 import { ArrowRightIcon, Trash2Icon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -19,7 +20,6 @@ export const CartPageView = () => {
 	const { cart, removeFromCart } = useCartStore()
 
 	const [shippingForm, setShippingForm] = useState<ShippingFormInputs>()
-	console.log('shippingForm:', shippingForm)
 
 	const activeStep = parseInt(searchParams.get('step') || '1')
 
@@ -96,12 +96,14 @@ export const CartPageView = () => {
 								</div>
 
 								{/* DELETE BUTTON */}
-								<button
+								<Button
+									variant='destructive'
+									size='icon'
 									onClick={() => removeFromCart(item)}
-									className='flex size-8 cursor-pointer items-center justify-center rounded-full bg-red-100 text-red-400 transition-all duration-300 hover:bg-red-200'
+									className='rounded-full bg-red-100 text-red-400 hover:bg-red-200'
 								>
 									<Trash2Icon className='size-3' />
-								</button>
+								</Button>
 							</div>
 						))
 					) : activeStep === 2 ? (
@@ -148,13 +150,15 @@ export const CartPageView = () => {
 					</div>
 
 					{activeStep === 1 && (
-						<button
+						<Button
+							variant='default'
+							size='lg'
 							onClick={() => router.push('/cart?step=2', { scroll: false })}
-							className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-gray-800 p-2 text-white transition-all duration-300 hover:bg-gray-900'
+							className='rounded-lg'
 						>
 							Continue
 							<ArrowRightIcon className='size-3' />
-						</button>
+						</Button>
 					)}
 				</div>
 			</div>

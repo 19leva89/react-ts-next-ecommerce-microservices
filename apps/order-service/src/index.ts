@@ -9,7 +9,10 @@ import { runKafkaSubscriptions } from './utils/subscriptions.js'
 
 const fastify = Fastify()
 
-fastify.register(Clerk.clerkPlugin)
+fastify.register(Clerk.clerkPlugin, {
+	secretKey: process.env.CLERK_SECRET_KEY,
+	publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+})
 
 fastify.get('/health', (_req, reply) => {
 	return reply.status(200).send({
@@ -30,7 +33,7 @@ fastify.register(orderRoute)
 
 const start = async () => {
 	try {
-		Promise.all([await connectOrderDB(), await producer.connect(), await consumer.connect()])
+		await Promise.all([connectOrderDB(), producer.connect(), consumer.connect()])
 
 		await runKafkaSubscriptions()
 		await fastify.listen({ port: 8001 })
