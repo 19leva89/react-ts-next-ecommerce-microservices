@@ -2,7 +2,11 @@ import Image from 'next/image'
 
 import { ProductList } from '@/components/shared/product-list'
 
-const Homepage = async ({ searchParams }: { searchParams: Promise<{ category: string }> }) => {
+interface Props {
+	searchParams: Promise<{ category: string }>
+}
+
+const Homepage = async ({ searchParams }: Props) => {
 	const category = (await searchParams).category
 
 	return (

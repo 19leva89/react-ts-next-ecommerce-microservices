@@ -10,15 +10,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import { useCartStore } from '@/stores/cart-store'
 
-export const ProductInteraction = ({
-	product,
-	selectedSize,
-	selectedColor,
-}: {
+interface Props {
 	product: ProductType
 	selectedSize: string
 	selectedColor: string
-}) => {
+}
+
+export const ProductInteraction = ({ product, selectedSize, selectedColor }: Props) => {
 	const router = useRouter()
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
@@ -52,6 +50,7 @@ export const ProductInteraction = ({
 		})
 		toast.success('Product added to cart')
 	}
+
 	return (
 		<div className='mt-4 flex flex-col gap-4'>
 			{/* SIZE */}

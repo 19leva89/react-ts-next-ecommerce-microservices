@@ -5,6 +5,7 @@ export const createConsumer = (kafka: Kafka, groupId: string) => {
 
 	const connect = async () => {
 		await consumer.connect()
+
 		console.log('✅ Kafka consumer connected: ' + groupId)
 	}
 
@@ -16,6 +17,7 @@ export const createConsumer = (kafka: Kafka, groupId: string) => {
 	) => {
 		for (const { topicName } of topics) {
 			await consumer.subscribe({ topic: topicName, fromBeginning: true })
+
 			console.log(`📥 Subscribed to topic "${topicName}"`)
 		}
 
@@ -24,6 +26,7 @@ export const createConsumer = (kafka: Kafka, groupId: string) => {
 				try {
 					const value = message.value?.toString()
 					if (!value) return
+
 					const topicConfig = topics.find((t) => t.topicName === topic)
 					if (topicConfig) {
 						await topicConfig.topicHandler(JSON.parse(value))
@@ -37,6 +40,7 @@ export const createConsumer = (kafka: Kafka, groupId: string) => {
 
 	const disconnect = async () => {
 		await consumer.disconnect()
+
 		console.log('🛑 Kafka consumer disconnected')
 	}
 

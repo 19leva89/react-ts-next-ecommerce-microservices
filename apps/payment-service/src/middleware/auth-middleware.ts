@@ -6,16 +6,16 @@ export const shouldBeUser = createMiddleware<{
 	Variables: {
 		userId: string
 	}
-}>(async (c, next) => {
-	const auth = getAuth(c)
+}>(async (ctx, next) => {
+	const auth = getAuth(ctx)
 
 	if (!auth?.userId) {
-		return c.json({
+		return ctx.json({
 			message: 'You are not logged in',
 		})
 	}
 
-	c.set('userId', auth.userId)
+	ctx.set('userId', auth.userId)
 
 	await next()
 })
@@ -24,11 +24,11 @@ export const shouldBeAdmin = createMiddleware<{
 	Variables: {
 		userId: string
 	}
-}>(async (c, next) => {
-	const auth = getAuth(c)
+}>(async (ctx, next) => {
+	const auth = getAuth(ctx)
 
 	if (!auth?.userId) {
-		return c.json({
+		return ctx.json({
 			message: 'You are not logged in',
 		})
 	}
@@ -36,10 +36,10 @@ export const shouldBeAdmin = createMiddleware<{
 	const claims = auth.sessionClaims as CustomJwtSessionClaims
 
 	if (claims.metadata?.role !== 'admin') {
-		return c.json({ message: 'Unauthorized!' })
+		return ctx.json({ message: 'Unauthorized!' })
 	}
 
-	c.set('userId', auth.userId)
+	ctx.set('userId', auth.userId)
 
 	await next()
 })

@@ -7,17 +7,17 @@ import { producer } from '../utils/kafka'
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string
 const webhookRoute = new Hono()
 
-webhookRoute.get('/', (c) => {
-	return c.json({
+webhookRoute.get('/', (ctx) => {
+	return ctx.json({
 		status: 'ok webhook',
 		uptime: process.uptime(),
 		timestamp: Date.now(),
 	})
 })
 
-webhookRoute.post('/stripe', async (c) => {
-	const body = await c.req.text()
-	const sig = c.req.header('stripe-signature')
+webhookRoute.post('/stripe', async (ctx) => {
+	const body = await ctx.req.text()
+	const sig = ctx.req.header('stripe-signature')
 
 	let event: Stripe.Event
 
@@ -26,7 +26,7 @@ webhookRoute.post('/stripe', async (c) => {
 	} catch (error) {
 		console.log('Webhook verification failed!')
 
-		return c.json({ error: 'Webhook verification failed!' }, 400)
+		return ctx.json({ error: 'Webhook verification failed!' }, 400)
 	}
 
 	switch (event.type) {
@@ -55,7 +55,7 @@ webhookRoute.post('/stripe', async (c) => {
 			break
 	}
 
-	return c.json({ received: true })
+	return ctx.json({ received: true })
 })
 
 export default webhookRoute

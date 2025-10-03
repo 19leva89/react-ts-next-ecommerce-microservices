@@ -1,4 +1,7 @@
 import { prisma } from '../src/client'
+import { producer } from '../src/kafka'
+
+//! To run the command "pnpm run db:seed" the turborepo servers must be running
 
 const mockCategory = {
 	slug: 'test',
@@ -140,22 +143,52 @@ async function up() {
 		create: mockCategory,
 	})
 
-	// Then, seed the products
+	// Then, seed the products in the database
 	await prisma.product.createMany({
 		data: mockProducts,
 	})
 
-	console.log(`Seeded ${mockProducts.length} products into the database`)
+	// Publish Kafka events to create products in Stripe
+	for (const product of mockProducts) {
+		await producer.send('product.created', { value: product })
+		console.log(`📦 Published Kafka event for product: ${product.id}`)
+	}
+
+	console.log(
+		`Seeded ${mockProducts.length} products into the database and published creation events to Kafka`,
+	)
 }
 
 async function down() {
-	await prisma.product.deleteMany()
+	// Publish Kafka events to delete products from Stripe before removing from DB
+	for (const product of mockProducts) {
+		await producer.send('product.deleted', { value: product.id })
+		console.log(`🗑️ Published Kafka event for deleting product: ${product.id}`)
+	}
+
+	// Then, remove the products from the database
+	await prisma.product.deleteMany({
+		where: {
+			id: { in: mockProducts.map((p) => p.id) },
+		},
+	})
+
+	// Also remove the category if no other products reference it
+	await prisma.category.deleteMany({
+		where: { slug: 'test' },
+	})
+
+	console.log(`Removed ${mockProducts.length} products and the test category from the database`)
 }
 
 async function main() {
 	try {
+		await producer.connect()
+
 		await down()
 		await up()
+
+		await producer.disconnect()
 	} catch (e) {
 		console.error(e)
 	}
@@ -167,6 +200,8 @@ main()
 	})
 	.catch(async (e) => {
 		console.error(e)
+
 		await prisma.$disconnect()
+
 		process.exit(1)
 	})

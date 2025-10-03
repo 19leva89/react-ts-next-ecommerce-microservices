@@ -11,7 +11,11 @@ import { ShoppingCartIcon } from 'lucide-react'
 
 import { useCartStore } from '@/stores/cart-store'
 
-export const ProductCard = ({ product }: { product: ProductType }) => {
+interface Props {
+	product: ProductType
+}
+
+export const ProductCard = ({ product }: Props) => {
 	const [productTypes, setProductTypes] = useState<{ size: string; color: string }>({
 		size: product.sizes[0]!,
 		color: product.colors[0]!,

@@ -11,7 +11,7 @@ const app = express()
 
 app.use(
 	cors({
-		origin: ['http://localhost:3002', 'http://localhost:3003'],
+		origin: [`${process.env.NEXT_PUBLIC_CLIENT_URL}`, `${process.env.NEXT_PUBLIC_ADMIN_URL}`],
 		credentials: true,
 	}),
 )
@@ -52,8 +52,8 @@ const start = async () => {
 	try {
 		await Promise.all([producer.connect(), consumer.connect()])
 
-		app.listen(8000, () => {
-			console.log('Product service is running on 8000')
+		app.listen(Number(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_PORT}` || 8000), () => {
+			console.log(`Product service is running on port ${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_PORT}`)
 		})
 	} catch (error) {
 		console.log(error)

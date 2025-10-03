@@ -10,7 +10,7 @@ const app = express()
 
 app.use(
 	cors({
-		origin: ['http://localhost:3003'],
+		origin: [`${process.env.NEXT_PUBLIC_ADMIN_URL}`],
 		credentials: true,
 	}),
 )
@@ -28,7 +28,7 @@ app.get('/health', (_req: Request, res: Response) => {
 app.use('/users', shouldBeAdmin, userRoute)
 
 interface AppError extends Error {
-  status?: number;
+	status?: number
 }
 
 app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
@@ -41,8 +41,8 @@ const start = async () => {
 	try {
 		await producer.connect()
 
-		app.listen(8003, () => {
-			console.log('Auth service is running on 8003')
+		app.listen(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_PORT}` || 8003, () => {
+			console.log(`Auth service is running on ${process.env.NEXT_PUBLIC_AUTH_SERVICE_PORT}`)
 		})
 	} catch (error) {
 		console.log(error)

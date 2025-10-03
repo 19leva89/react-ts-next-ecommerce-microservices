@@ -47,12 +47,12 @@ const OrdersPage = async () => {
 
 						<div className='w-1/12'>
 							<span className='text-sm font-medium text-gray-500'>Total</span>
-							<p>{order.amount / 100}</p>
+							<p>${order.amount / 100}</p>
 						</div>
 
 						<div className='w-1/12'>
 							<span className='text-sm font-medium text-gray-500'>Status</span>
-							<p>{order.status}</p>
+							<p className='capitalize'>{order.status}</p>
 						</div>
 
 						<div className='w-1/8'>

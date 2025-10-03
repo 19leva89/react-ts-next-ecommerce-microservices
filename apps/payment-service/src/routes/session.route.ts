@@ -3,52 +3,61 @@ import { CartItemsType } from '@repo/types'
 
 import { stripe } from '../utils/stripe'
 import { shouldBeUser } from '../middleware/auth-middleware'
+import { getStripeProductPrice } from '../utils/stripe-product'
 
 const sessionRoute = new Hono()
 
-sessionRoute.post('/create-checkout-session', shouldBeUser, async (c) => {
-	const { cart }: { cart: CartItemsType } = await c.req.json()
-	const userId = c.get('userId')
+sessionRoute.post('/create-checkout-session', shouldBeUser, async (ctx) => {
+	const userId = ctx.get('userId')
+	const { cart }: { cart: CartItemsType } = await ctx.req.json()
 
-	const lineItems = cart.map((item) => ({
-		price_data: {
-			currency: 'usd',
-			product_data: { name: item.name },
-			unit_amount: Math.round(item.price * 100),
-		},
-		quantity: item.quantity,
-	}))
+	const lineItems = await Promise.all(
+		cart.map(async (item) => {
+			const unitAmount = await getStripeProductPrice(item.id)
+
+			return {
+				price_data: {
+					currency: 'usd',
+					product_data: {
+						name: item.name,
+					},
+					unit_amount: unitAmount as number,
+				},
+				quantity: item.quantity,
+			}
+		}),
+	)
 
 	// console.log('lineItems:', lineItems)
 
 	try {
 		const session = await stripe.checkout.sessions.create({
-			line_items: lineItems,
-			client_reference_id: userId,
-			mode: 'payment',
 			ui_mode: 'custom',
-			return_url: 'http://localhost:3002/return?session_id={CHECKOUT_SESSION_ID}',
+			line_items: lineItems,
+			mode: 'payment',
+			client_reference_id: userId,
+			return_url: `${process.env.NEXT_PUBLIC_CLIENT_URL}/return?session_id={CHECKOUT_SESSION_ID}`,
 		})
 
 		// console.log('session:', session)
 
-		return c.json({ client_secret: session.client_secret })
+		return ctx.json({ clientSecret: session.client_secret })
 	} catch (error) {
 		console.log(error)
 
-		return c.json({ error: (error as Error).message })
+		return ctx.json({ error: (error as Error).message })
 	}
 })
 
-sessionRoute.get('/:session_id', shouldBeUser, async (c) => {
-	const { session_id } = c.req.param()
+sessionRoute.get('/:session_id', shouldBeUser, async (ctx) => {
+	const { session_id } = ctx.req.param()
 
 	try {
 		const session = await stripe.checkout.sessions.retrieve(session_id, {
 			expand: ['line_items'],
 		})
 
-		return c.json({
+		return ctx.json({
 			status: session.status,
 			amount_total: session.amount_total,
 			currency: session.currency,
@@ -58,13 +67,13 @@ sessionRoute.get('/:session_id', shouldBeUser, async (c) => {
 
 		// Type guard for unknown error
 		if (error && typeof error === 'object' && 'type' in error && error.type === 'StripeInvalidRequestError') {
-			c.status(404)
+			ctx.status(404)
 
-			return c.json({ error: 'Session not found' })
+			return ctx.json({ error: 'Session not found' })
 		}
 
-		c.status(500)
-		return c.json({ error: error instanceof Error ? error.message : 'Unknown error' })
+		ctx.status(500)
+		return ctx.json({ error: error instanceof Error ? error.message : 'Unknown error' })
 	}
 })
 

@@ -36,9 +36,9 @@ const start = async () => {
 		await Promise.all([connectOrderDB(), producer.connect(), consumer.connect()])
 
 		await runKafkaSubscriptions()
-		await fastify.listen({ port: 8001 })
+		await fastify.listen({ port: Number(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_PORT}` || 8001) })
 
-		console.log('Order service is running on port 8001')
+		console.log(`Order service is running on port ${process.env.NEXT_PUBLIC_ORDER_SERVICE_PORT}`)
 	} catch (err) {
 		console.log(err)
 

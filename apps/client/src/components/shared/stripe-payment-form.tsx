@@ -31,11 +31,11 @@ export const fetchClientSecret = async (cart: CartItemsType, token: string): Pro
 			},
 		)
 
-		if (!data.client_secret) {
-			throw new Error('No client_secret in response')
+		if (!data.clientSecret) {
+			throw new Error('No clientSecret in response')
 		}
 
-		return data.client_secret
+		return data.clientSecret
 	} catch (error) {
 		console.error('fetchClientSecret error:', error)
 

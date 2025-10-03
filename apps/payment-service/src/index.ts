@@ -3,7 +3,6 @@ import { cors } from 'hono/cors'
 import { serve } from '@hono/node-server'
 import { clerkMiddleware } from '@hono/clerk-auth'
 
-import paymentRoute from './routes/payment.route.js'
 import sessionRoute from './routes/session.route.js'
 import webhookRoute from './routes/webhooks.route.js'
 import { consumer, producer } from './utils/kafka.js'
@@ -18,10 +17,10 @@ app.use(
 		publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
 	}),
 )
-app.use('*', cors({ origin: ['http://localhost:3002'] }))
+app.use('*', cors({ origin: [`${process.env.NEXT_PUBLIC_CLIENT_URL}`] }))
 
-app.get('/health', (c) => {
-	return c.json({
+app.get('/health', (ctx) => {
+	return ctx.json({
 		status: 'ok',
 		uptime: process.uptime(),
 		timestamp: Date.now(),
@@ -30,28 +29,20 @@ app.get('/health', (c) => {
 
 app.route('/sessions', sessionRoute)
 app.route('/webhooks', webhookRoute)
-app.route('/payments', paymentRoute)
 
 const start = async () => {
 	try {
-		console.log('Starting payment-service...')
-
-		await producer.connect()
-		console.log('Kafka payment-service producer connected')
-
-		await consumer.connect()
-		console.log('Kafka payment-service consumer connected')
+		await Promise.all([producer.connect(), consumer.connect()])
 
 		await runKafkaSubscriptions()
-		console.log('Kafka payment-service subscriptions started')
 
 		serve(
 			{
 				fetch: app.fetch,
-				port: 8002,
+				port: Number(`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_PORT}` || 8002),
 			},
 			(info) => {
-				console.log(`Payment-service is running on port 8002`)
+				console.log(`Payment-service is running on port ${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_PORT}`)
 				console.log(`Server info:`, info)
 			},
 		)

@@ -60,7 +60,7 @@ export const CheckoutForm = ({ shippingForm }: Props) => {
 
 	return (
 		<form className='flex flex-col gap-2'>
-			<PaymentElement options={{ layout: 'accordion' }} />
+			<PaymentElement id='payment-element' options={{ layout: 'accordion' }} />
 
 			<Button
 				variant='default'

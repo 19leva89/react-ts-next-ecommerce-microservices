@@ -43,8 +43,13 @@ const getData = async (id: string): Promise<User | null> => {
 	}
 }
 
-const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+interface Props {
+	params: Promise<{ id: string }>
+}
+
+const SingleUserPage = async ({ params }: Props) => {
 	const { id } = await params
+
 	const data = await getData(id)
 
 	if (!data) {
@@ -79,7 +84,7 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 				<div className='w-full space-y-6 xl:w-1/3'>
 					{/* USER BADGES CONTAINER */}
 					<div className='bg-primary-foreground rounded-lg p-4'>
-						<h1 className='text-xl font-semibold'>User Badges</h1>
+						<h1 className='text-xl font-semibold'>User badges</h1>
 
 						<div className='mt-4 flex gap-4'>
 							<HoverCard>
@@ -91,9 +96,9 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 								</HoverCardTrigger>
 
 								<HoverCardContent>
-									<h1 className='mb-2 font-bold'>Verified User</h1>
+									<h1 className='mb-2 font-bold'>Verified user</h1>
 
-									<p className='text-muted-foreground text-sm'>This user has been verified by the admin.</p>
+									<p className='text-muted-foreground text-sm'>This user has been verified by the admin</p>
 								</HoverCardContent>
 							</HoverCard>
 
@@ -108,7 +113,7 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 								<HoverCardContent>
 									<h1 className='mb-2 font-bold'>Admin</h1>
 									<p className='text-muted-foreground text-sm'>
-										Admin users have access to all features and can manage users.
+										Admin users have access to all features and can manage users
 									</p>
 								</HoverCardContent>
 							</HoverCard>
@@ -124,7 +129,7 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 								<HoverCardContent>
 									<h1 className='mb-2 font-bold'>Awarded</h1>
 									<p className='text-muted-foreground text-sm'>
-										This user has been awarded for their contributions.
+										This user has been awarded for their contributions
 									</p>
 								</HoverCardContent>
 							</HoverCard>
@@ -139,9 +144,7 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 
 								<HoverCardContent>
 									<h1 className='mb-2 font-bold'>Popular</h1>
-									<p className='text-muted-foreground text-sm'>
-										This user has been popular in the community.
-									</p>
+									<p className='text-muted-foreground text-sm'>This user has been popular in the community</p>
 								</HoverCardContent>
 							</HoverCard>
 						</div>
@@ -173,7 +176,7 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 					{/* INFORMATION CONTAINER */}
 					<div className='bg-primary-foreground rounded-lg p-4'>
 						<div className='flex items-center justify-between'>
-							<h1 className='text-xl font-semibold'>User Information</h1>
+							<h1 className='text-xl font-semibold'>User information</h1>
 
 							<Sheet>
 								<SheetTrigger asChild>
@@ -189,6 +192,7 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 
 								<Progress value={66} />
 							</div>
+
 							<div className='flex items-center gap-2'>
 								<span className='font-bold'>Full name:</span>
 								<span>{data?.firstName + ' ' + data?.lastName || data?.username || '-'}</span>
@@ -225,7 +229,7 @@ const SingleUserPage = async ({ params }: { params: Promise<{ id: string }> }) =
 				<div className='w-full space-y-6 xl:w-2/3'>
 					{/* CHART CONTAINER */}
 					<div className='bg-primary-foreground rounded-lg p-4'>
-						<h1 className='text-xl font-semibold'>User Activity</h1>
+						<h1 className='text-xl font-semibold'>User activity</h1>
 
 						<AppLineChart />
 					</div>

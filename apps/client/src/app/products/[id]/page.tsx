@@ -32,15 +32,14 @@ export const generateMetadata = async ({ params }: { params: Promise<{ id: strin
 	}
 }
 
-const ProductPage = async ({
-	params,
-	searchParams,
-}: {
+interface Props {
 	params: Promise<{ id: string }>
 	searchParams: Promise<{ color: string; size: string }>
-}) => {
-	const { size, color } = await searchParams
+}
+
+const ProductPage = async ({ params, searchParams }: Props) => {
 	const { id } = await params
+	const { size, color } = await searchParams
 
 	const product = await fetchProduct(id)
 

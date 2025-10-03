@@ -23,13 +23,13 @@ export const SearchBar = () => {
 			<input
 				id='search'
 				placeholder='Search...'
-				className='text-sm outline-0'
 				onChange={(e) => setValue(e.target.value)}
 				onKeyDown={(e) => {
 					if (e.key === 'Enter') {
 						handleSearch(value)
 					}
 				}}
+				className='text-sm outline-0'
 			/>
 		</div>
 	)

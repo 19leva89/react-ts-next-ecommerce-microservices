@@ -1,16 +1,19 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { Button } from '@repo/ui/components'
 import { ArrowRightIcon } from 'lucide-react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { ShippingFormInputs, shippingFormSchema } from '@repo/types'
 
-export const ShippingForm = ({
-	setShippingForm,
-}: {
+interface Props {
 	setShippingForm: (data: ShippingFormInputs) => void
-}) => {
+}
+
+export const ShippingForm = ({ setShippingForm }: Props) => {
+	const router = useRouter()
+
 	const {
 		register,
 		handleSubmit,
@@ -18,8 +21,6 @@ export const ShippingForm = ({
 	} = useForm<ShippingFormInputs>({
 		resolver: zodResolver(shippingFormSchema),
 	})
-
-	const router = useRouter()
 
 	const handleShippingForm: SubmitHandler<ShippingFormInputs> = (data) => {
 		setShippingForm(data)
@@ -35,10 +36,10 @@ export const ShippingForm = ({
 				</label>
 
 				<input
-					className='border-b border-gray-200 py-2 text-sm outline-none'
-					type='text'
 					id='name'
+					type='text'
 					placeholder='John Doe'
+					className='border-b border-gray-200 py-2 text-sm outline-none'
 					{...register('name')}
 				/>
 
@@ -51,10 +52,10 @@ export const ShippingForm = ({
 				</label>
 
 				<input
-					className='border-b border-gray-200 py-2 text-sm outline-none'
-					type='email'
 					id='email'
+					type='email'
 					placeholder='johndoe@gmail.com'
+					className='border-b border-gray-200 py-2 text-sm outline-none'
 					{...register('email')}
 				/>
 
@@ -67,10 +68,10 @@ export const ShippingForm = ({
 				</label>
 
 				<input
-					className='border-b border-gray-200 py-2 text-sm outline-none'
-					type='text'
 					id='phone'
-					placeholder='123456789'
+					type='text'
+					placeholder='+123456789012'
+					className='border-b border-gray-200 py-2 text-sm outline-none'
 					{...register('phone')}
 				/>
 
@@ -83,10 +84,10 @@ export const ShippingForm = ({
 				</label>
 
 				<input
-					className='border-b border-gray-200 py-2 text-sm outline-none'
-					type='text'
 					id='address'
+					type='text'
 					placeholder='123 Main St, Any town'
+					className='border-b border-gray-200 py-2 text-sm outline-none'
 					{...register('address')}
 				/>
 
@@ -99,23 +100,20 @@ export const ShippingForm = ({
 				</label>
 
 				<input
-					className='border-b border-gray-200 py-2 text-sm outline-none'
-					type='text'
 					id='city'
+					type='text'
 					placeholder='New York'
+					className='border-b border-gray-200 py-2 text-sm outline-none'
 					{...register('city')}
 				/>
 
 				{errors.city && <p className='text-xs text-red-500'>{errors.city.message}</p>}
 			</div>
 
-			<button
-				type='submit'
-				className='flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-gray-800 p-2 text-white transition-all duration-300 hover:bg-gray-900'
-			>
+			<Button variant='default' size='lg' type='submit' className='rounded-lg'>
 				Continue
 				<ArrowRightIcon className='size-3' />
-			</button>
+			</Button>
 		</form>
 	)
 }

@@ -11,6 +11,7 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
+    "@repo/kafka": "workspace:*",
     "@prisma/client": "^6.16.2"
   },
   "devDependencies": {

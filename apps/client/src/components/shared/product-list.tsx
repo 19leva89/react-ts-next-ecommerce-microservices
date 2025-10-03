@@ -16,8 +16,8 @@ interface Props {
 const fetchData = async ({ category, sort, search, params }: Props): Promise<ProductType[]> => {
 	const queryParams: Record<string, string | number> = {}
 
-	if (category) queryParams.category = category
 	if (search) queryParams.search = search
+	if (category) queryParams.category = category
 
 	queryParams.sort = sort || 'newest'
 
