@@ -2,12 +2,13 @@ import { Kafka } from 'kafkajs'
 
 export const createKafkaTopic = async (kafka: Kafka, topic: string) => {
 	const admin = kafka.admin()
+
 	await admin.connect()
 
 	const existingTopics = await admin.listTopics()
 
 	if (existingTopics.includes(topic)) {
-		console.log(`ℹ️ Topic "${topic}" already exists, skipping creation.`)
+		console.log(`ℹ️ Topic "${topic}" already exists, skipping creation`)
 
 		await admin.disconnect()
 
@@ -18,7 +19,7 @@ export const createKafkaTopic = async (kafka: Kafka, topic: string) => {
 		topics: [
 			{
 				topic,
-				numPartitions: 1,
+				numPartitions: 3,
 				replicationFactor: 3, // Confluent Cloud needs >=3
 			},
 		],

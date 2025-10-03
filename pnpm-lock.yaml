@@ -183,9 +183,18 @@ importers:
         specifier: ^7.0.6
         version: 7.0.6
     devDependencies:
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../../packages/types
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
       '@types/nodemailer':
         specifier: ^7.0.1
         version: 7.0.1
+      tsx:
+        specifier: ^4.20.6
+        version: 4.20.6
 
   apps/order-service:
     dependencies:

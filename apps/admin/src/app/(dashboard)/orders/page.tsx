@@ -19,8 +19,8 @@ const getData = async (): Promise<OrderType[]> => {
 		})
 
 		return data
-	} catch (err) {
-		console.log('Failed to fetch orders:', err)
+	} catch (error) {
+		console.log('Failed to fetch orders:', error)
 
 		return []
 	}

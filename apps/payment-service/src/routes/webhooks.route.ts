@@ -4,8 +4,8 @@ import Stripe from 'stripe'
 import { stripe } from '../utils/stripe'
 import { producer } from '../utils/kafka'
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string
 const webhookRoute = new Hono()
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string
 
 webhookRoute.get('/', (ctx) => {
 	return ctx.json({

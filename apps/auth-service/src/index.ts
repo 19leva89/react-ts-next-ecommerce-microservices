@@ -31,10 +31,10 @@ interface AppError extends Error {
 	status?: number
 }
 
-app.use((err: AppError, _req: Request, res: Response, _next: NextFunction) => {
-	console.log(err)
+app.use((error: AppError, _req: Request, res: Response, _next: NextFunction) => {
+	console.log(error)
 
-	return res.status(err.status || 500).json({ message: err.message || 'Inter Server Error!' })
+	return res.status(error.status || 500).json({ message: error.message || 'Inter Server Error!' })
 })
 
 const start = async () => {

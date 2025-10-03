@@ -39,8 +39,8 @@ const start = async () => {
 		await fastify.listen({ port: Number(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_PORT}` || 8001) })
 
 		console.log(`Order service is running on port ${process.env.NEXT_PUBLIC_ORDER_SERVICE_PORT}`)
-	} catch (err) {
-		console.log(err)
+	} catch (error) {
+		console.log(error)
 
 		process.exit(1)
 	}

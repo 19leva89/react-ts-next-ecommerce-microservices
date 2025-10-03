@@ -1,13 +1,7 @@
-import { createConsumer, createKafkaClient, createKafkaTopic } from '@repo/kafka'
+import { OrderCreatedMessage, UserCreatedMessage } from '@repo/types'
 
+import { consumer } from './utils/kafka'
 import { sendMail } from './utils/mailer'
-
-const kafkaClient = createKafkaClient('email-service')
-
-await createKafkaTopic(kafkaClient, 'user.created')
-await createKafkaTopic(kafkaClient, 'order.created')
-
-const consumer = createConsumer(kafkaClient, 'email-service')
 
 const start = async () => {
 	try {
@@ -17,7 +11,7 @@ const start = async () => {
 			{
 				topicName: 'user.created',
 				topicHandler: async (message) => {
-					const { email, username } = message.value
+					const { email, username } = message.value as UserCreatedMessage
 
 					if (email) {
 						await sendMail({
@@ -31,7 +25,7 @@ const start = async () => {
 			{
 				topicName: 'order.created',
 				topicHandler: async (message) => {
-					const { email, amount, status } = message.value
+					const { email, amount, status } = message.value as OrderCreatedMessage
 
 					if (email) {
 						await sendMail({

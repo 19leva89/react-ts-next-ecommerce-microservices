@@ -15,7 +15,7 @@ async function startNgrok() {
 
 	try {
 		const listener = await ngrok.forward({
-			addr: 8002,
+			addr: Number(`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_PORT}` || 8002),
 			authtoken,
 			domain,
 		})

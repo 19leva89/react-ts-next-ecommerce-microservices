@@ -9,9 +9,9 @@ export const createStripeProduct = async (item: StripeProductType) => {
 
 		try {
 			existingProduct = await stripe.products.retrieve(item.id)
-		} catch (err: any) {
+		} catch (error: Error | any) {
 			// If the product doesn't exist, Stripe will throw an error with code "resource_missing"
-			if (err.code !== 'resource_missing') throw err
+			if (error.code !== 'resource_missing') throw error
 		}
 
 		// 2️⃣ If the product is found
@@ -104,6 +104,7 @@ export const deleteStripeProduct = async (productId: string) => {
 		await stripe.products.update(productId, {
 			default_price: null as unknown as string,
 		})
+
 		console.log(`📉 Removed default price from product: ${productId}`)
 
 		// Then, list all prices for the product
@@ -115,6 +116,7 @@ export const deleteStripeProduct = async (productId: string) => {
 		// Deactivate all active prices
 		for (const price of prices.data) {
 			await stripe.prices.update(price.id, { active: false })
+
 			console.log(`📉 Deactivated price: ${price.id}`)
 		}
 
@@ -125,11 +127,12 @@ export const deleteStripeProduct = async (productId: string) => {
 			console.log('✅ Deleted Stripe product:', productId)
 
 			return deletedProduct
-		} catch (deleteError: any) {
+		} catch (deleteError: Error | any) {
 			if (deleteError.message?.includes('user-created prices')) {
 				console.warn(
 					`⚠️ Cannot delete product ${productId} because it has user-created prices. Archiving instead.`,
 				)
+
 				await stripe.products.update(productId, { active: false })
 
 				return { id: productId, archived: true }

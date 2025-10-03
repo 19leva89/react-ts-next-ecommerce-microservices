@@ -18,7 +18,7 @@ async function fetchSessionData(session_id: string): Promise<SessionData | null>
 		const { getToken } = await auth()
 		const token = await getToken()
 
-		const response = await axios.get<SessionData>(
+		const res = await axios.get<SessionData>(
 			`${process.env.NEXT_PUBLIC_PAYMENT_SERVICE_URL}/sessions/${session_id}`,
 			{
 				headers: {
@@ -27,7 +27,7 @@ async function fetchSessionData(session_id: string): Promise<SessionData | null>
 			},
 		)
 
-		return response.data
+		return res.data
 	} catch (error) {
 		console.error('Failed to fetch session data:', error)
 

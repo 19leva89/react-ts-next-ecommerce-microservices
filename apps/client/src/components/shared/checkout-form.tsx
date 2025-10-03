@@ -52,6 +52,8 @@ export const CheckoutForm = ({ shippingForm }: Props) => {
 				toast.success('Payment succeeded!')
 			}
 		} catch (error) {
+			console.error(error)
+
 			toast.error('An unexpected error occurred')
 		} finally {
 			setLoading(false)
