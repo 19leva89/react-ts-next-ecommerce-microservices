@@ -38,7 +38,7 @@ export const AddOrder = () => {
 	return (
 		<SheetContent>
 			<SheetHeader>
-				<SheetTitle className='mb-4'>Add Order</SheetTitle>
+				<SheetTitle className='mb-4'>Add order</SheetTitle>
 
 				<SheetDescription asChild>
 					<Form {...form}>
@@ -54,7 +54,7 @@ export const AddOrder = () => {
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Enter the amount of the order.</FormDescription>
+										<FormDescription>Enter the amount of the order</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -72,7 +72,7 @@ export const AddOrder = () => {
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Enter the User ID.</FormDescription>
+										<FormDescription>Enter the user id</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -93,22 +93,35 @@ export const AddOrder = () => {
 												</SelectTrigger>
 
 												<SelectContent>
-													<SelectItem value='pending'>Pending</SelectItem>
-													<SelectItem value='processing'>Processing</SelectItem>
-													<SelectItem value='success'>Success</SelectItem>
-													<SelectItem value='failed'>Failed</SelectItem>
+													<SelectItem value='pending' className='cursor-pointer'>
+														Pending
+													</SelectItem>
+
+													<SelectItem value='processing' className='cursor-pointer'>
+														Processing
+													</SelectItem>
+
+													<SelectItem value='success' className='cursor-pointer'>
+														Success
+													</SelectItem>
+
+													<SelectItem value='failed' className='cursor-pointer'>
+														Failed
+													</SelectItem>
 												</SelectContent>
 											</Select>
 										</FormControl>
 
-										<FormDescription>Enter the status of the order.</FormDescription>
+										<FormDescription>Enter the status of the order</FormDescription>
 
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
 
-							<Button type='submit'>Submit</Button>
+							<Button variant='default' size='lg' type='submit' className='rounded-lg'>
+								Submit
+							</Button>
 						</form>
 					</Form>
 				</SheetDescription>

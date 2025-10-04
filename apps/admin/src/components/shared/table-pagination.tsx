@@ -11,7 +11,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
 		<div className='flex items-center justify-between px-2 py-4'>
 			<div className='text-muted-foreground flex-1 text-sm'>
 				{table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
-				selected.
+				selected
 			</div>
 
 			<div className='flex items-center space-x-6 lg:space-x-8'>
@@ -29,7 +29,7 @@ export function DataTablePagination<TData>({ table }: DataTablePaginationProps<T
 
 						<SelectContent side='top'>
 							{[10, 20, 30, 40, 50].map((pageSize) => (
-								<SelectItem key={pageSize} value={`${pageSize}`}>
+								<SelectItem key={pageSize} value={`${pageSize}`} className='cursor-pointer'>
 									{pageSize}
 								</SelectItem>
 							))}

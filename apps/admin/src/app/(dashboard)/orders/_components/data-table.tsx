@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { Trash2Icon } from 'lucide-react'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
+import { Button, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
 
 import { DataTablePagination } from '@/components/shared'
 
@@ -43,10 +43,10 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 		<div className='rounded-md border'>
 			{Object.keys(rowSelection).length > 0 && (
 				<div className='flex justify-end'>
-					<button className='m-4 flex cursor-pointer items-center gap-2 rounded-md bg-red-500 px-2 py-1 text-sm text-white'>
+					<Button variant='destructive' size='lg' className='m-4 rounded-md bg-red-500'>
 						<Trash2Icon className='size-4' />
-						Delete Payment(s)
-					</button>
+						Delete payment(s)
+					</Button>
 				</div>
 			)}
 			<Table>
@@ -79,7 +79,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 					) : (
 						<TableRow>
 							<TableCell colSpan={columns.length} className='h-24 text-center'>
-								No results.
+								No results
 							</TableCell>
 						</TableRow>
 					)}

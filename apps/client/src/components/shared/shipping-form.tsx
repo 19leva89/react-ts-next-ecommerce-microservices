@@ -54,7 +54,7 @@ export const ShippingForm = ({ setShippingForm }: Props) => {
 				<input
 					id='email'
 					type='email'
-					placeholder='johndoe@gmail.com'
+					placeholder='john.doe@gmail.com'
 					className='border-b border-gray-200 py-2 text-sm outline-none'
 					{...register('email')}
 				/>

@@ -38,8 +38,8 @@ export const EditUser = () => {
 		defaultValues: {
 			fullName: 'John Doe',
 			email: 'john.doe@gmail.com',
-			phone: '+1 234 5678',
-			address: '123 Main St',
+			phone: '+123456789012',
+			address: '123 Main St, Any town',
 			city: 'New York',
 		},
 	})
@@ -47,7 +47,7 @@ export const EditUser = () => {
 	return (
 		<SheetContent>
 			<SheetHeader>
-				<SheetTitle className='mb-4'>Edit User</SheetTitle>
+				<SheetTitle className='mb-4'>Edit user</SheetTitle>
 
 				<SheetDescription asChild>
 					<Form {...form}>
@@ -57,13 +57,13 @@ export const EditUser = () => {
 								name='fullName'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Full Name</FormLabel>
+										<FormLabel>Full name</FormLabel>
 
 										<FormControl>
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Enter user full name.</FormDescription>
+										<FormDescription>Enter user full name</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -81,7 +81,7 @@ export const EditUser = () => {
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Only admin can see your email.</FormDescription>
+										<FormDescription>Only admin can see your email</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -142,7 +142,9 @@ export const EditUser = () => {
 								)}
 							/>
 
-							<Button type='submit'>Submit</Button>
+							<Button variant='default' size='lg' type='submit' className='rounded-lg'>
+								Submit
+							</Button>
 						</form>
 					</Form>
 				</SheetDescription>

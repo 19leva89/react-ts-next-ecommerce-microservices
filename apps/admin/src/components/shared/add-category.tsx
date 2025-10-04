@@ -59,7 +59,7 @@ export const AddCategory = () => {
 	return (
 		<SheetContent>
 			<SheetHeader>
-				<SheetTitle className='mb-4'>Add Category</SheetTitle>
+				<SheetTitle className='mb-4'>Add category</SheetTitle>
 
 				<SheetDescription asChild>
 					<Form {...form}>
@@ -75,7 +75,7 @@ export const AddCategory = () => {
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Enter category name.</FormDescription>
+										<FormDescription>Enter category name</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -93,7 +93,7 @@ export const AddCategory = () => {
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Enter category slug.</FormDescription>
+										<FormDescription>Enter category slug</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -101,9 +101,11 @@ export const AddCategory = () => {
 							/>
 
 							<Button
+								variant='default'
+								size='lg'
 								type='submit'
 								disabled={mutation.isPending}
-								className='disabled:cursor-not-allowed disabled:opacity-50'
+								className='rounded-lg disabled:cursor-not-allowed disabled:opacity-50'
 							>
 								{mutation.isPending ? 'Submitting...' : 'Submit'}
 							</Button>

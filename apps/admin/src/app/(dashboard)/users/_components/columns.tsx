@@ -17,14 +17,6 @@ import type { User } from '@clerk/nextjs/server'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDownIcon, MoreHorizontalIcon } from 'lucide-react'
 
-// export type User = {
-//   id: string;
-//   avatar: string;
-//   fullName: string;
-//   email: string;
-//   status: "active" | "inactive";
-// };
-
 export const columns: ColumnDef<User>[] = [
 	{
 		id: 'select',
@@ -116,13 +108,16 @@ export const columns: ColumnDef<User>[] = [
 					<DropdownMenuContent align='end'>
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(user.id)}>
+						<DropdownMenuSeparator />
+
+						<DropdownMenuItem
+							onClick={() => navigator.clipboard.writeText(user.id)}
+							className='cursor-pointer'
+						>
 							Copy user ID
 						</DropdownMenuItem>
 
-						<DropdownMenuSeparator />
-
-						<DropdownMenuItem>
+						<DropdownMenuItem className='cursor-pointer'>
 							<Link href={`/users/${user.id}`}>View customer</Link>
 						</DropdownMenuItem>
 					</DropdownMenuContent>

@@ -112,7 +112,7 @@ export const AppSidebar = () => {
 					<SidebarGroupLabel>Products</SidebarGroupLabel>
 
 					<SidebarGroupAction>
-						<PlusIcon /> <span className='sr-only'>Add Product</span>
+						<PlusIcon /> <span className='sr-only'>Add product</span>
 					</SidebarGroupAction>
 
 					<SidebarGroupContent>
@@ -121,7 +121,7 @@ export const AppSidebar = () => {
 								<SidebarMenuButton asChild>
 									<Link href='/products'>
 										<ShirtIcon />
-										See All Products
+										See all products
 									</Link>
 								</SidebarMenuButton>
 							</SidebarMenuItem>
@@ -133,7 +133,7 @@ export const AppSidebar = () => {
 											<SidebarMenuButton asChild>
 												<Link href='#'>
 													<PlusIcon />
-													Add Product
+													Add product
 												</Link>
 											</SidebarMenuButton>
 										</SheetTrigger>
@@ -150,7 +150,7 @@ export const AppSidebar = () => {
 											<SidebarMenuButton asChild>
 												<Link href='#'>
 													<PlusIcon />
-													Add Category
+													Add category
 												</Link>
 											</SidebarMenuButton>
 										</SheetTrigger>
@@ -176,7 +176,7 @@ export const AppSidebar = () => {
 								<SidebarMenuButton asChild>
 									<Link href='/users'>
 										<UserIcon />
-										See All Users
+										See all users
 									</Link>
 								</SidebarMenuButton>
 							</SidebarMenuItem>
@@ -188,7 +188,7 @@ export const AppSidebar = () => {
 											<SidebarMenuButton asChild>
 												<Link href='#'>
 													<PlusIcon />
-													Add User
+													Add user
 												</Link>
 											</SidebarMenuButton>
 										</SheetTrigger>
@@ -214,7 +214,7 @@ export const AppSidebar = () => {
 								<SidebarMenuButton asChild>
 									<Link href='/orders'>
 										<ShoppingBasketIcon />
-										See All Transactions
+										See all transactions
 									</Link>
 								</SidebarMenuButton>
 							</SidebarMenuItem>
@@ -226,7 +226,7 @@ export const AppSidebar = () => {
 											<SidebarMenuButton asChild>
 												<Link href='#'>
 													<PlusIcon />
-													Add Order
+													Add order
 												</Link>
 											</SidebarMenuButton>
 										</SheetTrigger>
@@ -239,28 +239,6 @@ export const AppSidebar = () => {
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarContent>
-
-			<SidebarFooter>
-				<SidebarMenu>
-					<SidebarMenuItem>
-						<DropdownMenu>
-							<DropdownMenuTrigger asChild>
-								<SidebarMenuButton>
-									<User2Icon /> John Doe <ChevronUpIcon className='ml-auto' />
-								</SidebarMenuButton>
-							</DropdownMenuTrigger>
-
-							<DropdownMenuContent align='end'>
-								<DropdownMenuItem>Account</DropdownMenuItem>
-
-								<DropdownMenuItem>Setting</DropdownMenuItem>
-
-								<DropdownMenuItem>Sign out</DropdownMenuItem>
-							</DropdownMenuContent>
-						</DropdownMenu>
-					</SidebarMenuItem>
-				</SidebarMenu>
-			</SidebarFooter>
 		</Sidebar>
 	)
 }

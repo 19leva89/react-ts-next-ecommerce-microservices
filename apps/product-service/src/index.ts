@@ -7,6 +7,10 @@ import categoryRouter from './routes/category.route'
 import { consumer, producer } from './utils/kafka.js'
 import { shouldBeUser } from './middleware/auth-middleware.js'
 
+interface AppError extends Error {
+	status?: number
+}
+
 const app = express()
 
 app.use(
@@ -37,10 +41,6 @@ app.get('/test', shouldBeUser, (req, res) => {
 
 app.use('/products', productRouter)
 app.use('/categories', categoryRouter)
-
-interface AppError extends Error {
-	status?: number
-}
 
 app.use((error: AppError, _req: Request, res: Response, _next: NextFunction) => {
 	console.log(error)

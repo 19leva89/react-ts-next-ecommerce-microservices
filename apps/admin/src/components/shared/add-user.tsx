@@ -62,7 +62,7 @@ export const AddUser = () => {
 	return (
 		<SheetContent>
 			<SheetHeader>
-				<SheetTitle className='mb-4'>Add User</SheetTitle>
+				<SheetTitle className='mb-4'>Add user</SheetTitle>
 
 				<SheetDescription asChild>
 					<Form {...form}>
@@ -72,13 +72,13 @@ export const AddUser = () => {
 								name='firstName'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>First Name</FormLabel>
+										<FormLabel>First name</FormLabel>
 
 										<FormControl>
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Enter user first name.</FormDescription>
+										<FormDescription>Enter user first name</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -90,13 +90,13 @@ export const AddUser = () => {
 								name='lastName'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Last Name</FormLabel>
+										<FormLabel>Last name</FormLabel>
 
 										<FormControl>
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Enter user last name.</FormDescription>
+										<FormDescription>Enter user last name</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -114,7 +114,7 @@ export const AddUser = () => {
 											<Input {...field} />
 										</FormControl>
 
-										<FormDescription>Enter username.</FormDescription>
+										<FormDescription>Enter username</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -125,7 +125,7 @@ export const AddUser = () => {
 								name='emailAddress'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Email Addresses</FormLabel>
+										<FormLabel>Email addresses</FormLabel>
 
 										<FormControl>
 											<Input
@@ -141,7 +141,7 @@ export const AddUser = () => {
 											/>
 										</FormControl>
 
-										<FormDescription>Only admin can see your email.</FormDescription>
+										<FormDescription>Only admin can see your email</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -158,7 +158,7 @@ export const AddUser = () => {
 											<Input {...field} type='password' />
 										</FormControl>
 
-										<FormDescription>Enter user password.</FormDescription>
+										<FormDescription>Enter user password</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -166,9 +166,11 @@ export const AddUser = () => {
 							/>
 
 							<Button
+								variant='default'
+								size='lg'
 								type='submit'
 								disabled={mutation.isPending}
-								className='disabled:cursor-not-allowed disabled:opacity-50'
+								className='rounded-lg disabled:cursor-not-allowed disabled:opacity-50'
 							>
 								{mutation.isPending ? 'Submitting...' : 'Submit'}
 							</Button>

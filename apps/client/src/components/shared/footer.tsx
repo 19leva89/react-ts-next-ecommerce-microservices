@@ -30,11 +30,11 @@ export const Footer = () => {
 				</Link>
 
 				<Link href='/' className='hover:text-white'>
-					Terms of Service
+					Terms of service
 				</Link>
 
 				<Link href='/' className='hover:text-white'>
-					Privacy Policy
+					Privacy policy
 				</Link>
 			</div>
 
@@ -42,15 +42,15 @@ export const Footer = () => {
 				<p className='text-sm text-amber-50'>Links</p>
 
 				<Link href='/' className='hover:text-white'>
-					All Products
+					All products
 				</Link>
 
 				<Link href='/' className='hover:text-white'>
-					New Arrivals
+					New arrivals
 				</Link>
 
 				<Link href='/' className='hover:text-white'>
-					Best Sellers
+					Best sellers
 				</Link>
 
 				<Link href='/' className='hover:text-white'>
@@ -74,7 +74,7 @@ export const Footer = () => {
 				</Link>
 
 				<Link href='/' className='hover:text-white'>
-					Affiliate Program
+					Affiliate program
 				</Link>
 			</div>
 		</div>

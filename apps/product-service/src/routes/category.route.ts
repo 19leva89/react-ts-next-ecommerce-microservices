@@ -11,8 +11,8 @@ import { shouldBeAdmin } from '../middleware/auth-middleware'
 const router: Router = Router()
 
 router.post('/', shouldBeAdmin, createCategory)
+router.get('/', getCategories)
 router.put('/:id', shouldBeAdmin, updateCategory)
 router.delete('/:id', shouldBeAdmin, deleteCategory)
-router.get('/', getCategories)
 
 export default router

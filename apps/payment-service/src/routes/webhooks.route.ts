@@ -7,14 +7,6 @@ import { producer } from '../utils/kafka'
 const webhookRoute = new Hono()
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string
 
-webhookRoute.get('/', (ctx) => {
-	return ctx.json({
-		status: 'ok webhook',
-		uptime: process.uptime(),
-		timestamp: Date.now(),
-	})
-})
-
 webhookRoute.post('/stripe', async (ctx) => {
 	const body = await ctx.req.text()
 	const sig = ctx.req.header('stripe-signature')
@@ -56,6 +48,14 @@ webhookRoute.post('/stripe', async (ctx) => {
 	}
 
 	return ctx.json({ received: true })
+})
+
+webhookRoute.get('/', (ctx) => {
+	return ctx.json({
+		status: 'ok webhook',
+		uptime: process.uptime(),
+		timestamp: Date.now(),
+	})
 })
 
 export default webhookRoute

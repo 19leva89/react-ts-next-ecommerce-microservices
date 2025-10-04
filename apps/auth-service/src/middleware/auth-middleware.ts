@@ -1,5 +1,5 @@
-import { getAuth } from '@clerk/express'
-import { CustomJwtSessionClaims } from '@repo/types'
+import { ClerkClientUserRole } from '@repo/types'
+import { clerkClient, getAuth } from '@clerk/express'
 import { Request, Response, NextFunction } from 'express'
 
 declare global {
@@ -10,11 +10,10 @@ declare global {
 	}
 }
 
-export const shouldBeUser = (req: Request, res: Response, next: NextFunction) => {
+export const shouldBeUser = async (req: Request, res: Response, next: NextFunction) => {
 	const auth = getAuth(req)
-	const userId = auth.userId
 
-	if (!userId) {
+	if (!auth.userId) {
 		return res.status(401).json({ message: 'You are not logged in!' })
 	}
 
@@ -23,17 +22,16 @@ export const shouldBeUser = (req: Request, res: Response, next: NextFunction) =>
 	return next()
 }
 
-export const shouldBeAdmin = (req: Request, res: Response, next: NextFunction) => {
+export const shouldBeAdmin = async (req: Request, res: Response, next: NextFunction) => {
 	const auth = getAuth(req)
-	const userId = auth.userId
 
-	if (!userId) {
+	if (!auth.userId) {
 		return res.status(401).json({ message: 'You are not logged in!' })
 	}
 
-	const claims = auth.sessionClaims as CustomJwtSessionClaims
+	const user = (await clerkClient.users.getUser(auth.userId)) as ClerkClientUserRole
 
-	if (claims.metadata?.role !== 'admin') {
+	if (user.privateMetadata?.role !== 'admin') {
 		return res.status(403).send({ message: 'Unauthorized!' })
 	}
 

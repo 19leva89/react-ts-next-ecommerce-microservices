@@ -20,11 +20,11 @@ export const TodoList = () => {
 
 	return (
 		<div>
-			<h1 className='mb-6 text-lg font-medium'>Todo List</h1>
+			<h1 className='mb-6 text-lg font-medium'>Todo list</h1>
 
 			<Popover open={open} onOpenChange={setOpen}>
 				<PopoverTrigger asChild>
-					<Button className='w-full'>
+					<Button variant='default' size='lg' className='w-full'>
 						<CalendarIcon />
 
 						{date ? format(date, 'PPP') : <span>Pick a date</span>}
@@ -52,7 +52,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' checked />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -63,7 +63,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' checked />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -74,7 +74,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -85,7 +85,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -96,7 +96,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -107,7 +107,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -118,7 +118,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -129,7 +129,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -140,7 +140,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' checked />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -151,7 +151,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' checked />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -162,7 +162,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' checked />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -173,7 +173,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' checked />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>
@@ -184,7 +184,7 @@ export const TodoList = () => {
 							<Checkbox id='item1' checked />
 
 							<label htmlFor='item1' className='text-muted-foreground text-sm'>
-								Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+								Lorem ipsum dolor sit, amet consectetur adipisicing elit
 							</label>
 						</div>
 					</Card>

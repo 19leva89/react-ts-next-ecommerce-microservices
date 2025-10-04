@@ -1,19 +1,23 @@
-import { CustomJwtSessionClaims } from '@repo/types'
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+import { ClerkClientUserRole } from '@repo/types'
+import { clerkClient, clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 
-const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/unauthorized(.*)'])
+const isPublicRoute = createRouteMatcher(['/sign-in(.*)', '/not-auth(.*)'])
 
 export default clerkMiddleware(async (auth, req) => {
 	if (!isPublicRoute(req)) {
 		await auth.protect()
 
-		const { userId, sessionClaims } = await auth()
+		const { userId } = await auth()
 
-		if (userId && sessionClaims) {
-			const userRole = (sessionClaims as CustomJwtSessionClaims).metadata?.role
+		if (userId) {
+			const client = await clerkClient()
+
+			const user = (await client.users.getUser(userId)) as ClerkClientUserRole
+
+			const userRole = user.privateMetadata?.role
 
 			if (userRole !== 'admin') {
-				return Response.redirect(new URL('/unauthorized', req.url))
+				return Response.redirect(new URL('/not-auth', req.url))
 			}
 		}
 	}

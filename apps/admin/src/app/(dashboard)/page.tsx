@@ -9,7 +9,6 @@ export const dynamic = 'force-dynamic'
 
 const HomePage = async () => {
 	const { getToken } = await auth()
-
 	const token = await getToken()
 
 	const orderChartData = axios
@@ -19,6 +18,10 @@ const HomePage = async () => {
 			},
 		})
 		.then((res) => res.data)
+		.catch((error) => {
+			console.error('Failed to fetch order chart data:', error)
+			return []
+		})
 
 	return (
 		<div className='grid grid-cols-1 gap-4 lg:grid-cols-2 2xl:grid-cols-4'>
@@ -27,7 +30,7 @@ const HomePage = async () => {
 			</div>
 
 			<div className='bg-primary-foreground rounded-lg p-4'>
-				<CardList title='Latest Transactions' />
+				<CardList title='Latest transactions' />
 			</div>
 
 			<div className='bg-primary-foreground rounded-lg p-4'>
@@ -43,7 +46,7 @@ const HomePage = async () => {
 			</div>
 
 			<div className='bg-primary-foreground rounded-lg p-4'>
-				<CardList title='Popular Products' />
+				<CardList title='Popular products' />
 			</div>
 		</div>
 	)

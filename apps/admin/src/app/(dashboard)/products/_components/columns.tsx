@@ -16,17 +16,6 @@ import { ProductType } from '@repo/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDownIcon, MoreHorizontalIcon } from 'lucide-react'
 
-// export type Product = {
-//   id: string | number;
-//   price: number;
-//   name: string;
-//   shortDescription: string;
-//   description: string;
-//   sizes: string[];
-//   colors: string[];
-//   images: Record<string, string>;
-// };
-
 export const columns: ColumnDef<ProductType>[] = [
 	{
 		id: 'select',
@@ -94,13 +83,16 @@ export const columns: ColumnDef<ProductType>[] = [
 					<DropdownMenuContent align='end'>
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(product.id.toString())}>
+						<DropdownMenuSeparator />
+
+						<DropdownMenuItem
+							onClick={() => navigator.clipboard.writeText(product.id.toString())}
+							className='cursor-pointer'
+						>
 							Copy product ID
 						</DropdownMenuItem>
 
-						<DropdownMenuSeparator />
-
-						<DropdownMenuItem>
+						<DropdownMenuItem className='cursor-pointer'>
 							<Link href={`/products/${product.id}`}>View product</Link>
 						</DropdownMenuItem>
 					</DropdownMenuContent>

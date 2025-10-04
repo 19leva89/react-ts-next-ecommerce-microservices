@@ -68,8 +68,8 @@ export const CartPageView = () => {
 						cart.map((item) => (
 							// SINGLE CART ITEM
 							<div
-								className='flex items-center justify-between'
 								key={item.id + item.selectedSize + item.selectedColor}
+								className='flex items-center justify-between'
 							>
 								{/* IMAGE AND DETAILS */}
 								<div className='flex gap-8'>

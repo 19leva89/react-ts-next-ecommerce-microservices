@@ -7,6 +7,17 @@ import { ProductType } from '@repo/types'
 
 import { ProductInteraction } from '@/components/shared'
 
+export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
+	const { id } = await params
+
+	const product = await fetchProduct(id)
+
+	return {
+		title: product?.name,
+		describe: product?.description,
+	}
+}
+
 const fetchProduct = async (id: string): Promise<ProductType | null> => {
 	try {
 		const { data } = await axios.get<ProductType>(
@@ -18,17 +29,6 @@ const fetchProduct = async (id: string): Promise<ProductType | null> => {
 		console.error(error)
 
 		return null
-	}
-}
-
-export const generateMetadata = async ({ params }: { params: Promise<{ id: string }> }) => {
-	const { id } = await params
-
-	const product = await fetchProduct(id)
-
-	return {
-		title: product?.name,
-		describe: product?.description,
 	}
 }
 

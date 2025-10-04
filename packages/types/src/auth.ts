@@ -1,7 +1,7 @@
 import z from 'zod'
 
-export interface CustomJwtSessionClaims {
-	metadata?: {
+export interface ClerkClientUserRole {
+	privateMetadata?: {
 		role?: 'user' | 'admin'
 	}
 }

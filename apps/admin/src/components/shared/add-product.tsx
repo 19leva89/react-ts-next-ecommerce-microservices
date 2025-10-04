@@ -32,16 +32,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { CategoryType, colors, ProductFormSchema, sizes } from '@repo/types'
 
-// const categories = [
-//   "T-shirts",
-//   "Shoes",
-//   "Accessories",
-//   "Bags",
-//   "Dresses",
-//   "Jackets",
-//   "Gloves",
-// ] as const;
-
 const fetchCategories = async () => {
 	try {
 		const { data } = await axios.get(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`)
@@ -97,11 +87,11 @@ export const AddProduct = () => {
 		<SheetContent>
 			<ScrollArea className='h-screen'>
 				<SheetHeader>
-					<SheetTitle className='mb-4'>Add Product</SheetTitle>
+					<SheetTitle className='mb-4'>Add product</SheetTitle>
 
 					<SheetDescription asChild>
 						<Form {...form}>
-							<form className='space-y-8' onSubmit={form.handleSubmit((data) => mutation.mutate(data))}>
+							<form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className='space-y-8'>
 								<FormField
 									control={form.control}
 									name='name'
@@ -113,7 +103,7 @@ export const AddProduct = () => {
 												<Input {...field} />
 											</FormControl>
 
-											<FormDescription>Enter the name of the product.</FormDescription>
+											<FormDescription>Enter the name of the product</FormDescription>
 
 											<FormMessage />
 										</FormItem>
@@ -125,13 +115,13 @@ export const AddProduct = () => {
 									name='shortDescription'
 									render={({ field }) => (
 										<FormItem>
-											<FormLabel>Short Description</FormLabel>
+											<FormLabel>Short description</FormLabel>
 
 											<FormControl>
 												<Input {...field} />
 											</FormControl>
 
-											<FormDescription>Enter the short description of the product.</FormDescription>
+											<FormDescription>Enter the short description of the product</FormDescription>
 
 											<FormMessage />
 										</FormItem>
@@ -149,7 +139,7 @@ export const AddProduct = () => {
 												<Textarea {...field} />
 											</FormControl>
 
-											<FormDescription>Enter the description of the product.</FormDescription>
+											<FormDescription>Enter the description of the product</FormDescription>
 
 											<FormMessage />
 										</FormItem>
@@ -165,13 +155,13 @@ export const AddProduct = () => {
 
 											<FormControl>
 												<Input
-													type='number'
 													{...field}
+													type='number'
 													onChange={(e) => field.onChange(Number(e.target.value))}
 												/>
 											</FormControl>
 
-											<FormDescription>Enter the price of the product.</FormDescription>
+											<FormDescription>Enter the price of the product</FormDescription>
 
 											<FormMessage />
 										</FormItem>
@@ -194,7 +184,7 @@ export const AddProduct = () => {
 
 														<SelectContent>
 															{data.map((cat: CategoryType) => (
-																<SelectItem key={cat.id} value={cat.slug}>
+																<SelectItem key={cat.id} value={cat.slug} className='cursor-pointer'>
 																	{cat.name}
 																</SelectItem>
 															))}
@@ -202,7 +192,7 @@ export const AddProduct = () => {
 													</Select>
 												</FormControl>
 
-												<FormDescription>Enter the category of the product.</FormDescription>
+												<FormDescription>Enter the category of the product</FormDescription>
 
 												<FormMessage />
 											</FormItem>
@@ -220,7 +210,7 @@ export const AddProduct = () => {
 											<FormControl>
 												<div className='my-2 grid grid-cols-3 gap-4'>
 													{sizes.map((size) => (
-														<div className='flex items-center gap-2' key={size}>
+														<div key={size} className='flex items-center gap-2'>
 															<Checkbox
 																id='size'
 																checked={field.value?.includes(size)}
@@ -242,7 +232,7 @@ export const AddProduct = () => {
 												</div>
 											</FormControl>
 
-											<FormDescription>Select the available sizes for the product.</FormDescription>
+											<FormDescription>Select the available sizes for the product</FormDescription>
 
 											<FormMessage />
 										</FormItem>
@@ -260,7 +250,7 @@ export const AddProduct = () => {
 												<div className='space-y-4'>
 													<div className='my-2 grid grid-cols-3 gap-4'>
 														{colors.map((color) => (
-															<div className='flex items-center gap-2' key={color}>
+															<div key={color} className='flex items-center gap-2'>
 																<Checkbox
 																	id='color'
 																	checked={field.value?.includes(color)}
@@ -284,7 +274,7 @@ export const AddProduct = () => {
 												</div>
 											</FormControl>
 
-											<FormDescription>Select the available colors for the product.</FormDescription>
+											<FormDescription>Select the available colors for the product</FormDescription>
 
 											<FormMessage />
 										</FormItem>
@@ -301,7 +291,7 @@ export const AddProduct = () => {
 											<FormControl>
 												<div>
 													{form.watch('colors')?.map((color) => (
-														<div className='mb-4 flex items-center gap-4' key={color}>
+														<div key={color} className='mb-4 flex items-center gap-4'>
 															<div className='flex items-center gap-2'>
 																<div className='size-4 rounded-full' style={{ backgroundColor: color }} />
 
@@ -319,14 +309,17 @@ export const AddProduct = () => {
 																			formData.append('file', file)
 																			formData.append('upload_preset', 'ecommerce')
 
-																			const res = await fetch(
+																			const res = await axios.post(
 																				`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+																				formData,
 																				{
-																					method: 'POST',
-																					body: formData,
+																					headers: {
+																						'Content-Type': 'multipart/form-data',
+																					},
 																				},
 																			)
-																			const data = await res.json()
+
+																			const data = await res.data
 
 																			if (data.secure_url) {
 																				const currentImages = form.getValues('images') || {}
@@ -337,6 +330,7 @@ export const AddProduct = () => {
 																			}
 																		} catch (error) {
 																			console.log(error)
+
 																			toast.error('Upload failed!')
 																		}
 																	}
@@ -356,9 +350,11 @@ export const AddProduct = () => {
 								/>
 
 								<Button
+									variant='default'
+									size='lg'
 									type='submit'
 									disabled={mutation.isPending}
-									className='disabled:cursor-not-allowed disabled:opacity-50'
+									className='rounded-lg disabled:cursor-not-allowed disabled:opacity-50'
 								>
 									{mutation.isPending ? 'Submitting...' : 'Submit'}
 								</Button>

@@ -6,6 +6,10 @@ import userRoute from './routes/user.route'
 import { producer } from './utils/kafka.js'
 import { shouldBeAdmin } from './middleware/auth-middleware.js'
 
+interface AppError extends Error {
+	status?: number
+}
+
 const app = express()
 
 app.use(
@@ -15,7 +19,12 @@ app.use(
 	}),
 )
 app.use(express.json())
-app.use(clerkMiddleware())
+app.use(
+	clerkMiddleware({
+		secretKey: process.env.CLERK_SECRET_KEY,
+		publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+	}),
+)
 
 app.get('/health', (_req: Request, res: Response) => {
 	return res.status(200).json({
@@ -26,10 +35,6 @@ app.get('/health', (_req: Request, res: Response) => {
 })
 
 app.use('/users', shouldBeAdmin, userRoute)
-
-interface AppError extends Error {
-	status?: number
-}
 
 app.use((error: AppError, _req: Request, res: Response, _next: NextFunction) => {
 	console.log(error)

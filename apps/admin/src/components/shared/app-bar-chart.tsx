@@ -27,21 +27,12 @@ const chartConfig = {
 	},
 } satisfies ChartConfig
 
-// const chartData = [
-//   { month: "January", total: 186, successful: 80 },
-//   { month: "February", total: 305, successful: 200 },
-//   { month: "March", total: 237, successful: 120 },
-//   { month: "April", total: 173, successful: 100 },
-//   { month: "May", total: 209, successful: 130 },
-//   { month: "June", total: 214, successful: 140 },
-// ];
-
 export const AppBarChart = ({ dataPromise }: Props) => {
 	const chartData = use(dataPromise)
 
 	return (
 		<div>
-			<h1 className='mb-6 text-lg font-medium'>Total Revenue</h1>
+			<h1 className='mb-6 text-lg font-medium'>Total revenue</h1>
 
 			<ChartContainer config={chartConfig} className='min-h-50 w-full'>
 				<BarChart accessibilityLayer data={chartData}>

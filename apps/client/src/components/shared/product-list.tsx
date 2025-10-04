@@ -16,12 +16,10 @@ interface Props {
 const fetchData = async ({ category, sort, search, params }: Props): Promise<ProductType[]> => {
 	const queryParams: Record<string, string | number> = {}
 
-	if (search) queryParams.search = search
-	if (category) queryParams.category = category
-
 	queryParams.sort = sort || 'newest'
-
+	if (search) queryParams.search = search
 	if (params === 'homepage') queryParams.limit = 8
+	if (category && category !== 'all') queryParams.category = category
 
 	try {
 		const { data } = await axios.get<ProductType[]>(

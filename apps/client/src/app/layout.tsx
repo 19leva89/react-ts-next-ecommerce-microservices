@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 function RootLayout({ children }: PropsWithChildren) {
 	return (
 		<ClerkProvider>
-			<html lang='en'>
+			<html lang='en' suppressHydrationWarning>
 				<body className={cn(nunito.className, 'antialiased')}>
 					<div className='mx-auto p-4 sm:max-w-xl sm:px-0 md:max-w-2xl lg:max-w-3xl xl:max-w-6xl'>
 						<Navbar />

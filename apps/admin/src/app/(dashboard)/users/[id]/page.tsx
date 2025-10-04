@@ -169,7 +169,7 @@ const SingleUserPage = async ({ params }: Props) => {
 						<p className='text-muted-foreground text-sm'>
 							Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel voluptas distinctio ab ipsa
 							commodi fugiat labore quos veritatis cum corrupti sed repudiandae ipsum, harum recusandae
-							ratione ipsam in, quis quia.
+							ratione ipsam in, quis quia
 						</p>
 					</div>
 
@@ -180,7 +180,9 @@ const SingleUserPage = async ({ params }: Props) => {
 
 							<Sheet>
 								<SheetTrigger asChild>
-									<Button>Edit User</Button>
+									<Button variant='default' size='lg' className='rounded-lg'>
+										Edit user
+									</Button>
 								</SheetTrigger>
 								<EditUser />
 							</Sheet>

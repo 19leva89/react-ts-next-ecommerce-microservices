@@ -130,12 +130,12 @@ export const ProductInteraction = ({ product, selectedSize, selectedColor }: Pro
 			{/* BUTTONS */}
 			<Button variant='default' size='lg' onClick={handleAddToCart} className='rounded-md shadow-md'>
 				<PlusIcon className='size-4' />
-				Add to Cart
+				Add to cart
 			</Button>
 
 			<Button variant='outline' size='lg' className='rounded-md shadow-md'>
 				<ShoppingCartIcon className='size-4' />
-				Buy this Item
+				Buy this item
 			</Button>
 		</div>
 	)

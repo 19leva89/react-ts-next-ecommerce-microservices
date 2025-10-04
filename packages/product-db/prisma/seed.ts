@@ -3,10 +3,36 @@ import { producer } from '../src/kafka'
 
 //! To run the command "pnpm run db:seed" the turborepo servers must be running
 
-const mockCategory = {
-	slug: 'test',
-	name: 'Test Category',
-}
+const mockCategory = [
+	{
+		slug: 'accessories',
+		name: 'Accessories',
+	},
+	{
+		slug: 'bags',
+		name: 'Bags',
+	},
+	{
+		slug: 'dresses',
+		name: 'Dresses',
+	},
+	{
+		slug: 'gloves',
+		name: 'Gloves',
+	},
+	{
+		slug: 'jackets',
+		name: 'Jackets',
+	},
+	{
+		slug: 't-shirts',
+		name: 'T-shirts',
+	},
+	{
+		slug: 'shoes',
+		name: 'Shoes',
+	},
+]
 
 const mockProducts = [
 	{
@@ -23,7 +49,7 @@ const mockProducts = [
 			purple: '/products/1p.png',
 			green: '/products/1gr.png',
 		},
-		categorySlug: 'test',
+		categorySlug: 't-shirts',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
@@ -37,7 +63,7 @@ const mockProducts = [
 		sizes: ['s', 'm', 'l', 'xl'],
 		colors: ['gray', 'green'],
 		images: { gray: '/products/2g.png', green: '/products/2gr.png' },
-		categorySlug: 'test',
+		categorySlug: 'jackets',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
@@ -55,7 +81,7 @@ const mockProducts = [
 			blue: '/products/3b.png',
 			black: '/products/3bl.png',
 		},
-		categorySlug: 'test',
+		categorySlug: 'jackets',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
@@ -69,7 +95,7 @@ const mockProducts = [
 		sizes: ['s', 'm', 'l'],
 		colors: ['white', 'pink'],
 		images: { white: '/products/4w.png', pink: '/products/4p.png' },
-		categorySlug: 'test',
+		categorySlug: 't-shirts',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
@@ -87,7 +113,7 @@ const mockProducts = [
 			orange: '/products/5o.png',
 			black: '/products/5bl.png',
 		},
-		categorySlug: 'test',
+		categorySlug: 'jackets',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
@@ -101,13 +127,13 @@ const mockProducts = [
 		sizes: ['40', '42', '43', '44'],
 		colors: ['gray', 'white'],
 		images: { gray: '/products/6g.png', white: '/products/6w.png' },
-		categorySlug: 'test',
+		categorySlug: 'shoes',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
 	{
 		id: '7',
-		name: 'Nike Ultraboost Pulse ',
+		name: 'Nike Ultraboost Pulse',
 		shortDescription: 'Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.',
 		description:
 			'Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit. Lorem ipsum dolor sit amet consect adipisicing elit lorem ipsum dolor sit.',
@@ -115,7 +141,7 @@ const mockProducts = [
 		sizes: ['40', '42', '43'],
 		colors: ['gray', 'pink'],
 		images: { gray: '/products/7g.png', pink: '/products/7p.png' },
-		categorySlug: 'test',
+		categorySlug: 'shoes',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
@@ -129,21 +155,19 @@ const mockProducts = [
 		sizes: ['s', 'm', 'l'],
 		colors: ['blue', 'green'],
 		images: { blue: '/products/8b.png', green: '/products/8gr.png' },
-		categorySlug: 'test',
+		categorySlug: 't-shirts',
 		createdAt: new Date(),
 		updatedAt: new Date(),
 	},
 ]
 
 async function up() {
-	// First, seed the category to satisfy the foreign key
-	await prisma.category.upsert({
-		where: { slug: 'test' },
-		update: {},
-		create: mockCategory,
+	// Seed categories in the db
+	await prisma.category.createMany({
+		data: mockCategory,
 	})
 
-	// Then, seed the products in the database
+	// Then, seed the products in the db
 	await prisma.product.createMany({
 		data: mockProducts,
 	})
@@ -154,31 +178,35 @@ async function up() {
 		console.log(`📦 Published Kafka event for product: ${product.id}`)
 	}
 
-	console.log(
-		`Seeded ${mockProducts.length} products into the database and published creation events to Kafka`,
-	)
+	console.log(`Seeded ${mockProducts.length} products into the db and published creation events to Kafka`)
 }
 
 async function down() {
 	// Publish Kafka events to delete products from Stripe before removing from DB
-	for (const product of mockProducts) {
-		await producer.send('product.deleted', { value: product.id })
-		console.log(`🗑️ Published Kafka event for deleting product: ${product.id}`)
+	const productIds = mockProducts.map((p) => p.id)
+
+	for (const productId of productIds) {
+		await producer.send('product.deleted', { value: productId })
+		console.log(`🗑️ Published Kafka event for deleting product: ${productId}`)
 	}
 
-	// Then, remove the products from the database
+	// Then, remove the products from the db
 	await prisma.product.deleteMany({
 		where: {
-			id: { in: mockProducts.map((p) => p.id) },
+			id: { in: productIds },
 		},
 	})
 
-	// Also remove the category if no other products reference it
+	// Remove the mock categories
+	const categorySlugs = mockCategory.map((cat) => cat.slug)
+
 	await prisma.category.deleteMany({
-		where: { slug: 'test' },
+		where: {
+			slug: { in: categorySlugs },
+		},
 	})
 
-	console.log(`Removed ${mockProducts.length} products and the test category from the database`)
+	console.log(`Removed ${productIds.length} products and ${categorySlugs.length} categories from the db`)
 }
 
 async function main() {

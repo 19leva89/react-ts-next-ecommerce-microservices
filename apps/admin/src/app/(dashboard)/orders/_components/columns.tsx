@@ -16,15 +16,6 @@ import { OrderType } from '@repo/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDownIcon, MoreHorizontalIcon } from 'lucide-react'
 
-// export type Payment = {
-//   id: string;
-//   amount: number;
-//   fullName: string;
-//   userId: string;
-//   email: string;
-//   status: "pending" | "processing" | "success" | "failed";
-// };
-
 export const columns: ColumnDef<OrderType>[] = [
 	{
 		id: 'select',
@@ -103,17 +94,20 @@ export const columns: ColumnDef<OrderType>[] = [
 					<DropdownMenuContent align='end'>
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-						<DropdownMenuItem onClick={() => navigator.clipboard.writeText(order._id)}>
+						<DropdownMenuSeparator />
+
+						<DropdownMenuItem
+							onClick={() => navigator.clipboard.writeText(order._id)}
+							className='cursor-pointer'
+						>
 							Copy order ID
 						</DropdownMenuItem>
 
-						<DropdownMenuSeparator />
-
-						<DropdownMenuItem>
+						<DropdownMenuItem className='cursor-pointer'>
 							<Link href={`/users/${order.userId}`}>View customer</Link>
 						</DropdownMenuItem>
 
-						<DropdownMenuItem>View order details</DropdownMenuItem>
+						<DropdownMenuItem className='cursor-pointer'>View order details</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			)

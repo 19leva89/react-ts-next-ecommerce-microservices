@@ -25,10 +25,6 @@ export const Navbar = () => {
 			{/* LEFT */}
 			<SidebarTrigger />
 
-			{/* <Button variant="outline" onClick={toggleSidebar}>
-        Custom Button
-      </Button> */}
-
 			{/* RIGHT */}
 			<div className='flex items-center gap-4'>
 				<Link href='/'>Dashboard</Link>
@@ -46,9 +42,17 @@ export const Navbar = () => {
 					</DropdownMenuTrigger>
 
 					<DropdownMenuContent align='end'>
-						<DropdownMenuItem onClick={() => setTheme('light')}>Light</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => setTheme('dark')}>Dark</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => setTheme('system')}>System</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => setTheme('light')} className='cursor-pointer'>
+							Light
+						</DropdownMenuItem>
+
+						<DropdownMenuItem onClick={() => setTheme('dark')} className='cursor-pointer'>
+							Dark
+						</DropdownMenuItem>
+
+						<DropdownMenuItem onClick={() => setTheme('system')} className='cursor-pointer'>
+							System
+						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
 
@@ -63,21 +67,21 @@ export const Navbar = () => {
 					</DropdownMenuTrigger>
 
 					<DropdownMenuContent sideOffset={10}>
-						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuLabel>My account</DropdownMenuLabel>
 
 						<DropdownMenuSeparator />
 
-						<DropdownMenuItem>
+						<DropdownMenuItem className='cursor-pointer'>
 							<UserIcon className='mr-2 size-[1.2rem]' />
 							Profile
 						</DropdownMenuItem>
 
-						<DropdownMenuItem>
+						<DropdownMenuItem className='cursor-pointer'>
 							<SettingsIcon className='mr-2 size-[1.2rem]' />
 							Settings
 						</DropdownMenuItem>
 
-						<DropdownMenuItem variant='destructive'>
+						<DropdownMenuItem variant='destructive' className='cursor-pointer'>
 							<LogOutIcon className='mr-2 size-[1.2rem]' />
 							Logout
 						</DropdownMenuItem>

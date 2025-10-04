@@ -17,7 +17,7 @@ import { Trash2Icon } from 'lucide-react'
 import { User } from '@clerk/nextjs/server'
 import { useRouter } from 'next/navigation'
 import { useMutation } from '@tanstack/react-query'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
+import { Button, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
 
 import { DataTablePagination } from '@/components/shared'
 
@@ -81,14 +81,16 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 		<div className='rounded-md border'>
 			{Object.keys(rowSelection).length > 0 && (
 				<div className='flex justify-end'>
-					<button
-						className='m-4 flex cursor-pointer items-center gap-2 rounded-md bg-red-500 px-2 py-1 text-sm text-white'
+					<Button
+						variant='destructive'
+						size='lg'
 						onClick={() => mutation.mutate()}
 						disabled={mutation.isPending}
+						className='m-4 rounded-md bg-red-500'
 					>
 						<Trash2Icon className='size-4' />
-						{mutation.isPending ? 'Deleting' : 'Delete User(s)'}
-					</button>
+						{mutation.isPending ? 'Deleting' : 'Delete user(s)'}
+					</Button>
 				</div>
 			)}
 

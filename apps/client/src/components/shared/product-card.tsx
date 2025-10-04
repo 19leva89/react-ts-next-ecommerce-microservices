@@ -71,10 +71,10 @@ export const ProductCard = ({ product }: Props) => {
 							id='size'
 							name='size'
 							onChange={(e) => handleProductType({ type: 'size', value: e.target.value })}
-							className='rounded-md px-2 py-1 ring ring-gray-300'
+							className='cursor-pointer rounded-md px-2 py-1 ring ring-gray-300'
 						>
 							{product.sizes.map((size) => (
-								<option key={size} value={size}>
+								<option key={size} value={size} className='cursor-pointer'>
 									{size.toUpperCase()}
 								</option>
 							))}
@@ -113,7 +113,7 @@ export const ProductCard = ({ product }: Props) => {
 						className='rounded-md shadow-lg ring-1 ring-gray-200 hover:bg-black hover:text-white'
 					>
 						<ShoppingCartIcon className='size-4' />
-						Add to Cart
+						Add to cart
 					</Button>
 				</div>
 			</div>

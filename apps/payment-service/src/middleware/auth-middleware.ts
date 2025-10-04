@@ -1,6 +1,6 @@
 import { getAuth } from '@hono/clerk-auth'
 import { createMiddleware } from 'hono/factory'
-import { CustomJwtSessionClaims } from '@repo/types'
+import { ClerkClientUserRole } from '@repo/types'
 
 export const shouldBeUser = createMiddleware<{
 	Variables: {
@@ -33,9 +33,10 @@ export const shouldBeAdmin = createMiddleware<{
 		})
 	}
 
-	const claims = auth.sessionClaims as CustomJwtSessionClaims
+	const clerkClient = ctx.get('clerk')
+	const user = (await clerkClient.users.getUser(auth.userId)) as ClerkClientUserRole
 
-	if (claims.metadata?.role !== 'admin') {
+	if (user.privateMetadata?.role !== 'admin') {
 		return ctx.json({ message: 'Unauthorized!' })
 	}
 
