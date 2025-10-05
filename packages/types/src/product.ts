@@ -1,5 +1,5 @@
 import z from 'zod'
-import type { Product, Category } from '@repo/product-db'
+import type { Product } from '@repo/product-db'
 
 export type ProductType = Product
 
@@ -49,7 +49,7 @@ export const sizes = [
 	'48',
 ] as const
 
-export const ProductFormSchema = z
+export const productFormSchema = z
 	.object({
 		name: z.string({ message: 'Product name is required!' }).min(1, { message: 'Product name is required!' }),
 		shortDescription: z
@@ -70,6 +70,7 @@ export const ProductFormSchema = z
 	.refine(
 		(data) => {
 			const missingImages = data.colors.filter((color: string) => !data.images?.[color])
+
 			return missingImages.length === 0
 		},
 		{
@@ -78,9 +79,4 @@ export const ProductFormSchema = z
 		},
 	)
 
-export type CategoryType = Category
-
-export const CategoryFormSchema = z.object({
-	name: z.string({ message: 'Name is Required!' }).min(1, { message: 'Name is Required!' }),
-	slug: z.string({ message: 'Slug is Required!' }).min(1, { message: 'Slug is Required!' }),
-})
+export type TProductForm = z.infer<typeof productFormSchema>

@@ -21,12 +21,12 @@ import { Button, Table, TableBody, TableCell, TableHead, TableHeader, TableRow }
 
 import { DataTablePagination } from '@/components/shared'
 
-interface DataTableProps<TData, TValue> {
+interface Props<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
 	data: TData[]
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data }: Props<TData, TValue>) {
 	const router = useRouter()
 
 	const { getToken } = useAuth()
@@ -37,15 +37,15 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 	const table = useReactTable({
 		data,
 		columns,
+		state: {
+			sorting,
+			rowSelection,
+		},
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		onSortingChange: setSorting,
 		onRowSelectionChange: setRowSelection,
-		state: {
-			sorting,
-			rowSelection,
-		},
 	})
 
 	const mutation = useMutation({
@@ -67,8 +67,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 		},
 		onSuccess: () => {
 			toast.success('User(s) deleted successfully')
-
 			router.refresh()
+			setRowSelection({})
 		},
 		onError: (error) => {
 			const message = error.message || 'Failed to delete user(s)!'

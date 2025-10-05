@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios'
 import {
 	Button,
 	Form,
@@ -15,34 +16,103 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from '@repo/ui/components'
-import { z } from '@repo/types'
+import { toast } from 'sonner'
+import { useEffect } from 'react'
+import { useAuth } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { editUserFormSchema, TEditUserForm } from '@repo/types'
 
-const formSchema = z.object({
-	fullName: z.string().min(2, { message: 'Full name must be at least 2 characters!' }).max(50),
-	email: z.email({ message: 'Invalid email address!' }).min(2, 'Email is required!'),
-	phone: z
-		.string()
-		.regex(
-			/^(?:\+\d{7,15}|\d{7,10})$/,
-			'Phone number must be 7–10 digits or start with + and contain up to 15 digits',
-		),
-	address: z.string().min(2, 'Address is required!'),
-	city: z.string().min(2, 'City is required!'),
-})
+interface Props {
+	userId: string
+}
 
-export const EditUser = () => {
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+export const EditUser = ({ userId }: Props) => {
+	const router = useRouter()
+
+	const form = useForm<TEditUserForm>({
+		resolver: zodResolver(editUserFormSchema),
 		defaultValues: {
-			fullName: 'John Doe',
-			email: 'john.doe@gmail.com',
-			phone: '+123456789012',
-			address: '123 Main St, Any town',
-			city: 'New York',
+			firstName: '',
+			lastName: '',
+			phoneNumber: '',
+		},
+		mode: 'onBlur',
+	})
+
+	const { getToken } = useAuth()
+
+	const { data: user } = useQuery({
+		queryKey: ['user', userId],
+		queryFn: async () => {
+			const token = await getToken()
+
+			const res = await axios.get(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${userId}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			})
+
+			return res.data
+		},
+		enabled: !!userId,
+	})
+
+	const mutation = useMutation({
+		mutationFn: async (data: TEditUserForm) => {
+			const token = await getToken()
+
+			const payload = {
+				...data,
+				phoneNumber: data.phoneNumber
+					? data.phoneNumber
+							.split(',')
+							.map((phone) => phone.trim())
+							.filter((phone) => phone.length > 0)
+					: [],
+			}
+
+			await axios.put(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_URL}/users/${userId}`, payload, {
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			})
+		},
+		onSuccess: () => {
+			toast.success('User updated successfully')
+
+			router.refresh()
+		},
+		onError: (error: Error | any) => {
+			let message = 'Failed to update user!'
+
+			if (error.response?.data?.errors) {
+				const errorMessages = error.response.data.errors
+					.map((err: Error | any) => err.longMessage || err.message)
+					.join('; ')
+				message = errorMessages || error.response.data.message
+			} else if (error.response?.data?.message) {
+				message = error.response.data.message
+			} else if (error.message) {
+				message = error.message
+			}
+
+			toast.error(message)
 		},
 	})
+
+	useEffect(() => {
+		if (user) {
+			form.reset({
+				firstName: user.firstName || '',
+				lastName: user.lastName || '',
+				phoneNumber: user.phoneNumbers?.map((pn: any) => pn.phoneNumber).join(', ') || '',
+			})
+		}
+	}, [user, form])
 
 	return (
 		<SheetContent>
@@ -51,19 +121,19 @@ export const EditUser = () => {
 
 				<SheetDescription asChild>
 					<Form {...form}>
-						<form className='space-y-8'>
+						<form className='space-y-8' onSubmit={form.handleSubmit((data) => mutation.mutate(data))}>
 							<FormField
 								control={form.control}
-								name='fullName'
+								name='firstName'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Full name</FormLabel>
+										<FormLabel>First name</FormLabel>
 
 										<FormControl>
-											<Input {...field} />
+											<Input {...field} type='text' />
 										</FormControl>
 
-										<FormDescription>Enter user full name</FormDescription>
+										<FormDescription>Enter user first name</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -72,16 +142,16 @@ export const EditUser = () => {
 
 							<FormField
 								control={form.control}
-								name='email'
+								name='lastName'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Email</FormLabel>
+										<FormLabel>Last name</FormLabel>
 
 										<FormControl>
-											<Input {...field} />
+											<Input {...field} type='text' />
 										</FormControl>
 
-										<FormDescription>Only admin can see your email</FormDescription>
+										<FormDescription>Enter user last name</FormDescription>
 
 										<FormMessage />
 									</FormItem>
@@ -90,60 +160,37 @@ export const EditUser = () => {
 
 							<FormField
 								control={form.control}
-								name='phone'
+								name='phoneNumber'
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Phone</FormLabel>
+										<FormLabel>Phone numbers (optional)</FormLabel>
 
 										<FormControl>
-											<Input {...field} />
+											<Input
+												{...field}
+												type='tel'
+												placeholder='+123456789012, +123456789012'
+												value={field.value || ''}
+											/>
 										</FormControl>
 
-										<FormDescription>Only admin can see your phone number (optional)</FormDescription>
+										<FormDescription>
+											Only admin can see your phone number. Use commas for multiple phone numbers
+										</FormDescription>
 
 										<FormMessage />
 									</FormItem>
 								)}
 							/>
 
-							<FormField
-								control={form.control}
-								name='address'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Address</FormLabel>
-
-										<FormControl>
-											<Input {...field} />
-										</FormControl>
-
-										<FormDescription>Enter user address (optional)</FormDescription>
-
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							<FormField
-								control={form.control}
-								name='city'
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>City</FormLabel>
-
-										<FormControl>
-											<Input {...field} />
-										</FormControl>
-
-										<FormDescription>Enter user city (optional)</FormDescription>
-
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-
-							<Button variant='default' size='lg' type='submit' className='rounded-lg'>
-								Submit
+							<Button
+								variant='default'
+								size='lg'
+								type='submit'
+								disabled={mutation.isPending}
+								className='rounded-lg disabled:cursor-not-allowed disabled:opacity-50'
+							>
+								{mutation.isPending ? 'Updating...' : 'Update'}
 							</Button>
 						</form>
 					</Form>

@@ -2,13 +2,13 @@
 
 import { toast } from 'sonner'
 import { useState } from 'react'
+import { TShippingForm } from '@repo/types'
 import { Button } from '@repo/ui/components'
-import { ShippingFormInputs } from '@repo/types'
 import { useCheckout } from '@stripe/react-stripe-js/checkout'
 import { PaymentElement } from '@stripe/react-stripe-js/checkout'
 
 interface Props {
-	shippingForm: ShippingFormInputs
+	shippingForm: TShippingForm
 }
 
 export const CheckoutForm = ({ shippingForm }: Props) => {

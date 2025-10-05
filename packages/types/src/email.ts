@@ -1,5 +1,3 @@
-// email.ts
-
 /**
  * Interface for the user creation message.
  * Used in the 'user.created' topic.

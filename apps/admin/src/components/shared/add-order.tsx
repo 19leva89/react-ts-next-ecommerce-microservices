@@ -20,19 +20,13 @@ import {
 	SheetHeader,
 	SheetTitle,
 } from '@repo/ui/components'
-import { z } from '@repo/types'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-
-const formSchema = z.object({
-	amount: z.number().min(1, { message: 'Amount must be at least 1!' }),
-	userId: z.string().min(1, { message: 'User Id is required!' }),
-	status: z.enum(['pending', 'processing', 'success', 'failed']),
-})
+import { addOrderFormSchema, TAddOrderForm } from '@repo/types'
 
 export const AddOrder = () => {
-	const form = useForm<z.infer<typeof formSchema>>({
-		resolver: zodResolver(formSchema),
+	const form = useForm<TAddOrderForm>({
+		resolver: zodResolver(addOrderFormSchema),
 	})
 
 	return (

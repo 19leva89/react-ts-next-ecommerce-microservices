@@ -1,4 +1,5 @@
 import Fastify from 'fastify'
+import cors from '@fastify/cors'
 import Clerk from '@clerk/fastify'
 import { connectOrderDB } from '@repo/order-db'
 
@@ -7,7 +8,15 @@ import { consumer, producer } from './utils/kafka.js'
 import { shouldBeUser } from './middleware/auth-middleware.js'
 import { runKafkaSubscriptions } from './utils/subscriptions.js'
 
-const fastify = Fastify()
+const fastify = Fastify({
+	logger: true,
+})
+
+await fastify.register(cors, {
+	origin: [`${process.env.NEXT_PUBLIC_ADMIN_URL}`],
+	methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+	credentials: true,
+})
 
 fastify.register(Clerk.clerkPlugin, {
 	secretKey: process.env.CLERK_SECRET_KEY,
@@ -40,7 +49,7 @@ const start = async () => {
 
 		console.log(`Order service is running on port ${process.env.NEXT_PUBLIC_ORDER_SERVICE_PORT}`)
 	} catch (error) {
-		console.log(error)
+		fastify.log.error(error)
 
 		process.exit(1)
 	}

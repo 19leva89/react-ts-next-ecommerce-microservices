@@ -2,7 +2,7 @@ import axios from 'axios'
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { LoaderIcon } from 'lucide-react'
-import { ProductType } from '@repo/types'
+import { CategoryType, ProductType } from '@repo/types'
 
 import { Categories, Filter, ProductCard } from '@/components/shared'
 
@@ -13,7 +13,7 @@ interface Props {
 	params: 'homepage' | 'products'
 }
 
-const fetchData = async ({ category, sort, search, params }: Props): Promise<ProductType[]> => {
+const fetchProducts = async ({ category, sort, search, params }: Props): Promise<ProductType[]> => {
 	const queryParams: Record<string, string | number> = {}
 
 	queryParams.sort = sort || 'newest'
@@ -37,13 +37,28 @@ const fetchData = async ({ category, sort, search, params }: Props): Promise<Pro
 	}
 }
 
+const fetchCategories = async (): Promise<CategoryType[]> => {
+	try {
+		const { data } = await axios.get<CategoryType[]>(
+			`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`,
+		)
+
+		return data
+	} catch (error) {
+		console.error('Failed to fetch products:', error)
+
+		return []
+	}
+}
+
 export const ProductList = async ({ category, sort, search, params }: Props) => {
-	const products = await fetchData({ category, sort, search, params })
+	const categories = await fetchCategories()
+	const products = await fetchProducts({ category, sort, search, params })
 
 	return (
 		<div className='w-full'>
 			<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
-				<Categories />
+				<Categories categories={categories} />
 			</Suspense>
 
 			{params === 'products' && (

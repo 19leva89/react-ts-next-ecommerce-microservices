@@ -90,4 +90,11 @@ export const orderRoute = async (fastify: FastifyInstance) => {
 
 		return reply.send(results)
 	})
+
+	fastify.delete('/orders/:id', { preHandler: shouldBeAdmin }, async (req, reply) => {
+		const { id } = req.params as { id: string }
+		const order = await Order.findByIdAndDelete(id)
+
+		return reply.send(order)
+	})
 }

@@ -29,6 +29,7 @@ model Category {
   id        String    @id @default(cuid()) @map("_id")
   name      String
   slug      String    @unique
+  icon      String
   //
   products  Product[]
   //

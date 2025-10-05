@@ -22,7 +22,7 @@ export const shippingFormSchema = z.object({
 	city: z.string().min(2, 'City is required!'),
 })
 
-export type ShippingFormInputs = z.infer<typeof shippingFormSchema>
+export type TShippingForm = z.infer<typeof shippingFormSchema>
 
 export type CartStoreStateType = {
 	cart: CartItemsType

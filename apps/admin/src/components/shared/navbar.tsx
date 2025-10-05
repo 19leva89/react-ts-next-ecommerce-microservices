@@ -15,10 +15,18 @@ import {
 	SidebarTrigger,
 } from '@repo/ui/components'
 import { useTheme } from 'next-themes'
-import { LogOutIcon, MoonIcon, SettingsIcon, SunIcon, UserIcon } from 'lucide-react'
+import { useAuth, useClerk, useUser } from '@clerk/nextjs'
+import { LogOutIcon, MoonIcon, SunIcon, UserIcon } from 'lucide-react'
 
 export const Navbar = () => {
+	const { user } = useUser()
+	const { signOut } = useAuth()
 	const { setTheme } = useTheme()
+	const { openUserProfile } = useClerk()
+
+	const initials = user
+		? `${user.firstName?.charAt(0) || ''}${user.lastName?.charAt(0) || ''}`.toUpperCase()
+		: 'CN'
 
 	return (
 		<nav className='bg-background sticky top-0 z-10 flex items-center justify-between p-4'>
@@ -60,9 +68,9 @@ export const Navbar = () => {
 				<DropdownMenu>
 					<DropdownMenuTrigger>
 						<Avatar>
-							<AvatarImage src='https://avatars.githubusercontent.com/u/1486366' />
+							<AvatarImage src={user?.imageUrl} />
 
-							<AvatarFallback>CN</AvatarFallback>
+							<AvatarFallback>{initials}</AvatarFallback>
 						</Avatar>
 					</DropdownMenuTrigger>
 
@@ -71,19 +79,14 @@ export const Navbar = () => {
 
 						<DropdownMenuSeparator />
 
-						<DropdownMenuItem className='cursor-pointer'>
+						<DropdownMenuItem className='cursor-pointer' onClick={() => openUserProfile()}>
 							<UserIcon className='mr-2 size-[1.2rem]' />
 							Profile
 						</DropdownMenuItem>
 
-						<DropdownMenuItem className='cursor-pointer'>
-							<SettingsIcon className='mr-2 size-[1.2rem]' />
-							Settings
-						</DropdownMenuItem>
-
-						<DropdownMenuItem variant='destructive' className='cursor-pointer'>
+						<DropdownMenuItem variant='destructive' className='cursor-pointer' onClick={() => signOut()}>
 							<LogOutIcon className='mr-2 size-[1.2rem]' />
-							Logout
+							Sign out
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>

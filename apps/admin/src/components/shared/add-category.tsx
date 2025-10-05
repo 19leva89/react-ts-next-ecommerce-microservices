@@ -17,26 +17,30 @@ import {
 	SheetTitle,
 } from '@repo/ui/components'
 import { toast } from 'sonner'
-import { z } from '@repo/types'
 import { useAuth } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
-import { CategoryFormSchema } from '@repo/types'
+import { useRouter } from 'next/navigation'
 import { useMutation } from '@tanstack/react-query'
+import { availableIcons } from '@repo/ui/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { categoryFormSchema, TCategoryForm } from '@repo/types'
 
 export const AddCategory = () => {
-	const form = useForm<z.infer<typeof CategoryFormSchema>>({
-		resolver: zodResolver(CategoryFormSchema),
+	const router = useRouter()
+
+	const form = useForm<TCategoryForm>({
+		resolver: zodResolver(categoryFormSchema),
 		defaultValues: {
 			name: '',
 			slug: '',
+			icon: '',
 		},
 	})
 
 	const { getToken } = useAuth()
 
 	const mutation = useMutation({
-		mutationFn: async (data: z.infer<typeof CategoryFormSchema>) => {
+		mutationFn: async (data: TCategoryForm) => {
 			const token = await getToken()
 
 			await axios.post(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/categories`, data, {
@@ -48,6 +52,8 @@ export const AddCategory = () => {
 		},
 		onSuccess: () => {
 			toast.success('Category created successfully')
+
+			router.refresh()
 		},
 		onError: (error) => {
 			const message = error.message || 'Failed to create category!'
@@ -72,7 +78,7 @@ export const AddCategory = () => {
 										<FormLabel>Name</FormLabel>
 
 										<FormControl>
-											<Input {...field} />
+											<Input {...field} type='text' />
 										</FormControl>
 
 										<FormDescription>Enter category name</FormDescription>
@@ -90,10 +96,47 @@ export const AddCategory = () => {
 										<FormLabel>Slug</FormLabel>
 
 										<FormControl>
-											<Input {...field} />
+											<Input {...field} type='text' />
 										</FormControl>
 
 										<FormDescription>Enter category slug</FormDescription>
+
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name='icon'
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Icon</FormLabel>
+
+										<FormControl>
+											<div className='grid grid-cols-8 gap-2 rounded-md border p-2'>
+												{Object.entries(availableIcons).map(([iconValue, LucideIcon]) => {
+													const isSelected = field.value === iconValue
+
+													return (
+														<Button
+															key={iconValue}
+															variant={isSelected ? 'default' : 'outline'}
+															size='icon'
+															onClick={(e) => {
+																e.preventDefault()
+																field.onChange(iconValue)
+															}}
+															className='rounded-lg'
+														>
+															<LucideIcon size={20} />
+														</Button>
+													)
+												})}
+											</div>
+										</FormControl>
+
+										<FormDescription>Select an icon</FormDescription>
 
 										<FormMessage />
 									</FormItem>

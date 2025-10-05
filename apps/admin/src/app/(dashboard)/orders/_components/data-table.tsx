@@ -1,5 +1,6 @@
 'use client'
 
+import axios from 'axios'
 import {
 	ColumnDef,
 	flexRender,
@@ -9,46 +10,90 @@ import {
 	SortingState,
 	useReactTable,
 } from '@tanstack/react-table'
+import { toast } from 'sonner'
 import { useState } from 'react'
+import { useAuth } from '@clerk/nextjs'
+import { OrderType } from '@repo/types'
 import { Trash2Icon } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useMutation } from '@tanstack/react-query'
 import { Button, Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@repo/ui/components'
 
 import { DataTablePagination } from '@/components/shared'
 
-interface DataTableProps<TData, TValue> {
+interface Props<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[]
 	data: TData[]
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data }: Props<TData, TValue>) {
+	const router = useRouter()
+
+	const { getToken } = useAuth()
+
 	const [sorting, setSorting] = useState<SortingState>([])
 	const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({})
 
 	const table = useReactTable({
 		data,
 		columns,
+		state: {
+			sorting,
+			rowSelection,
+		},
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		getSortedRowModel: getSortedRowModel(),
 		onSortingChange: setSorting,
 		onRowSelectionChange: setRowSelection,
-		state: {
-			sorting,
-			rowSelection,
+	})
+
+	const mutation = useMutation({
+		mutationFn: async () => {
+			const token = await getToken()
+			const selectedRows = table.getSelectedRowModel().rows
+
+			await Promise.all(
+				selectedRows.map(async (row) => {
+					const orderId = (row.original as OrderType)._id
+
+					await axios.delete(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_URL}/orders/${orderId}`, {
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					})
+				}),
+			)
+		},
+		onSuccess: () => {
+			toast.success('Order(s) deleted successfully')
+			router.refresh()
+			setRowSelection({})
+		},
+		onError: (error) => {
+			const message = error.message || 'Failed to delete order(s)!'
+
+			toast.error(message)
 		},
 	})
 
-	console.log(rowSelection)
 	return (
 		<div className='rounded-md border'>
 			{Object.keys(rowSelection).length > 0 && (
 				<div className='flex justify-end'>
-					<Button variant='destructive' size='lg' className='m-4 rounded-md bg-red-500'>
+					<Button
+						variant='destructive'
+						size='lg'
+						onClick={() => mutation.mutate()}
+						disabled={mutation.isPending}
+						className='m-4 rounded-md bg-red-500'
+					>
 						<Trash2Icon className='size-4' />
-						Delete payment(s)
+						{mutation.isPending ? 'Deleting' : 'Delete payment(s)'}
 					</Button>
 				</div>
 			)}
+
 			<Table>
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (
@@ -65,6 +110,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 						</TableRow>
 					))}
 				</TableHeader>
+
 				<TableBody>
 					{table.getRowModel().rows?.length ? (
 						table.getRowModel().rows.map((row) => (

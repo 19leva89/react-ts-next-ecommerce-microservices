@@ -1,36 +1,48 @@
 import { prisma } from '../src/client'
 import { producer } from '../src/kafka'
 
-//! To run the command "pnpm run db:seed" the turborepo servers must be running
+//! To run the command from the root of the repo run "cd packages/product-db; if ($?) { pnpm run db:seed }" the turborepo servers must be running
 
 const mockCategory = [
 	{
-		slug: 'accessories',
+		name: 'All',
+		slug: 'all',
+		icon: 'ShoppingBasketIcon',
+	},
+	{
 		name: 'Accessories',
+		slug: 'accessories',
+		icon: 'GlassesIcon',
 	},
 	{
-		slug: 'bags',
 		name: 'Bags',
+		slug: 'bags',
+		icon: 'BriefcaseIcon',
 	},
 	{
-		slug: 'dresses',
 		name: 'Dresses',
+		slug: 'dresses',
+		icon: 'VenusIcon',
 	},
 	{
-		slug: 'gloves',
 		name: 'Gloves',
+		slug: 'gloves',
+		icon: 'HandIcon',
 	},
 	{
-		slug: 'jackets',
 		name: 'Jackets',
+		slug: 'jackets',
+		icon: 'ShirtIcon',
 	},
 	{
-		slug: 't-shirts',
 		name: 'T-shirts',
+		slug: 't-shirts',
+		icon: 'ShirtIcon',
 	},
 	{
-		slug: 'shoes',
 		name: 'Shoes',
+		slug: 'shoes',
+		icon: 'FootprintsIcon',
 	},
 ]
 

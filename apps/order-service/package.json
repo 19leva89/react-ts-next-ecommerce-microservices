@@ -12,9 +12,10 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@clerk/fastify": "^2.4.34",
+    "@fastify/cors": "^11.1.0",
     "@repo/kafka": "workspace:*",
     "@repo/order-db": "workspace:*",
-    "@clerk/fastify": "^2.4.34",
     "date-fns": "^4.1.0",
     "fastify": "^5.6.1"
   },

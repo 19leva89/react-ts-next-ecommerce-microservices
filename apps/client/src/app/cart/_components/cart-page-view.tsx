@@ -4,8 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import { cn } from '@repo/ui/lib'
+import { TShippingForm } from '@repo/types'
 import { Button } from '@repo/ui/components'
-import { ShippingFormInputs } from '@repo/types'
 import { ArrowRightIcon, Trash2Icon } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -19,7 +19,7 @@ export const CartPageView = () => {
 
 	const { cart, removeFromCart } = useCartStore()
 
-	const [shippingForm, setShippingForm] = useState<ShippingFormInputs>()
+	const [shippingForm, setShippingForm] = useState<TShippingForm>()
 
 	const activeStep = parseInt(searchParams.get('step') || '1')
 

@@ -5,10 +5,10 @@ import { Button } from '@repo/ui/components'
 import { ArrowRightIcon } from 'lucide-react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { ShippingFormInputs, shippingFormSchema } from '@repo/types'
+import { TShippingForm, shippingFormSchema } from '@repo/types'
 
 interface Props {
-	setShippingForm: (data: ShippingFormInputs) => void
+	setShippingForm: (data: TShippingForm) => void
 }
 
 export const ShippingForm = ({ setShippingForm }: Props) => {
@@ -18,11 +18,11 @@ export const ShippingForm = ({ setShippingForm }: Props) => {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<ShippingFormInputs>({
+	} = useForm<TShippingForm>({
 		resolver: zodResolver(shippingFormSchema),
 	})
 
-	const handleShippingForm: SubmitHandler<ShippingFormInputs> = (data) => {
+	const handleShippingForm: SubmitHandler<TShippingForm> = (data) => {
 		setShippingForm(data)
 
 		router.push('/cart?step=3', { scroll: false })

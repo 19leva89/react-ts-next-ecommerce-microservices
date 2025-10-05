@@ -25,12 +25,13 @@ import {
 	Textarea,
 } from '@repo/ui/components'
 import { toast } from 'sonner'
-import { z } from '@repo/types'
 import { useAuth } from '@clerk/nextjs'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import { availableIcons } from '@repo/ui/constants'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { CategoryType, colors, ProductFormSchema, sizes } from '@repo/types'
+import { CategoryType, colors, productFormSchema, sizes, TProductForm } from '@repo/types'
 
 const fetchCategories = async () => {
 	try {
@@ -43,8 +44,10 @@ const fetchCategories = async () => {
 }
 
 export const AddProduct = () => {
-	const form = useForm<z.infer<typeof ProductFormSchema>>({
-		resolver: zodResolver(ProductFormSchema),
+	const router = useRouter()
+
+	const form = useForm<TProductForm>({
+		resolver: zodResolver(productFormSchema),
 		defaultValues: {
 			name: '',
 			shortDescription: '',
@@ -65,7 +68,7 @@ export const AddProduct = () => {
 	const { getToken } = useAuth()
 
 	const mutation = useMutation({
-		mutationFn: async (data: z.infer<typeof ProductFormSchema>) => {
+		mutationFn: async (data: TProductForm) => {
 			const token = await getToken()
 
 			await axios.post(`${process.env.NEXT_PUBLIC_PRODUCT_SERVICE_URL}/products`, data, {
@@ -77,6 +80,8 @@ export const AddProduct = () => {
 		},
 		onSuccess: () => {
 			toast.success('Product created successfully')
+
+			router.refresh()
 		},
 		onError: (error) => {
 			console.error(error || 'Failed to create product!')
@@ -100,7 +105,7 @@ export const AddProduct = () => {
 											<FormLabel>Name</FormLabel>
 
 											<FormControl>
-												<Input {...field} />
+												<Input {...field} type='text' />
 											</FormControl>
 
 											<FormDescription>Enter the name of the product</FormDescription>
@@ -118,7 +123,7 @@ export const AddProduct = () => {
 											<FormLabel>Short description</FormLabel>
 
 											<FormControl>
-												<Input {...field} />
+												<Input {...field} type='text' />
 											</FormControl>
 
 											<FormDescription>Enter the short description of the product</FormDescription>
@@ -183,11 +188,18 @@ export const AddProduct = () => {
 														</SelectTrigger>
 
 														<SelectContent>
-															{data.map((cat: CategoryType) => (
-																<SelectItem key={cat.id} value={cat.slug} className='cursor-pointer'>
-																	{cat.name}
-																</SelectItem>
-															))}
+															{data.map((cat: CategoryType) => {
+																const LucideIcon =
+																	availableIcons[cat.icon as string as keyof typeof availableIcons]
+
+																return (
+																	<SelectItem key={cat.id} value={cat.slug} className='cursor-pointer'>
+																		<LucideIcon className='size-4' />
+
+																		{cat.name}
+																	</SelectItem>
+																)
+															})}
 														</SelectContent>
 													</Select>
 												</FormControl>
@@ -301,6 +313,7 @@ export const AddProduct = () => {
 															<Input
 																type='file'
 																accept='image/*'
+																className='cursor-pointer [&::file-selector-button]:cursor-pointer'
 																onChange={async (e) => {
 																	const file = e.target.files?.[0]
 																	if (file) {

@@ -23,6 +23,20 @@ const start = async () => {
 				},
 			},
 			{
+				topicName: 'user.updated',
+				topicHandler: async (message) => {
+					const { email, username } = message.value as UserCreatedMessage
+
+					if (email) {
+						await sendMail({
+							to: email,
+							subject: 'E-commerce App',
+							text: `Hello ${username}. You account has been updated!`,
+						})
+					}
+				},
+			},
+			{
 				topicName: 'order.created',
 				topicHandler: async (message) => {
 					const { email, amount, status } = message.value as OrderCreatedMessage

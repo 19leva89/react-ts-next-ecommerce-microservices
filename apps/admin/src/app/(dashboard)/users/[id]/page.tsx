@@ -184,7 +184,8 @@ const SingleUserPage = async ({ params }: Props) => {
 										Edit user
 									</Button>
 								</SheetTrigger>
-								<EditUser />
+
+								<EditUser userId={id} />
 							</Sheet>
 						</div>
 

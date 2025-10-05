@@ -1,6 +1,6 @@
 export * from './auth'
 export * from './cart'
+export * from './category'
 export * from './email'
 export * from './order'
 export * from './product'
-export * as z from 'zod'
