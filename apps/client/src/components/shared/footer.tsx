@@ -6,7 +6,7 @@ export const Footer = () => {
 		<div className='mt-16 flex flex-col items-center gap-8 rounded-lg bg-gray-800 p-8 md:flex-row md:items-start md:justify-between md:gap-0'>
 			<div className='flex flex-col items-center justify-between gap-4 md:items-start'>
 				<Link href='/' className='flex flex-1 items-center gap-2'>
-					<Image src='/logo.png' alt='DimaTrend' width={36} height={36} />
+					<Image src='/img/logo.png' alt='DimaTrend' width={36} height={36} />
 
 					<p className='text-md hidden font-medium uppercase tracking-wider text-white md:block'>DimaTrend</p>
 				</Link>

@@ -63,7 +63,7 @@ export const ProductInteraction = ({ product, selectedSize, selectedColor }: Pro
 							key={size}
 							onClick={() => handleTypeChange('size', size)}
 							className={cn(
-								'border-1 cursor-pointer p-0.5',
+								'cursor-pointer border p-0.5',
 								selectedSize === size ? 'border-gray-600' : 'border-gray-300',
 							)}
 						>
@@ -90,11 +90,11 @@ export const ProductInteraction = ({ product, selectedSize, selectedColor }: Pro
 							key={color}
 							onClick={() => handleTypeChange('color', color)}
 							className={cn(
-								'border-1 cursor-pointer p-0.5',
+								'cursor-pointer border p-0.5',
 								selectedColor === color ? 'border-gray-300' : 'border-white',
 							)}
 						>
-							<div className='border-1 size-6 border-gray-300' style={{ backgroundColor: color }} />
+							<div className='border-input size-6 border' style={{ backgroundColor: color }} />
 						</div>
 					))}
 				</div>

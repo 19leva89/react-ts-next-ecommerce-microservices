@@ -69,8 +69,8 @@ export const AddUser = () => {
 		},
 		onSuccess: () => {
 			toast.success('User created successfully')
-
 			router.refresh()
+			form.reset()
 		},
 		onError: (error: Error | any) => {
 			let message = 'Failed to create/update user!'

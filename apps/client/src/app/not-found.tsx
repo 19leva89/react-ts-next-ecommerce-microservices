@@ -11,7 +11,7 @@ export default function NotFoundPage() {
 					type='not-found'
 					title='Page not found'
 					text='Please check the address entered is correct or try again later'
-					imageUrl='/not-found.png'
+					imageUrl='/img/not-found.png'
 				/>
 			</Suspense>
 		</div>

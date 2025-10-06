@@ -71,9 +71,9 @@ export function DataTable<TData, TValue>({ columns, data }: Props<TData, TValue>
 			setRowSelection({})
 		},
 		onError: (error) => {
-			const message = error.message || 'Failed to delete user(s)!'
+			console.error(error || 'Failed to delete user(s)')
 
-			toast.error(message)
+			toast.error(error.message || 'Failed to delete user(s)!')
 		},
 	})
 

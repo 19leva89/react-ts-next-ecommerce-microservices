@@ -83,8 +83,8 @@ export const EditUser = ({ userId }: Props) => {
 		},
 		onSuccess: () => {
 			toast.success('User updated successfully')
-
 			router.refresh()
+			form.reset()
 		},
 		onError: (error: Error | any) => {
 			let message = 'Failed to update user!'

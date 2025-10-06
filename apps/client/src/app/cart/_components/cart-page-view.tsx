@@ -63,7 +63,7 @@ export const CartPageView = () => {
 			{/* STEPS & DETAILS */}
 			<div className='flex w-full flex-col gap-16 lg:flex-row'>
 				{/* STEPS */}
-				<div className='border-1 flex w-full flex-col gap-8 rounded-lg border-gray-100 p-8 shadow-lg lg:w-7/12'>
+				<div className='flex w-full flex-col gap-8 rounded-lg border border-gray-100 p-8 shadow-lg lg:w-7/12'>
 					{activeStep === 1 ? (
 						cart.map((item) => (
 							// SINGLE CART ITEM
@@ -76,9 +76,12 @@ export const CartPageView = () => {
 									{/* IMAGE */}
 									<div className='relative size-32 overflow-hidden rounded-lg bg-gray-50'>
 										<Image
-											src={(item.images as Record<string, string>)?.[item.selectedColor] || ''}
-											alt={item.name}
 											fill
+											src={
+												(item.images as Record<string, string>)?.[item.selectedColor] || '/svg/no-image.svg'
+											}
+											alt={item.name}
+											onError={(e) => (e.currentTarget.src = '/svg/no-image.svg')}
 											className='object-contain'
 										/>
 									</div>
@@ -116,7 +119,7 @@ export const CartPageView = () => {
 				</div>
 
 				{/* DETAILS */}
-				<div className='border-1 flex h-max w-full flex-col gap-8 rounded-lg border-gray-100 p-8 shadow-lg lg:w-5/12'>
+				<div className='flex h-max w-full flex-col gap-8 rounded-lg border border-gray-100 p-8 shadow-lg lg:w-5/12'>
 					<h2 className='font-semibold'>Cart Details</h2>
 
 					<div className='flex flex-col gap-4'>

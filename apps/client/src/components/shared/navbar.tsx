@@ -13,7 +13,7 @@ export const Navbar = () => {
 			<nav className='flex w-full items-center justify-between gap-6'>
 				{/* LEFT */}
 				<Link href='/' className='flex items-center gap-2'>
-					<Image src='/logo.png' alt='DimaTrend' width={36} height={36} className='size-6 md:size-9' />
+					<Image src='/img/logo.png' alt='DimaTrend' width={36} height={36} className='size-6 md:size-9' />
 
 					<p className='text-md hidden font-medium uppercase tracking-wider md:block'>DimaTrend</p>
 				</Link>

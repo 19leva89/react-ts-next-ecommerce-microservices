@@ -52,13 +52,13 @@ export const AddCategory = () => {
 		},
 		onSuccess: () => {
 			toast.success('Category created successfully')
-
 			router.refresh()
+			form.reset()
 		},
 		onError: (error) => {
-			const message = error.message || 'Failed to create category!'
+			console.error(error || 'Failed to create category!')
 
-			toast.error(message)
+			toast.error(error.message || 'Failed to create category!')
 		},
 	})
 

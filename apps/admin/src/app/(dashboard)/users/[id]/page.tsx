@@ -91,7 +91,7 @@ const SingleUserPage = async ({ params }: Props) => {
 								<HoverCardTrigger>
 									<BadgeCheckIcon
 										size={36}
-										className='border-1 rounded-full border-blue-500/50 bg-blue-500/30 p-2'
+										className='rounded-full border border-blue-500/50 bg-blue-500/30 p-2'
 									/>
 								</HoverCardTrigger>
 
@@ -106,7 +106,7 @@ const SingleUserPage = async ({ params }: Props) => {
 								<HoverCardTrigger>
 									<ShieldIcon
 										size={36}
-										className='border-1 rounded-full border-green-800/50 bg-green-800/30 p-2'
+										className='rounded-full border border-green-800/50 bg-green-800/30 p-2'
 									/>
 								</HoverCardTrigger>
 
@@ -122,7 +122,7 @@ const SingleUserPage = async ({ params }: Props) => {
 								<HoverCardTrigger>
 									<CandyIcon
 										size={36}
-										className='border-1 rounded-full border-yellow-500/50 bg-yellow-500/30 p-2'
+										className='rounded-full border border-yellow-500/50 bg-yellow-500/30 p-2'
 									/>
 								</HoverCardTrigger>
 
@@ -138,7 +138,7 @@ const SingleUserPage = async ({ params }: Props) => {
 								<HoverCardTrigger>
 									<CitrusIcon
 										size={36}
-										className='border-1 rounded-full border-orange-500/50 bg-orange-500/30 p-2'
+										className='rounded-full border border-orange-500/50 bg-orange-500/30 p-2'
 									/>
 								</HoverCardTrigger>
 

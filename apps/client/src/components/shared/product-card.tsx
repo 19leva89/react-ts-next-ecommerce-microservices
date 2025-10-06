@@ -47,9 +47,10 @@ export const ProductCard = ({ product }: Props) => {
 			<Link href={`/products/${product.id}`}>
 				<div className='relative aspect-[2/3]'>
 					<Image
-						src={(product.images as Record<string, string>)?.[productTypes.color] || ''}
-						alt={product.name}
 						fill
+						src={(product.images as Record<string, string>)?.[productTypes.color] || '/svg/no-image.svg'}
+						alt={product.name}
+						onError={(e) => (e.currentTarget.src = '/svg/no-image.svg')}
 						className='object-cover transition-all duration-300 hover:scale-105'
 					/>
 				</div>
@@ -91,11 +92,14 @@ export const ProductCard = ({ product }: Props) => {
 									key={color}
 									onClick={() => handleProductType({ type: 'color', value: color })}
 									className={cn(
-										'border-1 cursor-pointer rounded-full p-[1.2px]',
+										'cursor-pointer rounded-full border p-[1.2px]',
 										productTypes.color === color ? 'border-gray-400' : 'border-gray-200',
 									)}
 								>
-									<div className='size-3.5 rounded-full' style={{ backgroundColor: color }} />
+									<div
+										className='border-input size-3.5 rounded-full border'
+										style={{ backgroundColor: color }}
+									/>
 								</div>
 							))}
 						</div>

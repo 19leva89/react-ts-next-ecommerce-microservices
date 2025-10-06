@@ -80,11 +80,13 @@ export const AddProduct = () => {
 		},
 		onSuccess: () => {
 			toast.success('Product created successfully')
-
 			router.refresh()
+			form.reset()
 		},
 		onError: (error) => {
 			console.error(error || 'Failed to create product!')
+
+			toast.error(error.message || 'Failed to create product!')
 		},
 	})
 
@@ -277,7 +279,10 @@ export const AddProduct = () => {
 																/>
 
 																<label htmlFor='color' className='flex items-center gap-2 text-xs'>
-																	<div className='size-2 rounded-full' style={{ backgroundColor: color }} />
+																	<div
+																		className='border-input size-3 rounded-full border'
+																		style={{ backgroundColor: color }}
+																	/>
 																	{color}
 																</label>
 															</div>
@@ -305,7 +310,10 @@ export const AddProduct = () => {
 													{form.watch('colors')?.map((color) => (
 														<div key={color} className='mb-4 flex items-center gap-4'>
 															<div className='flex items-center gap-2'>
-																<div className='size-4 rounded-full' style={{ backgroundColor: color }} />
+																<div
+																	className='border-input size-4 rounded-full border'
+																	style={{ backgroundColor: color }}
+																/>
 
 																<span className='min-w-[80px] text-sm font-medium'>{color}:</span>
 															</div>
@@ -316,11 +324,13 @@ export const AddProduct = () => {
 																className='cursor-pointer [&::file-selector-button]:cursor-pointer'
 																onChange={async (e) => {
 																	const file = e.target.files?.[0]
+
 																	if (file) {
 																		try {
 																			const formData = new FormData()
+
 																			formData.append('file', file)
-																			formData.append('upload_preset', 'ecommerce')
+																			formData.append('upload_preset', 'next-ecommerce-microservices')
 
 																			const res = await axios.post(
 																				`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -336,6 +346,7 @@ export const AddProduct = () => {
 
 																			if (data.secure_url) {
 																				const currentImages = form.getValues('images') || {}
+
 																				form.setValue('images', {
 																					...currentImages,
 																					[color]: data.secure_url,

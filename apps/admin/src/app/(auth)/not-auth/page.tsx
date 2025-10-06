@@ -7,7 +7,7 @@ const NotAuthPage = () => {
 				type='auth'
 				title='Access denied'
 				text='This page can only be viewed by administrators'
-				imageUrl='/lock.png'
+				imageUrl='/img/lock.png'
 			/>
 		</div>
 	)

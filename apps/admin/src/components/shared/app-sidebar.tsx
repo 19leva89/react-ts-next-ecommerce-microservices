@@ -68,7 +68,7 @@ export const AppSidebar = () => {
 					<SidebarMenuItem>
 						<SidebarMenuButton asChild>
 							<Link href='/'>
-								<Image src='/logo.png' alt='DimaTrend' width={20} height={20} />
+								<Image src='/img/logo.png' alt='DimaTrend' width={20} height={20} />
 
 								<span>DimaTrend</span>
 							</Link>
