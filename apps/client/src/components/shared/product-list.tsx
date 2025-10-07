@@ -1,7 +1,7 @@
 import axios from 'axios'
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { LoaderIcon } from 'lucide-react'
+import { Spinner } from '@repo/ui/components'
 import { CategoryType, ProductType } from '@repo/types'
 
 import { Categories, Filter, ProductCard } from '@/components/shared'
@@ -57,12 +57,24 @@ export const ProductList = async ({ category, sort, search, params }: Props) => 
 
 	return (
 		<div className='w-full'>
-			<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
+			<Suspense
+				fallback={
+					<div className='flex min-h-[200px] w-full items-center justify-center'>
+						<Spinner className='size-6' />
+					</div>
+				}
+			>
 				<Categories categories={categories} />
 			</Suspense>
 
 			{params === 'products' && (
-				<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
+				<Suspense
+					fallback={
+						<div className='flex min-h-[200px] w-full items-center justify-center'>
+							<Spinner className='size-6' />
+						</div>
+					}
+				>
 					<Filter />
 				</Suspense>
 			)}

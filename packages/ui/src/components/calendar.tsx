@@ -10,12 +10,11 @@ import {
 	useMemo,
 	useState,
 } from 'react'
+import { cn } from '@repo/ui/lib'
 import { differenceInCalendarDays } from 'date-fns'
+import { Button, buttonVariants } from '@repo/ui/components'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { DayPicker, labelNext, labelPrevious, useDayPicker, type DayPickerProps } from 'react-day-picker'
-
-import { cn } from '../lib'
-import { Button, buttonVariants } from '../components'
 
 export type CalendarProps = DayPickerProps & {
 	/**

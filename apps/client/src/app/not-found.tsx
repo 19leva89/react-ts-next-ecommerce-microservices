@@ -1,12 +1,12 @@
 import { Suspense } from 'react'
-import { LoaderIcon } from 'lucide-react'
 
+import { LoadingState } from '@/components/shared'
 import { InfoBlock } from '@/components/shared/info-block'
 
 export default function NotFoundPage() {
 	return (
 		<div className='flex min-h-screen w-full items-center justify-center'>
-			<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
+			<Suspense fallback={<LoadingState title='Loading page' description='This may take a few seconds' />}>
 				<InfoBlock
 					type='not-found'
 					title='Page not found'

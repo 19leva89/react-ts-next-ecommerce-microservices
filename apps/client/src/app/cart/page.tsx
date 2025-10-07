@@ -1,11 +1,11 @@
 import { Suspense } from 'react'
-import { LoaderIcon } from 'lucide-react'
 
+import { LoadingState } from '@/components/shared'
 import { CartPageView } from './_components/cart-page-view'
 
 const CartPage = () => {
 	return (
-		<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
+		<Suspense fallback={<LoadingState title='Loading page' description='This may take a few seconds' />}>
 			<CartPageView />
 		</Suspense>
 	)

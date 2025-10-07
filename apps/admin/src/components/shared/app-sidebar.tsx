@@ -87,13 +87,14 @@ export const AppSidebar = () => {
 						<SidebarMenu>
 							{items.map((item) => (
 								<SidebarMenuItem key={item.title}>
-									<SidebarMenuButton asChild>
+									<SidebarMenuButton asChild tooltip={item.title}>
 										<Link href={item.url}>
 											<item.icon />
 
 											<span>{item.title}</span>
 										</Link>
 									</SidebarMenuButton>
+
 									{item.title === 'Inbox' && <SidebarMenuBadge>24</SidebarMenuBadge>}
 								</SidebarMenuItem>
 							))}
@@ -111,7 +112,7 @@ export const AppSidebar = () => {
 					<SidebarGroupContent>
 						<SidebarMenu>
 							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
+								<SidebarMenuButton asChild tooltip='See all products'>
 									<Link href='/products'>
 										<ShirtIcon />
 										See all products
@@ -123,7 +124,7 @@ export const AppSidebar = () => {
 								<SidebarMenuButton asChild>
 									<Sheet>
 										<SheetTrigger asChild>
-											<SidebarMenuButton asChild>
+											<SidebarMenuButton asChild tooltip='Add product'>
 												<Link href='#'>
 													<PlusIcon />
 													Add product
@@ -140,7 +141,7 @@ export const AppSidebar = () => {
 								<SidebarMenuButton asChild>
 									<Sheet>
 										<SheetTrigger asChild>
-											<SidebarMenuButton asChild>
+											<SidebarMenuButton asChild tooltip='Add category'>
 												<Link href='#'>
 													<PlusIcon />
 													Add category
@@ -166,7 +167,7 @@ export const AppSidebar = () => {
 					<SidebarGroupContent>
 						<SidebarMenu>
 							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
+								<SidebarMenuButton asChild tooltip='See all users'>
 									<Link href='/users'>
 										<UserIcon />
 										See all users
@@ -178,7 +179,7 @@ export const AppSidebar = () => {
 								<SidebarMenuButton asChild>
 									<Sheet>
 										<SheetTrigger asChild>
-											<SidebarMenuButton asChild>
+											<SidebarMenuButton asChild tooltip='Add user'>
 												<Link href='#'>
 													<PlusIcon />
 													Add user
@@ -204,7 +205,7 @@ export const AppSidebar = () => {
 					<SidebarGroupContent>
 						<SidebarMenu>
 							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
+								<SidebarMenuButton asChild tooltip='See all transactions'>
 									<Link href='/orders'>
 										<ShoppingBasketIcon />
 										See all transactions
@@ -216,7 +217,7 @@ export const AppSidebar = () => {
 								<SidebarMenuButton asChild>
 									<Sheet>
 										<SheetTrigger asChild>
-											<SidebarMenuButton asChild>
+											<SidebarMenuButton asChild tooltip='Add order'>
 												<Link href='#'>
 													<PlusIcon />
 													Add order

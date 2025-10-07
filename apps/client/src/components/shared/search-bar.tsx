@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
 import { SearchIcon } from 'lucide-react'
+import { KeyboardEvent, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { InputGroup, InputGroupAddon, InputGroupInput } from '@repo/ui/components'
 
 export const SearchBar = () => {
 	const router = useRouter()
@@ -10,27 +11,30 @@ export const SearchBar = () => {
 
 	const [value, setValue] = useState<string>('')
 
-	const handleSearch = (value: string) => {
+	const handleSearch = (searchValue: string) => {
 		const params = new URLSearchParams(searchParams)
-		params.set('search', value)
+		params.set('search', searchValue)
 		router.push(`/products?${params.toString()}`, { scroll: false })
 	}
 
-	return (
-		<div className='hidden items-center gap-2 rounded-md px-2 py-1 shadow-md ring-1 ring-gray-200 sm:flex'>
-			<SearchIcon className='size-4 text-gray-500' />
+	const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Enter') {
+			handleSearch(value)
+		}
+	}
 
-			<input
-				id='search'
+	return (
+		<InputGroup>
+			<InputGroupInput
 				placeholder='Search...'
+				value={value}
+				onKeyDown={handleKeyDown}
 				onChange={(e) => setValue(e.target.value)}
-				onKeyDown={(e) => {
-					if (e.key === 'Enter') {
-						handleSearch(value)
-					}
-				}}
-				className='text-sm outline-0'
 			/>
-		</div>
+
+			<InputGroupAddon align='inline-start'>
+				<SearchIcon />
+			</InputGroupAddon>
+		</InputGroup>
 	)
 }

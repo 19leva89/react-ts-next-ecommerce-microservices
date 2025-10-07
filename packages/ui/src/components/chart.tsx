@@ -10,13 +10,12 @@ import {
 	useId,
 	useMemo,
 } from 'react'
+import { cn } from '@repo/ui/lib'
 import * as RechartsPrimitive from 'recharts'
 import { TooltipContentProps } from 'recharts/types/component/Tooltip'
 import type { Props as LegendProps } from 'recharts/types/component/Legend'
 import type { LegendPayload } from 'recharts/types/component/DefaultLegendContent'
 import { NameType, Payload, ValueType } from 'recharts/types/component/DefaultTooltipContent'
-
-import { cn } from '../lib'
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: '', dark: '.dark' } as const

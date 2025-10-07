@@ -25,6 +25,14 @@ export {
 } from './dropdown-menu'
 export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from './form'
 export { HoverCard, HoverCardTrigger, HoverCardContent } from './hover-card'
+export {
+	InputGroup,
+	InputGroupAddon,
+	InputGroupButton,
+	InputGroupText,
+	InputGroupInput,
+	InputGroupTextarea,
+} from './input-group'
 export { Input } from './input'
 export { Label } from './label'
 export { Popover, PopoverTrigger, PopoverContent } from './popover'
@@ -62,6 +70,7 @@ export {
 	useSidebar,
 } from './sidebar'
 export { Skeleton } from './skeleton'
+export { Spinner } from './spinner'
 export { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell } from './table'
 export { Textarea } from './textarea'
 export { Toaster } from './sonner'

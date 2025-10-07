@@ -1,6 +1,5 @@
+import { cn } from '@repo/ui/lib'
 import { ComponentProps } from 'react'
-
-import { cn } from '../lib'
 
 /**
  * Card root component that provides a container with consistent styling and layout

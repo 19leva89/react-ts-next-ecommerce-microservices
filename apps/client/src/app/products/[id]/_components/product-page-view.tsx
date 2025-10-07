@@ -4,9 +4,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Suspense } from 'react'
 import { ProductType } from '@repo/types'
-import { LoaderIcon } from 'lucide-react'
 
-import { ProductInteraction } from '@/components/shared'
+import { LoadingState, ProductOptions } from '@/components/shared'
 
 interface Props {
 	product: ProductType
@@ -36,8 +35,16 @@ export const ProductPageView = ({ product, selectedSize, selectedColor }: Props)
 
 				<h2 className='text-2xl font-semibold'>${product.price.toFixed(2)}</h2>
 
-				<Suspense fallback={<LoaderIcon className='size-5 animate-spin text-white' />}>
-					<ProductInteraction product={product} selectedSize={selectedSize} selectedColor={selectedColor} />
+				<Suspense
+					fallback={
+						<LoadingState
+							title='Loading options'
+							description='This may take a few seconds'
+							className='bg-transparent p-0 shadow-none'
+						/>
+					}
+				>
+					<ProductOptions product={product} selectedSize={selectedSize} selectedColor={selectedColor} />
 				</Suspense>
 
 				{/* CARD INFO */}

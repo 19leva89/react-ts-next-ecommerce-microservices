@@ -16,7 +16,7 @@ interface Props {
 	selectedColor: string
 }
 
-export const ProductInteraction = ({ product, selectedSize, selectedColor }: Props) => {
+export const ProductOptions = ({ product, selectedSize, selectedColor }: Props) => {
 	const router = useRouter()
 	const pathname = usePathname()
 	const searchParams = useSearchParams()
