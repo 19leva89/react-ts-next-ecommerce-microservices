@@ -3,8 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"tsx src/index.ts --env-file=.env --watch src/index.ts\" \"tsx scripts/ngrok.ts --env-file=.env\"",
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "build": "pnpm dlx tsx --env-file=.env src/index.ts",
     "check-types": "tsc --noEmit",
     "ngrok": "tsx scripts/ngrok.ts --env-file=.env"
   },
