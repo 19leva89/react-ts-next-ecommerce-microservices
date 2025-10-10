@@ -9,7 +9,8 @@
   "license": "ISC",
   "scripts": {
     "dev": "pnpm dlx tsx --env-file=.env --watch src/index.ts",
-    "build": "pnpm dlx tsx --env-file=.env src/index.ts",
+    "build": "echo 'No build step needed for tsx'",
+    "start": "pnpm dlx tsx src/index.ts",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
