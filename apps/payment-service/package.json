@@ -1,9 +1,11 @@
 {
   "name": "payment-service",
+	"main": "dist/index.js",
   "type": "module",
   "scripts": {
     "dev": "concurrently \"tsx src/index.ts --env-file=.env --watch src/index.ts\" \"tsx scripts/ngrok.ts --env-file=.env\"",
-    "build": "pnpm dlx tsx src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "check-types": "tsc --noEmit",
     "ngrok": "tsx scripts/ngrok.ts --env-file=.env"
   },
