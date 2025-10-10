@@ -12,9 +12,9 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/product-db": "workspace:*",
+    "@clerk/express": "^1.7.37",
     "@repo/kafka": "workspace:*",
-    "@clerk/express": "^1.7.34",
+    "@repo/product-db": "workspace:*",
     "cors": "^2.8.5",
     "express": "^5.1.0"
   },
