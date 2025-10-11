@@ -1,4 +1,4 @@
-export { createKafkaClient } from './client'
-export { createConsumer } from './consumer'
-export { createProducer } from './producer'
-export { createKafkaTopic } from './topic'
+export { createKafkaClient } from './client.js'
+export { createConsumer } from './consumer.js'
+export { createProducer } from './producer.js'
+export { createKafkaTopic } from './topic.js'
