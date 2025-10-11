@@ -2,13 +2,20 @@
   "name": "@repo/order-db",
   "version": "0.0.1",
   "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
   "dependencies": {
     "mongoose": "^8.19.1"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*"
+    "@repo/typescript-config": "workspace:*",
+    "typescript": "^5.9.3"
   },
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
   }
 }
