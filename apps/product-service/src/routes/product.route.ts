@@ -6,8 +6,8 @@ import {
 	getProduct,
 	getProducts,
 	updateProduct,
-} from '../controllers/product.controller'
-import { shouldBeAdmin } from '../middleware/auth-middleware'
+} from '../controllers/product.controller.js'
+import { shouldBeAdmin } from '../middleware/auth-middleware.js'
 
 const router: Router = Router()
 

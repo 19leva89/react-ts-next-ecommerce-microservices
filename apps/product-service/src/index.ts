@@ -2,8 +2,8 @@ import cors from 'cors'
 import { clerkMiddleware } from '@clerk/express'
 import express, { NextFunction, Request, Response } from 'express'
 
-import productRouter from './routes/product.route'
-import categoryRouter from './routes/category.route'
+import productRouter from './routes/product.route.js'
+import categoryRouter from './routes/category.route.js'
 import { consumer, producer } from './utils/kafka.js'
 import { shouldBeUser } from './middleware/auth-middleware.js'
 
