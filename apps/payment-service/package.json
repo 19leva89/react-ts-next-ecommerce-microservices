@@ -3,6 +3,7 @@
   "type": "module",
   "scripts": {
     "dev": "concurrently \"tsx src/index.ts --env-file=.env --watch src/index.ts\" \"tsx scripts/ngrok.ts --env-file=.env\"",
+    "start": "tsx src/index.ts",
     "check-types": "tsc --noEmit",
     "ngrok": "tsx scripts/ngrok.ts --env-file=.env"
   },
