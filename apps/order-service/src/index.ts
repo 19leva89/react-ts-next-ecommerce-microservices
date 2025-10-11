@@ -56,3 +56,6 @@ const start = async () => {
 }
 
 start()
+
+// Export app for serverless deployments
+export default fastify
