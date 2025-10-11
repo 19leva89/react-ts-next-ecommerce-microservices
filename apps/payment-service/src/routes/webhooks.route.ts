@@ -1,8 +1,8 @@
 import { Hono } from 'hono'
 import Stripe from 'stripe'
 
-import { stripe } from '../utils/stripe'
-import { producer } from '../utils/kafka'
+import { stripe } from '../utils/stripe.js'
+import { producer } from '../utils/kafka.js'
 
 const webhookRoute = new Hono()
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET as string

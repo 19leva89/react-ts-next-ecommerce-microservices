@@ -3,10 +3,10 @@ import { cors } from 'hono/cors'
 import { serve } from '@hono/node-server'
 import { clerkMiddleware } from '@hono/clerk-auth'
 
-import sessionRoute from './routes/session.route'
-import webhookRoute from './routes/webhooks.route'
-import { consumer, producer } from './utils/kafka'
-import { runKafkaSubscriptions } from './utils/subscriptions'
+import sessionRoute from './routes/session.route.js'
+import webhookRoute from './routes/webhooks.route.js'
+import { consumer, producer } from './utils/kafka.js'
+import { runKafkaSubscriptions } from './utils/subscriptions.js'
 
 const app = new Hono()
 

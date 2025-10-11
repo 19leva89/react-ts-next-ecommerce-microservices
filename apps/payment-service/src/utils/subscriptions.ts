@@ -1,7 +1,7 @@
 import type { StripeProductType } from '@repo/types'
 
-import { consumer } from './kafka'
-import { createStripeProduct, deleteStripeProduct } from './stripe-product'
+import { consumer } from './kafka.js'
+import { createStripeProduct, deleteStripeProduct } from './stripe-product.js'
 
 export const runKafkaSubscriptions = async () => {
 	await consumer.subscribe([

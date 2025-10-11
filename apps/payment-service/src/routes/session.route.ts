@@ -1,9 +1,9 @@
 import { Hono } from 'hono'
 import type { CartItemsType } from '@repo/types'
 
-import { stripe } from '../utils/stripe'
-import { shouldBeUser } from '../middleware/auth-middleware'
-import { getStripeProductPrice } from '../utils/stripe-product'
+import { stripe } from '../utils/stripe.js'
+import { shouldBeUser } from '../middleware/auth-middleware.js'
+import { getStripeProductPrice } from '../utils/stripe-product.js'
 
 const sessionRoute = new Hono()
 
