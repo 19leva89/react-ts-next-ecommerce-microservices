@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { CartItemsType } from '@repo/types'
+import type { CartItemsType } from '@repo/types'
 
 import { stripe } from '../utils/stripe'
 import { shouldBeUser } from '../middleware/auth-middleware'

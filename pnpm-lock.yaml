@@ -238,9 +238,6 @@ importers:
       '@ngrok/ngrok':
         specifier: ^1.5.2
         version: 1.5.2
-      '@repo/kafka':
-        specifier: workspace:*
-        version: link:../../packages/kafka
       concurrently:
         specifier: ^9.2.1
         version: 9.2.1
@@ -254,6 +251,9 @@ importers:
         specifier: ^19.1.0
         version: 19.1.0(@types/node@24.7.1)
     devDependencies:
+      '@repo/kafka':
+        specifier: workspace:*
+        version: link:../../packages/kafka
       '@repo/types':
         specifier: workspace:*
         version: link:../../packages/types

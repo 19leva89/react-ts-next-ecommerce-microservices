@@ -1,4 +1,4 @@
-import { StripeProductType } from '@repo/types'
+import type { StripeProductType } from '@repo/types'
 
 import { stripe } from './stripe'
 
