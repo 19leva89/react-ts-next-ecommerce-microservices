@@ -5,7 +5,18 @@
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**", "build/**"],
-      "env": ["DATABASE_URL", "CLERK_SECRET_KEY", "STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "KAFKA_BROKER", "KAFKA_USERNAME", "KAFKA_PASSWORD", "KAFKA_USE_SSL"]
+      "env": 
+				[
+					"DATABASE_URL", 
+					"MONGO_URL", 
+					"CLERK_SECRET_KEY", 
+					"STRIPE_SECRET_KEY", 
+					"STRIPE_WEBHOOK_SECRET", 
+					"KAFKA_BROKER", 
+					"KAFKA_USERNAME", 
+					"KAFKA_PASSWORD", 
+					"KAFKA_USE_SSL"
+				]
     },
     "lint": {
       "dependsOn": ["^lint"]
