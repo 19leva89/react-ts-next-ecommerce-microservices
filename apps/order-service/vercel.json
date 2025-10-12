@@ -1,10 +1,8 @@
 {
   "version": 2,
-  "buildCommand": "cd apps/order-service && npm run build",
-  "outputDirectory": "apps/order-service/dist",
   "builds": [
     {
-      "src": "apps/order-service/dist/index.js",
+      "src": "apps/order-service/package.json",
       "use": "@vercel/node"
     }
   ],

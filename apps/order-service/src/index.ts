@@ -1,6 +1,6 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
-import Clerk from '@clerk/fastify'
+import { clerkPlugin } from '@clerk/fastify'
 import { connectOrderDB } from '@repo/order-db'
 
 import { orderRoute } from './routes/order.js'
@@ -18,7 +18,7 @@ await fastify.register(cors, {
 	credentials: true,
 })
 
-fastify.register(Clerk.clerkPlugin, {
+fastify.register(clerkPlugin, {
 	secretKey: process.env.CLERK_SECRET_KEY,
 	publishableKey: process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
 })
@@ -40,22 +40,41 @@ fastify.get('/test', { preHandler: shouldBeUser }, (req, reply) => {
 
 fastify.register(orderRoute)
 
-const start = async () => {
+// Initialization of services (DB, Kafka, subscriptions)
+const initializeServices = async () => {
 	try {
 		await Promise.all([connectOrderDB(), producer.connect(), consumer.connect()])
-
 		await runKafkaSubscriptions()
-		await fastify.listen({ port: Number(`${process.env.NEXT_PUBLIC_ORDER_SERVICE_PORT}` || 8001) })
 
-		console.log(`Order service is running on port ${process.env.NEXT_PUBLIC_ORDER_SERVICE_PORT}`)
+		console.log('Services initialized')
 	} catch (error) {
-		fastify.log.error(error)
+		fastify.log.error({ error }, 'Services initialization failed')
 
 		process.exit(1)
 	}
 }
 
-start()
+if (process.env.NODE_ENV !== 'production') {
+	// For dev/local only: starting the server
+	const startServer = async () => {
+		await initializeServices()
+
+		const port = Number(process.env.NEXT_PUBLIC_ORDER_SERVICE_PORT || '8001')
+
+		await fastify.listen({ port })
+
+		console.log(`Order service is running on port ${port}`)
+	}
+
+	startServer().catch((error) => {
+		fastify.log.error('Failed to start server:', error)
+
+		process.exit(1)
+	})
+} else {
+	// In production: only initialization of services, Vercel will handle fastify itself
+	initializeServices()
+}
 
 // Export app for serverless deployments
 export default fastify

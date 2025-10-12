@@ -1,16 +1,16 @@
 import cors from 'cors'
 import { clerkMiddleware } from '@clerk/express'
-import express, { NextFunction, Request, Response } from 'express'
+import express, { Express, NextFunction, Request, Response } from 'express'
 
-import userRoute from './routes/user.route'
 import { producer } from './utils/kafka.js'
+import userRoute from './routes/user.route.js'
 import { shouldBeAdmin } from './middleware/auth-middleware.js'
 
 interface AppError extends Error {
 	status?: number
 }
 
-const app = express()
+const app: Express = express()
 
 app.use(
 	cors({
@@ -39,21 +39,39 @@ app.use('/users', shouldBeAdmin, userRoute)
 app.use((error: AppError, _req: Request, res: Response, _next: NextFunction) => {
 	console.log(error)
 
-	return res.status(error.status || 500).json({ message: error.message || 'Inter Server Error!' })
+	return res.status(error.status || 500).json({ message: error.message || 'Internal Server Error!' })
 })
 
-const start = async () => {
+// Initialize Kafka (always, regardless of env)
+const initializeKafka = async () => {
 	try {
-		await producer.connect()
+		await Promise.all([producer.connect()])
 
-		app.listen(`${process.env.NEXT_PUBLIC_AUTH_SERVICE_PORT}` || 8003, () => {
-			console.log(`Auth service is running on ${process.env.NEXT_PUBLIC_AUTH_SERVICE_PORT}`)
-		})
+		console.log('Kafka connected')
 	} catch (error) {
-		console.log(error)
+		console.error('Kafka connection failed:', error)
 
 		process.exit(1)
 	}
 }
 
-start()
+if (process.env.NODE_ENV !== 'production') {
+	// For dev/local only: starting the server
+	const startServer = async () => {
+		await initializeKafka()
+
+		const port = 8003
+
+		app.listen(port, () => {
+			console.log(`Auth service is running on port ${port}`)
+		})
+	}
+
+	startServer()
+} else {
+	// In production: initialize Kafka, but don't listen to the port (Vercel will handle it automatically)
+	initializeKafka()
+}
+
+// Export for Vercel/serverless
+export default app
