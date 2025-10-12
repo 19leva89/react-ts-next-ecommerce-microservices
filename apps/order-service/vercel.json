@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "buildCommand": "cd apps/order-service && npm run build",
+  "outputDirectory": "apps/order-service/dist",
+  "builds": [
+    {
+      "src": "apps/order-service/dist/index.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "apps/order-service/dist/index.js"
+    }
+  ]
+}
