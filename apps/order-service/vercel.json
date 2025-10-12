@@ -1,13 +1,16 @@
 {
-  "version": 2,
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "outputDirectory": "dist",
-	"rewrites": [
+  "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.js"
     }
   ],
-	"functions": {
-    "index.js": { "runtime": "@vercel/node", "memory": 2048, "maxDuration": 30 }
+  "functions": {
+    "index.js": {
+      "memory": 2048,
+      "maxDuration": 30
+    }
   }
 }
