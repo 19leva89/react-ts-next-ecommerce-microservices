@@ -3,7 +3,7 @@
   "version": 2,
   "functions": {
     "dist/index.js": {
-      "runtime": "nodejs20.x"
+      "runtime": "@vercel/node@5.3.25"
     }
   },
   "rewrites": [
