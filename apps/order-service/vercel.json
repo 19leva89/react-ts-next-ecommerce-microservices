@@ -1,16 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "pnpm turbo build --filter=order-service",
   "outputDirectory": "dist",
+  "installCommand": "pnpm install",
   "rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.js"
     }
-  ],
-  "functions": {
-    "index.js": {
-      "memory": 2048,
-      "maxDuration": 30
-    }
-  }
+  ]
 }
