@@ -2,7 +2,7 @@
   "name": "order-service",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.js",
+  "main": "dist/index.js",
   "type": "module",
   "keywords": [],
   "author": "",
@@ -11,7 +11,7 @@
     "dev": "tsx --env-file=.env --watch src/index.ts",
 		"build": "tsc",
 		"vercel-build": "tsc",
-		"start": "node api/index.js",
+		"start": "node dist/index.js",
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
