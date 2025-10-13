@@ -1,12 +1,13 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
-import clerkFastify from '@clerk/fastify'
+import { createRequire } from 'module'
 import { connectOrderDB } from '@repo/order-db'
 
 import { orderRoute } from './routes/order.js'
 import { shouldBeUser } from './middleware/auth-middleware.js'
 
-const { clerkPlugin } = clerkFastify
+const require = createRequire(import.meta.url)
+const { clerkPlugin } = require('@clerk/fastify')
 
 const fastify = Fastify({
 	logger: true,
