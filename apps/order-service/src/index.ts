@@ -1,12 +1,14 @@
 import Fastify from 'fastify'
 import cors from '@fastify/cors'
-import { clerkPlugin } from '@clerk/fastify'
+import clerkFastify from '@clerk/fastify'
 import { connectOrderDB } from '@repo/order-db'
 
 import { orderRoute } from './routes/order.js'
 import { consumer, producer } from './utils/kafka.js'
 import { shouldBeUser } from './middleware/auth-middleware.js'
 import { runKafkaSubscriptions } from './utils/subscriptions.js'
+
+const { clerkPlugin } = clerkFastify
 
 const fastify = Fastify({
 	logger: true,

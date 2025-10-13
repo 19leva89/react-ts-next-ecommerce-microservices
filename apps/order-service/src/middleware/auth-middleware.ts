@@ -1,6 +1,8 @@
-import { clerkClient, getAuth } from '@clerk/fastify'
+import clerkFastify from '@clerk/fastify'
 import type { ClerkClientUserRole } from '@repo/types'
 import { FastifyReply, FastifyRequest } from 'fastify'
+
+const { clerkClient, getAuth } = clerkFastify
 
 declare module 'fastify' {
 	interface FastifyRequest {
