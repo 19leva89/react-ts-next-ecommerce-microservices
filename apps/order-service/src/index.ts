@@ -4,9 +4,7 @@ import clerkFastify from '@clerk/fastify'
 import { connectOrderDB } from '@repo/order-db'
 
 import { orderRoute } from './routes/order.js'
-import { consumer, producer } from './utils/kafka.js'
 import { shouldBeUser } from './middleware/auth-middleware.js'
-import { runKafkaSubscriptions } from './utils/subscriptions.js'
 
 const { clerkPlugin } = clerkFastify
 
@@ -42,16 +40,25 @@ fastify.get('/test', { preHandler: shouldBeUser }, (req, reply) => {
 
 fastify.register(orderRoute)
 
-// Initialization of services (DB, Kafka, subscriptions)
+// Initialization of services
 const initializeServices = async () => {
 	try {
-		await Promise.all([connectOrderDB(), producer.connect(), consumer.connect()])
-		await runKafkaSubscriptions()
+		// In serverless/production: only DB connection
+		if (process.env.NODE_ENV === 'production') {
+			await connectOrderDB()
+			console.log('DB initialized (serverless mode)')
+		} else {
+			// In dev: full initialization with Kafka (dynamic import)
+			const { consumer, producer } = await import('./utils/kafka.js')
+			const { runKafkaSubscriptions } = await import('./utils/subscriptions.js')
 
-		console.log('Services initialized')
+			await Promise.all([connectOrderDB(), producer.connect(), consumer.connect()])
+			await runKafkaSubscriptions()
+
+			console.log('All services initialized (dev mode)')
+		}
 	} catch (error) {
 		fastify.log.error({ error }, 'Services initialization failed')
-
 		process.exit(1)
 	}
 }
@@ -74,8 +81,8 @@ if (process.env.NODE_ENV !== 'production') {
 		process.exit(1)
 	})
 } else {
-	// In production: only initialization of services, Vercel will handle fastify itself
-	initializeServices()
+	// In production: initialize services (DB only for serverless)
+	await initializeServices()
 }
 
 // Export app for serverless deployments

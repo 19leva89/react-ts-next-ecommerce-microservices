@@ -1,8 +1,9 @@
-import clerkFastify from '@clerk/fastify'
+import { createRequire } from 'module'
 import type { ClerkClientUserRole } from '@repo/types'
 import { FastifyReply, FastifyRequest } from 'fastify'
 
-const { clerkClient, getAuth } = clerkFastify
+const require = createRequire(import.meta.url)
+const { clerkClient, getAuth } = require('@clerk/fastify')
 
 declare module 'fastify' {
 	interface FastifyRequest {
