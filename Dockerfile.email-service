@@ -30,7 +30,7 @@ COPY . .
 RUN npm install -g pnpm
 
 # Устанавливаем только production зависимости (создаст симлинки workspaces)
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile --ignore-scripts
 
 # Собранный dist уже есть из builder
 COPY --from=builder /app/apps/email-service/dist ./apps/email-service/dist
