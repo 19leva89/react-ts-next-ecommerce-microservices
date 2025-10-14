@@ -2,11 +2,13 @@
 	FROM node:20-alpine AS builder
 	WORKDIR /app
 	
-	# Копируем всё нужное для сборки
+	# Копируем конфиги монорепы
 	COPY package*.json ./
 	COPY pnpm-lock.yaml* ./
 	COPY pnpm-workspace.yaml ./
 	COPY turbo.json ./
+	
+	# Копируем нужные пакеты и сервис
 	COPY packages ./packages
 	COPY apps/email-service ./apps/email-service
 	
@@ -21,15 +23,21 @@
 	FROM node:20-alpine AS runner
 	WORKDIR /app
 	
-	# Копируем собранные файлы из builder
-	COPY --from=builder /app/apps/email-service/dist ./dist
-	COPY --from=builder /app/apps/email-service/package*.json ./
-	# ✅ Вместо новой установки — копируем готовые зависимости
+	# Копируем node_modules и workspace-пакеты
 	COPY --from=builder /app/node_modules ./node_modules
 	COPY --from=builder /app/packages ./packages
 	
-	# Устанавливаем pnpm (если нужно, но не обязательно)
-	RUN npm install -g pnpm
+	# Копируем dist и package.json email-сервиса
+	COPY --from=builder /app/apps/email-service/dist ./dist
+	COPY --from=builder /app/apps/email-service/package*.json ./
 	
+	# Для корректного разрешения workspace-пакетов
+	ENV NODE_PATH=/app/node_modules
+	ENV NODE_ENV=production
+	
+	# Опционально: если у тебя ESM (type: module)
+	ENV TS_NODE_PROJECT=tsconfig.json
+	
+	# Команда запуска
 	CMD ["node", "dist/index.js"]
 	
