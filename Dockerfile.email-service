@@ -1,43 +1,40 @@
 # ---------- Builder ----------
-	FROM node:20-alpine AS builder
-	WORKDIR /app
-	
-	# Копируем конфиги монорепы
-	COPY package*.json ./
-	COPY pnpm-lock.yaml* ./
-	COPY pnpm-workspace.yaml ./
-	COPY turbo.json ./
-	
-	# Копируем нужные пакеты и сервис
-	COPY packages ./packages
-	COPY apps/email-service ./apps/email-service
-	
-	# Устанавливаем pnpm и зависимости
-	RUN npm install -g pnpm
-	RUN pnpm install --frozen-lockfile
-	
-	# Собираем только email-service
-	RUN pnpm turbo run build --filter=email-service
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# Копируем конфиги монорепы
+COPY package*.json ./
+COPY pnpm-lock.yaml* ./
+COPY pnpm-workspace.yaml ./
+COPY turbo.json ./
+
+# Копируем нужные пакеты и сервис
+COPY packages ./packages
+COPY apps/email-service ./apps/email-service
+
+# Устанавливаем pnpm и зависимости
+RUN npm install -g pnpm
+RUN pnpm install --frozen-lockfile
+
+# Собираем только email-service
+RUN pnpm turbo run build --filter=email-service
 	
 	# ---------- Runner ----------
-	FROM node:20-alpine AS runner
-	WORKDIR /app
-	
-	# Копируем node_modules и workspace-пакеты
-	COPY --from=builder /app/node_modules ./node_modules
-	COPY --from=builder /app/packages ./packages
-	
-	# Копируем dist и package.json email-сервиса
-	COPY --from=builder /app/apps/email-service/dist ./dist
-	COPY --from=builder /app/apps/email-service/package*.json ./
-	
-	# Для корректного разрешения workspace-пакетов
-	ENV NODE_PATH=/app/node_modules
-	ENV NODE_ENV=production
-	
-	# Опционально: если у тебя ESM (type: module)
-	ENV TS_NODE_PROJECT=tsconfig.json
-	
-	# Команда запуска
-	CMD ["node", "dist/index.js"]
-	
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+# Копируем весь репозиторий (это важно для workspaces)
+COPY . .
+
+# Устанавливаем pnpm
+RUN npm install -g pnpm
+
+# Устанавливаем только production зависимости (создаст симлинки workspaces)
+RUN pnpm install --prod --frozen-lockfile
+
+# Собранный dist уже есть из builder
+COPY --from=builder /app/apps/email-service/dist ./apps/email-service/dist
+
+WORKDIR /app/apps/email-service
+ENV NODE_ENV=production
+CMD ["node", "dist/index.js"]
