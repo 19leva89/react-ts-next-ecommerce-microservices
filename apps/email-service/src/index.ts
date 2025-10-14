@@ -1,7 +1,7 @@
 import { OrderCreatedMessage, UserCreatedMessage } from '@repo/types'
 
-import { consumer } from './utils/kafka'
-import { sendMail } from './utils/mailer'
+import { consumer } from './utils/kafka.js'
+import { sendMail } from './utils/mailer.js'
 
 const start = async () => {
 	try {

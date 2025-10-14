@@ -15,7 +15,11 @@
 					"KAFKA_BROKER", 
 					"KAFKA_USERNAME", 
 					"KAFKA_PASSWORD", 
-					"KAFKA_USE_SSL"
+					"KAFKA_USE_SSL",
+					"OAUTH_EMAIL",
+					"OAUTH_CLIENT_ID",
+					"OAUTH_CLIENT_SECRET",
+					"OAUTH_REFRESH_TOKEN"
 				]
     },
     "lint": {
