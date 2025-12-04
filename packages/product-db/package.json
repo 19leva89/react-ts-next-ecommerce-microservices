@@ -13,13 +13,13 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^6.17.1",
+    "@prisma/client": "6.19.0",
     "@repo/kafka": "workspace:*"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
-    "prisma": "^6.17.1",
-    "tsx": "^4.20.6",
+    "prisma": "6.19.0",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "exports": {

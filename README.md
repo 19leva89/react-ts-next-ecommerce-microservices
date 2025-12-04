@@ -5,7 +5,7 @@ terminal powershell -> `pnpm i` (install dependencies)
 terminal powershell -> `pnpm update --recursive` (update all dependencies)
 terminal powershell -> `pnpm run dev`
 terminal powershell -> `pnpm run lint` (loading ESLint checker)
-terminal powershell -> `pnpm run types` (loading TypeScript checker)
+terminal powershell -> `pnpm run check-types` (loading TypeScript checker)
 terminal powershell -> `pnpm run knip` (loading Knip checker)
 
 # Database commands:

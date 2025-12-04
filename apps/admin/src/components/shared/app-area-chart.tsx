@@ -49,14 +49,15 @@ export const AppAreaChart = () => {
 					<YAxis tickLine={false} tickMargin={10} axisLine={false} />
 
 					<ChartTooltip
-						content={
+						content={({ active, activeIndex, payload, coordinate }) => (
 							<ChartTooltipContent
-								active={false}
-								payload={[]}
-								coordinate={{ x: 0, y: 0 }}
+								active={active}
+								activeIndex={activeIndex}
+								payload={payload}
+								coordinate={coordinate}
 								accessibilityLayer={false}
 							/>
-						}
+						)}
 					/>
 
 					<ChartLegend content={<ChartLegendContent />} />

@@ -50,15 +50,15 @@ export const AppPieChart = () => {
 				<PieChart>
 					<ChartTooltip
 						cursor={false}
-						content={
+						content={({ active, activeIndex, payload, coordinate }) => (
 							<ChartTooltipContent
-								hideLabel
-								active={false}
-								payload={[]}
-								coordinate={{ x: 0, y: 0 }}
+								active={active}
+								activeIndex={activeIndex}
+								payload={payload}
+								coordinate={coordinate}
 								accessibilityLayer={false}
 							/>
-						}
+						)}
 					/>
 
 					<Pie data={chartData} dataKey='visitors' nameKey='browser' innerRadius={60} strokeWidth={5}>

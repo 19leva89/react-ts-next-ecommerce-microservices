@@ -47,14 +47,15 @@ export const AppLineChart = () => {
 
 				<ChartTooltip
 					cursor={false}
-					content={
-						<ChartTooltipContent
-							active={false}
-							payload={[]}
-							coordinate={{ x: 0, y: 0 }}
-							accessibilityLayer={false}
-						/>
-					}
+					content={({ active, activeIndex, payload, coordinate }) => (
+							<ChartTooltipContent
+								active={active}
+								activeIndex={activeIndex}
+								payload={payload}
+								coordinate={coordinate}
+								accessibilityLayer={false}
+							/>
+						)}
 				/>
 
 				<Line dataKey='desktop' type='monotone' stroke='var(--color-desktop)' strokeWidth={2} dot={false} />
