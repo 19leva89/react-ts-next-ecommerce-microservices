@@ -36,6 +36,11 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const updateProduct = async (req: Request, res: Response) => {
 	const { id } = req.params
+	
+	if (!id || Array.isArray(id)) {
+		return res.status(400).json({ message: 'Invalid product ID' })
+	}
+	
 	const data: Prisma.ProductUpdateInput = req.body
 
 	const updatedProduct = await prisma.product.update({
@@ -48,6 +53,10 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 export const deleteProduct = async (req: Request, res: Response) => {
 	const { id } = req.params
+	
+	if (!id || Array.isArray(id)) {
+		return res.status(400).json({ message: 'Invalid product ID' })
+	}
 
 	const deletedProduct = await prisma.product.delete({
 		where: { id },
@@ -109,6 +118,10 @@ export const getProducts = async (req: Request, res: Response) => {
 
 export const getProduct = async (req: Request, res: Response) => {
 	const { id } = req.params
+	
+	if (!id || Array.isArray(id)) {
+		return res.status(400).json({ message: 'Invalid product ID' })
+	}
 
 	const product = await prisma.product.findUnique({
 		where: { id },

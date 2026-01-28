@@ -12,6 +12,10 @@ export const updateCategory = async (req: Request, res: Response) => {
 	const { id } = req.params
 	const data: Prisma.CategoryUpdateInput = req.body
 
+	if (!id || Array.isArray(id)) {
+		return res.status(400).json({ error: 'Invalid category ID' })
+	}
+
 	const category = await prisma.category.update({
 		where: { id },
 		data,
@@ -22,6 +26,10 @@ export const updateCategory = async (req: Request, res: Response) => {
 
 export const deleteCategory = async (req: Request, res: Response) => {
 	const { id } = req.params
+
+	if (!id || Array.isArray(id)) {
+		return res.status(400).json({ error: 'Invalid category ID' })
+	}
 
 	const category = await prisma.category.delete({
 		where: { id },
