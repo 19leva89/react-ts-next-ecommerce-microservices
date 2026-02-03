@@ -12,7 +12,6 @@
     "dev": "tsup src/index.ts --format esm --watch",
     "format": "prisma format",
     "lint": "eslint . --max-warnings 0",
-    "prebuild": "pnpm run db:generate",
     "predev": "pnpm run db:generate",
     "studio": "prisma studio"
   },
