@@ -3,13 +3,13 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "tsup src/client.ts --format esm --dts",
+    "build": "tsup src/index.ts --format esm --dts",
     "db:generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
-    "dev": "pnpm run build && tsup src/client.ts --format esm --watch",
+    "dev": "pnpm run build && tsup src/index.ts --format esm --watch",
     "format": "prisma format",
     "lint": "eslint . --max-warnings 0",
     "predev": "npm run db:generate",
@@ -29,7 +29,7 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
-  "main": "./dist/client.js",
+  "main": "./dist/index.js",
   "exports": {
     ".": {
       "import": "./dist/index.js",

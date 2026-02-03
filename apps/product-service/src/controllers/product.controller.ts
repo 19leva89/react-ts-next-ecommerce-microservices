@@ -36,11 +36,11 @@ export const createProduct = async (req: Request, res: Response) => {
 
 export const updateProduct = async (req: Request, res: Response) => {
 	const { id } = req.params
-	
+
 	if (!id || Array.isArray(id)) {
 		return res.status(400).json({ message: 'Invalid product ID' })
 	}
-	
+
 	const data: Prisma.ProductUpdateInput = req.body
 
 	const updatedProduct = await prisma.product.update({
@@ -53,7 +53,7 @@ export const updateProduct = async (req: Request, res: Response) => {
 
 export const deleteProduct = async (req: Request, res: Response) => {
 	const { id } = req.params
-	
+
 	if (!id || Array.isArray(id)) {
 		return res.status(400).json({ message: 'Invalid product ID' })
 	}
@@ -91,13 +91,13 @@ export const getProducts = async (req: Request, res: Response) => {
 		const orderBy: Prisma.ProductOrderByWithRelationInput = (() => {
 			switch (sort) {
 				case 'asc':
-					return { price: Prisma.SortOrder.asc }
+					return { price: 'asc' }
 				case 'desc':
-					return { price: Prisma.SortOrder.desc }
+					return { price: 'desc' }
 				case 'oldest':
-					return { createdAt: Prisma.SortOrder.asc }
+					return { createdAt: 'asc' }
 				default:
-					return { createdAt: Prisma.SortOrder.desc }
+					return { createdAt: 'desc' }
 			}
 		})()
 
@@ -118,7 +118,7 @@ export const getProducts = async (req: Request, res: Response) => {
 
 export const getProduct = async (req: Request, res: Response) => {
 	const { id } = req.params
-	
+
 	if (!id || Array.isArray(id)) {
 		return res.status(400).json({ message: 'Invalid product ID' })
 	}
