@@ -3,15 +3,17 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "pnpm run db:generate && tsup src/index.ts --format esm --dts",
+    "build": "tsup src/index.ts --format esm --dts",
     "db:generate": "prisma generate",
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
-    "dev": "pnpm run build && tsup src/index.ts --format esm --watch",
+    "dev": "tsup src/index.ts --format esm --watch",
     "format": "prisma format",
     "lint": "eslint . --max-warnings 0",
+    "prebuild": "pnpm run db:generate",
+    "predev": "pnpm run db:generate",
     "studio": "prisma studio"
   },
   "dependencies": {
