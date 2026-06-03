@@ -16,17 +16,17 @@
     "studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.3.0",
-    "@prisma/client": "^7.3.0",
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
     "@repo/kafka": "workspace:*",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.4.2"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "prisma": "^7.3.0",
+    "prisma": "^7.8.0",
     "tsup": "^8.5.1",
-    "tsx": "^4.21.0",
+    "tsx": "^4.22.4",
     "typescript": "^5.9.3"
   },
   "main": "./dist/index.js",

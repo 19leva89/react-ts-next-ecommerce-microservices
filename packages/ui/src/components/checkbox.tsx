@@ -3,7 +3,7 @@
 import { cn } from '@repo/ui/lib'
 import { ComponentProps } from 'react'
 import { CheckIcon } from 'lucide-react'
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
+import { Checkbox as CheckboxPrimitive } from 'radix-ui'
 
 /**
  * Checkbox component with styled appearance and accessibility features

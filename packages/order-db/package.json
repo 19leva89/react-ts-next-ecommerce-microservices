@@ -6,7 +6,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "mongoose": "^8.22.0"
+    "mongoose": "^8.24.0"
   },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",

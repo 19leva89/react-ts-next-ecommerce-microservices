@@ -14,17 +14,17 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@clerk/fastify": "^2.6.17",
+    "@clerk/fastify": "^2.6.33",
     "@fastify/cors": "^11.2.0",
     "@repo/kafka": "workspace:*",
     "@repo/order-db": "workspace:*",
-    "date-fns": "^4.1.0",
-    "fastify": "^5.7.2"
+    "date-fns": "^4.4.0",
+    "fastify": "^5.8.5"
   },
   "devDependencies": {
     "@repo/types": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "tsx": "^4.21.0",
+    "tsx": "^4.22.4",
     "typescript": "^5.9.3"
   }
 }

@@ -12,7 +12,7 @@ import {
 import { cn } from '@repo/ui/lib'
 import { Slot } from '@radix-ui/react-slot'
 import { Label } from '@repo/ui/components'
-import * as LabelPrimitive from '@radix-ui/react-label'
+import { Label as LabelPrimitive } from 'radix-ui'
 import { ComponentProps, createContext, useContext, useId } from 'react'
 
 const Form = FormProvider
