@@ -1,2 +1,2 @@
-export { prisma } from './client.js'
-export * from '../generated/prisma/index.js'
+export { prisma } from './client'
+export type { Category, Product, Prisma } from '../generated/prisma/client'
