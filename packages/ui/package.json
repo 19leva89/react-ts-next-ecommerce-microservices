@@ -30,7 +30,7 @@
     "@repo/typescript-config": "workspace:*",
     "@tailwindcss/postcss": "^4.3.0",
     "@turbo/gen": "^2.9.16",
-    "eslint": "^9.39.4",
+    "eslint": "^10.4.1",
     "postcss": "^8.5.15",
     "tailwindcss": "^4.3.0"
   },

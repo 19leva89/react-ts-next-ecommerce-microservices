@@ -6,7 +6,7 @@
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": ["api/**", "dist/**", ".next/**", "!.next/cache/**"],
       "env": 
-				[
+				[	"NODE_ENV",
 					"DATABASE_URL", 
 					"MONGO_URL", 
 					"CLERK_SECRET_KEY", 

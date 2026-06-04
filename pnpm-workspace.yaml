@@ -10,3 +10,7 @@ allowBuilds:
   esbuild: true
   prisma: true
   sharp: true
+minimumReleaseAgeExclude:
+  - '@clerk/backend@3.5.0'
+  - '@clerk/hono@0.1.33'
+  - '@clerk/shared@4.15.0'
